@@ -317,9 +317,9 @@ if(sessionStorage.getItem('hc_admin_auth') === 'true' && typeof SUPABASE_URL !==
 }
 
 /* ---------- SUPABASE ---------- */
-let supabase;
+let sb;
 try{
-  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }catch(e){
   console.error('Failed to create Supabase client:', e);
 }
@@ -335,7 +335,7 @@ async function init(){
 
 async function loadProducts(){
   try{
-    const { data, error } = await supabase
+    const { data, error } = await sb
       .from('products')
       .select('*')
       .order('created_at', { ascending: false });
@@ -444,9 +444,9 @@ async function saveProduct(){
   let error;
   try{
     if(editingId){
-      ({ error } = await supabase.from('products').update(payload).eq('id', editingId));
+      ({ error } = await sb.from('products').update(payload).eq('id', editingId));
     }else{
-      ({ error } = await supabase.from('products').insert(payload));
+      ({ error } = await sb.from('products').insert(payload));
     }
   }catch(err){
     error = err;
@@ -522,7 +522,7 @@ function editProduct(id){
 async function deleteProduct(id){
   if(!confirm('هل أنتِ متأكدة من حذف هذا المنتج؟')) return;
   try{
-    const { error } = await supabase.from('products').delete().eq('id', id);
+    const { error } = await sb.from('products').delete().eq('id', id);
     if(error){ showToast('حدث خطأ: ' + error.message, true); return; }
     await loadProducts();
     showToast('تم الحذف');
