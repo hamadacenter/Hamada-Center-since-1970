@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamada Center | حمادة سنتر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Playfair+Display:wght@700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:#0F0F0F; --black2:#1A1A1A; --card-bg:#242424;
+  --grey:#888; --grey-light:#C8C8C8;
+  --white:#FFFFFF; --off-white:#F5F5F5;
+  --pink:#E8A0B0; --pink-deep:#D4748A; --pink-soft:rgba(232,160,176,.15);
+  --line:rgba(255,255,255,.1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Tajawal',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:9999;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .8s ease,visibility .8s ease;}
+#splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.splash-logo-text{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,7vw,4rem);font-weight:900;color:var(--white);letter-spacing:-1px;animation:fadeUp .9s ease both;}
+.splash-logo-text em{color:var(--pink);font-style:normal;}
+.splash-sub{font-size:.95rem;color:var(--grey);letter-spacing:2px;text-transform:uppercase;animation:fadeUp .9s ease .2s both;}
+.splash-bar{width:180px;height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;animation:fadeUp .9s ease .35s both;}
+.splash-bar-fill{height:100%;background:var(--pink);animation:loadBar 1.8s ease forwards;}
+@keyframes loadBar{from{width:0}to{width:100%}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* LANG TOGGLE */
+.lang-toggle{position:fixed;top:20px;right:20px;z-index:500;background:rgba(15,15,15,.7);backdrop-filter:blur(10px);border:1px solid var(--line);color:var(--white);padding:8px 18px;border-radius:999px;font-family:inherit;font-weight:700;font-size:.8rem;cursor:pointer;transition:border-color .2s,color .2s;}
+html[dir="ltr"] .lang-toggle{right:auto;left:20px;}
+.lang-toggle:hover{border-color:var(--pink);color:var(--pink);}
+
+/* HERO */
+.hero-section{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.3) 0%,rgba(0,0,0,.72) 60%,var(--black) 100%),url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&q=80') center/cover no-repeat;transform:scale(1.06);animation:heroZoom 8s ease forwards;}
+@keyframes heroZoom{from{transform:scale(1.06)}to{transform:scale(1)}}
+.hero-content{position:relative;padding:0 7% 12vh;max-width:800px;animation:fadeUp 1s ease .7s both;}
+.hero-eyebrow{font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.hero-eyebrow::before{content:'';display:inline-block;width:32px;height:1.5px;background:var(--pink);}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,6vw,5rem);font-weight:900;line-height:1.1;color:var(--white);margin-bottom:24px;}
+.hero-h1 em{color:var(--pink);font-style:normal;}
+.hero-desc{font-size:1.05rem;color:var(--grey-light);max-width:480px;line-height:1.75;margin-bottom:38px;}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+.cta-primary{display:inline-flex;align-items:center;gap:10px;background:var(--pink);color:var(--black);border:none;padding:16px 36px;border-radius:999px;font-family:inherit;font-weight:900;font-size:1rem;cursor:pointer;text-decoration:none;transition:background .25s,transform .2s,box-shadow .25s;box-shadow:0 8px 28px rgba(232,160,176,.35);}
+.cta-primary:hover{background:var(--pink-deep);transform:translateY(-2px);box-shadow:0 14px 36px rgba(232,160,176,.45);}
+.cta-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,.3);padding:16px 30px;border-radius:999px;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;text-decoration:none;transition:border-color .25s,background .25s;}
+.cta-secondary:hover{border-color:var(--pink);background:var(--pink-soft);}
+.hero-scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--grey);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;animation:bounce 2.5s ease infinite;cursor:pointer;}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* STATS */
+.stats-strip{background:var(--card-bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;justify-content:center;flex-wrap:wrap;}
+.stat-item{flex:1;min-width:140px;padding:28px 20px;text-align:center;border-left:1px solid var(--line);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.stat-item:last-child{border-left:none;}
+.stat-item.visible{opacity:1;transform:translateY(0);}
+.stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--pink);display:block;}
+.stat-label{font-size:.75rem;color:var(--grey);margin-top:4px;font-weight:700;}
+
+/* PROCESS */
+.process-section{background:var(--black2);padding:100px 7%;text-align:center;}
+.section-eyebrow{font-size:.72rem;font-weight:800;letter-spacing:3.5px;text-transform:uppercase;color:var(--pink);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;}
+.section-eyebrow::before,.section-eyebrow::after{content:'';display:inline-block;width:28px;height:1.5px;background:var(--pink);}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;color:var(--white);margin-bottom:70px;line-height:1.2;}
+.section-title em{color:var(--pink);font-style:normal;}
+.steps-row{display:flex;gap:0;justify-content:center;align-items:flex-start;flex-wrap:wrap;max-width:860px;margin:0 auto;position:relative;}
+.steps-row::before{content:'';position:absolute;top:44px;right:calc(16.67% + 44px);left:calc(16.67% + 44px);height:1px;background:linear-gradient(to left,transparent,var(--pink),transparent);opacity:.35;}
+.step-item{flex:1;min-width:180px;max-width:280px;padding:0 24px;opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.step-item.visible{opacity:1;transform:translateY(0);}
+.step-item:nth-child(2){transition-delay:.15s;}
+.step-item:nth-child(3){transition-delay:.3s;}
+.step-circle{width:88px;height:88px;border-radius:50%;background:var(--card-bg);border:2px solid rgba(232,160,176,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;position:relative;transition:border-color .3s,box-shadow .3s;}
+.step-item:hover .step-circle{border-color:var(--pink);box-shadow:0 0 28px rgba(232,160,176,.25);}
+.step-num{position:absolute;top:-10px;right:-10px;width:28px;height:28px;background:var(--pink);color:var(--black);border-radius:50%;font-size:.72rem;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.step-icon{font-size:2rem;line-height:1;}
+.step-title{font-size:1.05rem;font-weight:800;color:var(--white);margin-bottom:10px;}
+.step-desc{font-size:.85rem;color:var(--grey);line-height:1.7;}
+
+/* FEATURES */
+.features-section{background:var(--black);padding:70px 7%;display:flex;justify-content:center;flex-wrap:wrap;gap:16px;}
+.feature-card{background:var(--card-bg);border:1px solid var(--line);border-radius:18px;padding:28px;flex:1;min-width:180px;max-width:260px;text-align:center;opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease,border-color .3s;}
+.feature-card.visible{opacity:1;transform:translateY(0);}
+.feature-card:nth-child(2){transition-delay:.1s;}
+.feature-card:nth-child(3){transition-delay:.2s;}
+.feature-card:nth-child(4){transition-delay:.3s;}
+.feature-card:hover{border-color:rgba(232,160,176,.4);transform:translateY(-4px);}
+.feature-icon{font-size:2rem;margin-bottom:14px;}
+.feature-title{font-size:.95rem;font-weight:800;color:var(--white);margin-bottom:6px;}
+.feature-desc{font-size:.8rem;color:var(--grey);line-height:1.6;}
+
+/* ENTER CTA */
+.enter-section{background:var(--black2);padding:110px 7%;text-align:center;position:relative;overflow:hidden;}
+.enter-section::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,176,.1) 0%,transparent 70%);pointer-events:none;}
+.enter-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:900;color:var(--white);margin-bottom:16px;position:relative;line-height:1.2;}
+.enter-title em{color:var(--pink);font-style:normal;}
+.enter-sub{font-size:1rem;color:var(--grey-light);max-width:480px;margin:0 auto 42px;line-height:1.7;}
+.enter-btn{display:inline-flex;align-items:center;gap:12px;background:var(--white);color:var(--black);border:none;padding:20px 52px;border-radius:999px;font-family:inherit;font-weight:900;font-size:1.1rem;cursor:pointer;text-decoration:none;transition:background .25s,transform .2s,box-shadow .25s;box-shadow:0 10px 36px rgba(255,255,255,.12);}
+.enter-btn:hover{background:var(--pink);transform:translateY(-3px);box-shadow:0 16px 48px rgba(232,160,176,.4);}
+.btn-arrow{font-size:1.2rem;transition:transform .25s;display:inline-block;}
+.enter-btn:hover .btn-arrow{transform:translateX(-5px);}
+
+/* FOOTER */
+footer{background:var(--black);border-top:1px solid var(--line);padding:36px 7%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--white);}
+.footer-logo em{color:var(--pink);font-style:normal;}
+.footer-links{display:flex;gap:22px;}
+.footer-links a{color:var(--grey);text-decoration:none;font-size:.82rem;font-weight:700;transition:color .2s;}
+.footer-links a:hover{color:var(--pink);}
+.footer-copy{color:var(--grey);font-size:.75rem;}
+
+@media(max-width:640px){
+  .hero-content{padding:0 5% 16vh;}
+  .steps-row::before{display:none;}
+  .stat-item{border-left:none;border-bottom:1px solid var(--line);}
+  .stat-item:last-child{border-bottom:none;}
+  footer{flex-direction:column;text-align:center;}
+  .footer-links{justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<button class="lang-toggle" id="langBtn" onclick="toggleLang()">EN</button>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-logo-text">Hamada <em>Center</em></div>
+  <div class="splash-sub" id="splashSub">عطور &bull; مكياج &bull; عناية</div>
+  <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+</div>
+
+<!-- HERO -->
+<section class="hero-section">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" id="heroEyebrow">تألقي بثقة</div>
+    <h1 class="hero-h1" id="heroH1">منتجات العناية والجمال<br><em>تُوصّل لبابك</em></h1>
+    <p class="hero-desc" id="heroDesc">عطور، مكياج، وعناية بالبشرة والشعر بأسعار حصرية — لعملاء حمادة سنتر في طنطا وكل المحافظات</p>
+    <div class="cta-row">
+      <a href="shop.html" class="cta-primary"><span id="ctaPrimaryTxt">تسوقي الآن</span> <span>✨</span></a>
+      <a href="#process" class="cta-secondary"><span id="ctaSecondaryTxt">كيف يعمل</span> <span>↓</span></a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint" onclick="document.getElementById('statsStrip').scrollIntoView({behavior:'smooth'})">
+    <span>↓</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip" id="statsStrip">
+  <div class="stat-item"><span class="stat-num">+500</span><span class="stat-label" id="stat1">منتج متاح</span></div>
+  <div class="stat-item"><span class="stat-num">24</span><span class="stat-label" id="stat2">تصنيف متنوع</span></div>
+  <div class="stat-item"><span class="stat-num">🚚</span><span class="stat-label" id="stat3">توصيل لكل المحافظات</span></div>
+  <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label" id="stat4">ضمان الجودة</span></div>
+</div>
+
+<!-- PROCESS -->
+<section class="process-section" id="process">
+  <div class="section-eyebrow" id="processEyebrow">كيف يعمل</div>
+  <h2 class="section-title" id="processTitle">اطلبي في <em>3 خطوات بسيطة</em></h2>
+  <div class="steps-row">
+    <div class="step-item">
+      <div class="step-circle"><span class="step-num">1</span><span class="step-icon">🛒</span></div>
+      <h3 class="step-title" id="step1Title">أضيفي للسلة</h3>
+      <p class="step-desc" id="step1Desc">تصفحي المنتجات واختاري ما يناسبك، ثم أضيفيه لسلة التسوق</p>
+    </div>
+    <div class="step-item">
+      <div class="step-circle"><span class="step-num">2</span><span class="step-icon">📋</span></div>
+      <h3 class="step-title" id="step2Title">سجّلي عنوانك ورقمك</h3>
+      <p class="step-desc" id="step2Desc">أدخلي عنوان التوصيل ورقم هاتفك عند إتمام الطلب</p>
+    </div>
+    <div class="step-item">
+      <div class="step-circle"><span class="step-num">3</span><span class="step-icon">💝</span></div>
+      <h3 class="step-title" id="step3Title">اطلبي واستمتعي</h3>
+      <p class="step-desc" id="step3Desc">يتواصل معك فريقنا لتأكيد الطلب ويصلك في أسرع وقت</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="feature-card"><div class="feature-icon">🌹</div><div class="feature-title" id="feat1T">عطور أصيلة</div><div class="feature-desc" id="feat1D">تشكيلة واسعة من العطور المحلية والعالمية</div></div>
+  <div class="feature-card"><div class="feature-icon">💄</div><div class="feature-title" id="feat2T">مكياج احترافي</div><div class="feature-desc" id="feat2D">كل ما تحتاجينه من روج وفاونديشن وباليت</div></div>
+  <div class="feature-card"><div class="feature-icon">✨</div><div class="feature-title" id="feat3T">عناية بالبشرة</div><div class="feature-desc" id="feat3D">سيروم ومرطبات وغسول لبشرة مشرقة</div></div>
+  <div class="feature-card"><div class="feature-icon">💆</div><div class="feature-title" id="feat4T">عناية بالشعر</div><div class="feature-desc" id="feat4D">شامبو وأقنعة وزيوت لشعر صحي ولامع</div></div>
+</section>
+
+<!-- ENTER SHOP -->
+<section class="enter-section">
+  <h2 class="enter-title" id="enterTitle">جاهزة تتسوقي؟<br><em>الكتالوج كامل هنا</em></h2>
+  <p class="enter-sub" id="enterSub">أسعار حصرية وعروض يومية — ادخلي المتجر واكتشفي كل المنتجات</p>
+  <a href="shop.html" class="enter-btn"><span id="enterBtnTxt">ادخلي المتجر</span><span class="btn-arrow">←</span></a>
+</section>
+
+<footer>
+  <div class="footer-logo">Hamada <em>Center</em></div>
+  <div class="footer-links">
+    <a href="https://www.facebook.com/hamadacenter" target="_blank">Facebook</a>
+    <a href="https://www.tiktok.com/@hamadacenter" target="_blank">TikTok</a>
+    <a href="https://t.me/hamadacenter" target="_blank">Telegram</a>
+  </div>
+  <div class="footer-copy" id="footerCopy">2026 Hamada Center &copy; &mdash; جميع الحقوق محفوظة</div>
+</footer>
+
+<script>
+window.addEventListener('load',function(){ setTimeout(function(){ document.getElementById('splash').classList.add('hide'); },2200); });
+
+var lang='ar';
+var T={
+  ar:{langBtn:'EN',splashSub:'عطور • مكياج • عناية',heroEyebrow:'تألقي بثقة',heroH1:'منتجات العناية والجمال<br><em>تُوصّل لبابك</em>',heroDesc:'عطور، مكياج، وعناية بالبشرة والشعر بأسعار حصرية — لعملاء حمادة سنتر في طنطا وكل المحافظات',ctaPrimaryTxt:'تسوقي الآن',ctaSecondaryTxt:'كيف يعمل',stat1:'منتج متاح',stat2:'تصنيف متنوع',stat3:'توصيل لكل المحافظات',stat4:'ضمان الجودة',processEyebrow:'كيف يعمل',processTitle:'اطلبي في <em>3 خطوات بسيطة</em>',step1Title:'أضيفي للسلة',step1Desc:'تصفحي المنتجات واختاري ما يناسبك، ثم أضيفيه لسلة التسوق',step2Title:'سجّلي عنوانك ورقمك',step2Desc:'أدخلي عنوان التوصيل ورقم هاتفك عند إتمام الطلب',step3Title:'اطلبي واستمتعي',step3Desc:'يتواصل معك فريقنا لتأكيد الطلب ويصلك في أسرع وقت',feat1T:'عطور أصيلة',feat1D:'تشكيلة واسعة من العطور المحلية والعالمية',feat2T:'مكياج احترافي',feat2D:'كل ما تحتاجينه من روج وفاونديشن وباليت',feat3T:'عناية بالبشرة',feat3D:'سيروم ومرطبات وغسول لبشرة مشرقة',feat4T:'عناية بالشعر',feat4D:'شامبو وأقنعة وزيوت لشعر صحي ولامع',enterTitle:'جاهزة تتسوقي؟<br><em>الكتالوج كامل هنا</em>',enterSub:'أسعار حصرية وعروض يومية — ادخلي المتجر واكتشفي كل المنتجات',enterBtnTxt:'ادخلي المتجر',footerCopy:'2026 Hamada Center © — جميع الحقوق محفوظة'},
+  en:{langBtn:'عربي',splashSub:'Perfumes • Makeup • Skincare',heroEyebrow:'Glow with Confidence',heroH1:'Beauty Essentials<br><em>Delivered to Your Door</em>',heroDesc:'Perfumes, makeup, skincare and haircare at exclusive prices — delivered across all Egypt governorates',ctaPrimaryTxt:'Shop Now',ctaSecondaryTxt:'How it Works',stat1:'Products Available',stat2:'Categories',stat3:'Nationwide Delivery',stat4:'Quality Guaranteed',processEyebrow:'How it Works',processTitle:'Order in <em>3 Simple Steps</em>',step1Title:'Add to Cart',step1Desc:'Browse products and choose what you love, then add it to your cart',step2Title:'Enter Your Details',step2Desc:'Fill in your delivery address and phone number at checkout',step3Title:'Order and Enjoy',step3Desc:'Our team confirms your order and delivers it as fast as possible',feat1T:'Authentic Perfumes',feat1D:'A wide selection of local and international fragrances',feat2T:'Pro Makeup',feat2D:'Everything you need — lipstick, foundation, palette and more',feat3T:'Skincare',feat3D:'Serums, moisturizers, and cleansers for glowing skin',feat4T:'Haircare',feat4D:'Shampoos, masks, and oils for healthy shiny hair',enterTitle:'Ready to Shop?<br><em>The Full Catalog is Here</em>',enterSub:'Exclusive prices and daily deals — enter the store and explore all products',enterBtnTxt:'Enter Store',footerCopy:'2026 Hamada Center © — All rights reserved'}
+};
+function t(k){return T[lang][k]||k;}
+function applyLang(){
+  var html=document.getElementById('htmlRoot');
+  html.lang=lang;html.dir=lang==='ar'?'rtl':'ltr';
+  document.getElementById('langBtn').textContent=t('langBtn');
+  document.getElementById('splashSub').textContent=lang==='ar'?'عطور • مكياج • عناية':'Perfumes • Makeup • Skincare';
+  document.getElementById('heroEyebrow').textContent=t('heroEyebrow');
+  document.getElementById('heroH1').innerHTML=t('heroH1');
+  document.getElementById('heroDesc').textContent=t('heroDesc');
+  document.getElementById('ctaPrimaryTxt').textContent=t('ctaPrimaryTxt');
+  document.getElementById('ctaSecondaryTxt').textContent=t('ctaSecondaryTxt');
+  document.getElementById('stat1').textContent=t('stat1');
+  document.getElementById('stat2').textContent=t('stat2');
+  document.getElementById('stat3').textContent=t('stat3');
+  document.getElementById('stat4').textContent=t('stat4');
+  document.getElementById('processEyebrow').textContent=t('processEyebrow');
+  document.getElementById('processTitle').innerHTML=t('processTitle');
+  document.getElementById('step1Title').textContent=t('step1Title');
+  document.getElementById('step1Desc').textContent=t('step1Desc');
+  document.getElementById('step2Title').textContent=t('step2Title');
+  document.getElementById('step2Desc').textContent=t('step2Desc');
+  document.getElementById('step3Title').textContent=t('step3Title');
+  document.getElementById('step3Desc').textContent=t('step3Desc');
+  document.getElementById('feat1T').textContent=t('feat1T');
+  document.getElementById('feat1D').textContent=t('feat1D');
+  document.getElementById('feat2T').textContent=t('feat2T');
+  document.getElementById('feat2D').textContent=t('feat2D');
+  document.getElementById('feat3T').textContent=t('feat3T');
+  document.getElementById('feat3D').textContent=t('feat3D');
+  document.getElementById('feat4T').textContent=t('feat4T');
+  document.getElementById('feat4D').textContent=t('feat4D');
+  document.getElementById('enterTitle').innerHTML=t('enterTitle');
+  document.getElementById('enterSub').textContent=t('enterSub');
+  document.getElementById('enterBtnTxt').textContent=t('enterBtnTxt');
+  document.getElementById('footerCopy').textContent=t('footerCopy');
+}
+function toggleLang(){lang=lang==='ar'?'en':'ar';applyLang();}
+
+function initReveal(){
+  var els=document.querySelectorAll('.stat-item,.step-item,.feature-card');
+  if(!window.IntersectionObserver){els.forEach(function(e){e.classList.add('visible');});return;}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting)en.target.classList.add('visible');});},{threshold:.1});
+  els.forEach(function(el){obs.observe(el);});
+}
+document.addEventListener('DOMContentLoaded',initReveal);
+</script>
+</body>
+</html>
