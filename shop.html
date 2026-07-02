@@ -497,7 +497,18 @@ function submitOrder(){
   var items=cart.map(function(item){var p=products.find(function(x){return x.id===item.productId;});var v=p.variants[item.variantIndex];return{name:p.name,variant:v.label,qty:item.qty,price:v.price*item.qty};});
   var total=cartTotal();
   var lines=items.map(function(i){return "• "+i.name+" ("+i.variant+") x"+i.qty+" = "+i.price+" "+t("currency");}).join("\n");
-  var msg="🛍️ طلب جديد من موقع حمادة سنتر\n========================\n"+lines+"\n========================\n💰 الإجمالي: "+total+" "+t("currency")+"\n========================\n📍 العنوان: "+vals.addr+"\n🏙️ المدينة: "+vals.city+"\n📞 هاتف العميل: "+vals.phone;
+  var sep = "========================";
+  var msg = [
+    "طلب جديد - Hamada Center",
+    sep,
+    lines,
+    sep,
+    "الاجمالي: "+total+" "+t("currency"),
+    sep,
+    "العنوان: "+vals.addr,
+    "المدينة: "+vals.city,
+    "هاتف العميل: "+vals.phone
+  ].join("\n");
   var waUrl="https://wa.me/201095951764?text="+encodeURIComponent(msg);
   var w=window.open(waUrl,"_blank");
   if(!w||w.closed||typeof w.closed==="undefined")window.location.href=waUrl;
@@ -608,7 +619,7 @@ function renderProducts(){
   var grid=document.getElementById("products");
   var list=activeCategory==="الكل"?products:products.filter(function(p){return p.category===activeCategory;});
   var cnt=document.getElementById("productCount");
-  if(cnt)cnt.textContent=list.length+" "+t("products");
+  if(cnt)cnt.textContent=list.length+" "+(lang==="ar"?"منتج":"products");
   if(list.length===0){grid.innerHTML="<div class=\"empty\"><h3>"+t("noProducts")+"</h3><p>"+t("noProductsSub")+"</p></div>";return;}
   var h="";
   list.forEach(function(p){
