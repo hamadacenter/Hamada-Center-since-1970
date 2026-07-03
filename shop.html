@@ -217,6 +217,98 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
   footer{flex-direction:column;text-align:center;}
   .footer-links{justify-content:center;}
 }
+
+/* SEARCH + FILTER BAR */
+.search-filter-bar{
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  padding:12px 5% 0;max-width:1320px;margin:0 auto;
+}
+.search-wrap{
+  position:relative;flex:1;min-width:180px;
+}
+.search-input{
+  width:100%;background:var(--card-bg);border:1px solid var(--line-strong);
+  border-radius:999px;padding:10px 18px 10px 44px;
+  font-family:"Tajawal",sans-serif;font-size:.9rem;color:var(--white);
+  transition:border-color .2s;outline:none;
+}
+html[dir="rtl"] .search-input{padding:10px 44px 10px 18px;}
+.search-input:focus{border-color:var(--pink);}
+.search-input::placeholder{color:var(--grey);}
+.search-icon{
+  position:absolute;top:50%;transform:translateY(-50%);
+  left:16px;color:var(--grey);font-size:.95rem;pointer-events:none;
+}
+html[dir="rtl"] .search-icon{left:auto;right:16px;}
+.price-filter-btn{
+  background:var(--card-bg);border:1px solid var(--line-strong);color:var(--grey-light);
+  padding:10px 18px;border-radius:999px;font-family:"Tajawal",sans-serif;
+  font-weight:700;font-size:.85rem;cursor:pointer;transition:.2s;
+  display:flex;align-items:center;gap:7px;white-space:nowrap;flex-shrink:0;
+}
+.price-filter-btn:hover,.price-filter-btn.active{border-color:var(--pink);color:var(--pink);}
+.price-filter-btn.active{background:var(--pink-soft);}
+
+/* PRICE FILTER DROPDOWN */
+.price-dropdown{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:var(--black2);border:1px solid var(--line-strong);border-radius:18px;
+  padding:24px;width:min(340px,92vw);z-index:600;display:none;
+  box-shadow:0 20px 50px rgba(0,0,0,.7);
+}
+.price-dropdown.open{display:block;}
+.pd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:599;display:none;}
+.pd-overlay.open{display:block;}
+.pd-title{font-family:"Playfair Display",serif;font-size:1.1rem;font-weight:900;color:var(--white);margin-bottom:18px;}
+.pd-row{display:flex;gap:10px;align-items:center;margin-bottom:18px;}
+.pd-input{
+  flex:1;background:var(--black);border:1.5px solid var(--line-strong);
+  border-radius:10px;padding:10px 14px;font-family:"Tajawal",sans-serif;
+  font-size:.92rem;color:var(--white);outline:none;transition:border-color .2s;
+}
+.pd-input:focus{border-color:var(--pink);}
+.pd-sep{color:var(--grey);font-weight:700;}
+.pd-presets{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px;}
+.pd-preset{
+  background:var(--card-bg);border:1px solid var(--line-strong);color:var(--grey-light);
+  padding:6px 14px;border-radius:999px;font-family:"Tajawal",sans-serif;
+  font-size:.78rem;font-weight:700;cursor:pointer;transition:.2s;
+}
+.pd-preset:hover{border-color:var(--pink);color:var(--pink);}
+.pd-preset.active{background:var(--pink);color:var(--black);border-color:var(--pink);}
+.pd-actions{display:flex;gap:10px;}
+.pd-actions button{
+  flex:1;padding:11px;border-radius:11px;font-family:"Tajawal",sans-serif;
+  font-weight:800;font-size:.9rem;cursor:pointer;border:none;transition:.2s;
+}
+.pd-clear{background:var(--card-bg);border:1px solid var(--line-strong)!important;color:var(--grey-light);}
+.pd-clear:hover{border-color:var(--pink)!important;color:var(--pink);}
+.pd-apply{background:var(--pink);color:var(--black);}
+.pd-apply:hover{background:var(--pink-deep);}
+
+/* SEARCH & FILTER BAR */
+.search-filter-bar{padding:12px 5% 0;max-width:1320px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.search-wrap{flex:1;min-width:200px;position:relative;}
+.search-input{width:100%;background:var(--card-bg);border:1px solid var(--line-strong);border-radius:999px;padding:10px 42px 10px 18px;font-family:"Tajawal",sans-serif;font-size:.9rem;color:var(--white);transition:border-color .2s;outline:none;}
+html[dir="rtl"] .search-input{padding:10px 18px 10px 42px;}
+.search-input::placeholder{color:var(--grey);}
+.search-input:focus{border-color:var(--pink);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--grey);font-size:1rem;pointer-events:none;}
+html[dir="rtl"] .search-icon{left:auto;right:14px;}
+.filter-toggle-btn{background:var(--card-bg);border:1px solid var(--line-strong);color:var(--grey-light);padding:10px 18px;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:7px;transition:.2s;white-space:nowrap;}
+.filter-toggle-btn:hover,.filter-toggle-btn.active{border-color:var(--pink);color:var(--pink);}
+.price-filter-panel{display:none;padding:14px 5% 0;max-width:1320px;margin:0 auto;}
+.price-filter-panel.open{display:block;}
+.price-panel-inner{background:var(--card-bg);border:1px solid var(--line-strong);border-radius:16px;padding:18px 20px;}
+.price-panel-inner h4{font-size:.82rem;font-weight:800;color:var(--grey-light);margin-bottom:14px;}
+.price-range-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.price-input{width:110px;background:var(--black2);border:1px solid var(--line-strong);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.88rem;color:var(--white);text-align:center;transition:border-color .2s;outline:none;}
+.price-input:focus{border-color:var(--pink);}
+.price-sep{color:var(--grey);font-size:.85rem;font-weight:700;}
+.price-apply-btn{background:var(--pink);color:var(--black);border:none;border-radius:10px;padding:9px 20px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer;transition:background .2s;}
+.price-apply-btn:hover{background:var(--pink-deep);}
+.price-reset-btn{background:transparent;color:var(--grey);border:1px solid var(--line-strong);border-radius:10px;padding:9px 16px;font-family:inherit;font-weight:700;font-size:.85rem;cursor:pointer;transition:.2s;}
+.price-reset-btn:hover{border-color:var(--pink);color:var(--pink);}
 </style>
 </head>
 <body>
@@ -245,6 +337,62 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
   <div class="shop-title" id="sectionHeading">جميع <em>المنتجات</em></div>
   <span class="product-count" id="productCount"></span>
 </div>
+
+<!-- SEARCH + PRICE FILTER -->
+<div class="search-filter-bar reveal">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" id="searchInput" placeholder="ابحث عن منتج..." oninput="onSearch()">
+  </div>
+  <button class="price-filter-btn" id="priceFilterBtn" onclick="openPriceFilter()">
+    🎛 <span id="priceFilterLabel">تصفية السعر</span>
+  </button>
+</div>
+
+<div class="pd-overlay" id="pdOverlay" onclick="closePriceFilter()"></div>
+<div class="price-dropdown" id="priceDropdown">
+  <div class="pd-title" id="pdTitle">تصفية حسب السعر</div>
+  <div class="pd-row">
+    <input class="pd-input" type="number" id="pdMin" placeholder="أقل سعر" min="0">
+    <span class="pd-sep">—</span>
+    <input class="pd-input" type="number" id="pdMax" placeholder="أعلى سعر" min="0">
+  </div>
+  <div class="pd-presets" id="pdPresets">
+    <button class="pd-preset" onclick="setPreset(0,200)">تحت 200</button>
+    <button class="pd-preset" onclick="setPreset(200,500)">200 — 500</button>
+    <button class="pd-preset" onclick="setPreset(500,1000)">500 — 1000</button>
+    <button class="pd-preset" onclick="setPreset(1000,2000)">1000 — 2000</button>
+    <button class="pd-preset" onclick="setPreset(2000,5000)">2000 — 5000</button>
+  </div>
+  <div class="pd-actions">
+    <button class="pd-clear" onclick="clearPriceFilter()">مسح</button>
+    <button class="pd-apply" onclick="applyPriceFilter()">تطبيق</button>
+  </div>
+</div>
+
+
+<div class="search-filter-bar reveal">
+  <div class="search-wrap">
+    <input class="search-input" type="text" id="searchInput" placeholder="ابحثي عن منتج..." oninput="applySearchFilter()">
+    <span class="search-icon">🔍</span>
+  </div>
+  <button class="filter-toggle-btn" id="filterToggleBtn" onclick="togglePricePanel()">
+    ⚙️ <span id="filterBtnLabel">تصفية السعر</span>
+  </button>
+</div>
+<div class="price-filter-panel" id="priceFilterPanel">
+  <div class="price-panel-inner">
+    <h4 id="priceRangeLabel">نطاق السعر (ج.م)</h4>
+    <div class="price-range-row">
+      <input class="price-input" type="number" id="priceMin" value="0" min="0" max="5000" placeholder="0">
+      <span class="price-sep">—</span>
+      <input class="price-input" type="number" id="priceMax" value="5000" min="0" max="5000" placeholder="5000">
+      <button class="price-apply-btn" onclick="applySearchFilter()" id="priceApplyBtn">تطبيق</button>
+      <button class="price-reset-btn" onclick="resetPriceFilter()" id="priceResetBtn">إعادة تعيين</button>
+    </div>
+  </div>
+</div>
+
 <div class="filters-wrap reveal"><div class="filters" id="filters"></div></div>
 
 <main class="grid" id="products"><div class="empty"><h3>جاري تحميل المنتجات...</h3></div></main>
@@ -394,7 +542,7 @@ function applyLang(){
   Object.keys(ph).forEach(function(id){var el=document.getElementById(id);if(el)el.placeholder=t(ph[id]);});
   var sh=document.getElementById("sectionHeading");
   if(sh)sh.innerHTML=activeCategory==="الكل"?(lang==="ar"?"جميع <em>المنتجات</em>":"All <em>Products</em>"):getCatLabel(activeCategory);
-  renderFilters();renderProducts();renderCart();renderDrawer();
+  renderFilters();renderProducts();renderCart();renderDrawer();applyLangSearchFilter();
 }
 function toggleLang(){lang=lang==="ar"?"en":"ar";applyLang();}
 
@@ -617,7 +765,18 @@ function updateSlider(pid){
 
 function renderProducts(){
   var grid=document.getElementById("products");
-  var list=activeCategory==="الكل"?products:products.filter(function(p){return p.category===activeCategory;});
+  var list=(activeCategory==="الكل"?products:products.filter(function(p){return p.category===activeCategory;}))
+    .filter(function(p){
+      if(searchQuery){
+        var hay=(p.name+" "+p.desc+" "+p.category).toLowerCase();
+        if(hay.indexOf(searchQuery)===-1)return false;
+      }
+      if(priceActive){
+        var minP=Math.min.apply(null,p.variants.map(function(v){return v.price;}));
+        if(minP<priceMin||minP>priceMax)return false;
+      }
+      return true;
+    });
   var cnt=document.getElementById("productCount");
   if(cnt)cnt.textContent=list.length+" "+(lang==="ar"?"منتج":"products");
   if(list.length===0){grid.innerHTML="<div class=\"empty\"><h3>"+t("noProducts")+"</h3><p>"+t("noProductsSub")+"</p></div>";return;}
@@ -666,6 +825,99 @@ function updPrice(pid,sel){
 }
 
 var PLACEHOLDER="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Crect width='600' height='600' fill='%23222'/%3E%3C/svg%3E";
+
+
+/* SEARCH + PRICE FILTER */
+var searchQuery = "";
+var priceMin = 0;
+var priceMax = 99999;
+var priceActive = false;
+
+function onSearch(){
+  searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
+  renderProducts();
+}
+
+function openPriceFilter(){
+  document.getElementById("priceDropdown").classList.add("open");
+  document.getElementById("pdOverlay").classList.add("open");
+  document.getElementById("priceFilterBtn").classList.add("active");
+}
+function closePriceFilter(){
+  document.getElementById("priceDropdown").classList.remove("open");
+  document.getElementById("pdOverlay").classList.remove("open");
+  if(!priceActive) document.getElementById("priceFilterBtn").classList.remove("active");
+}
+function setPreset(min,max){
+  document.getElementById("pdMin").value = min;
+  document.getElementById("pdMax").value = max;
+  document.querySelectorAll(".pd-preset").forEach(function(b){b.classList.remove("active");});
+  event.target.classList.add("active");
+}
+function applyPriceFilter(){
+  var min = parseFloat(document.getElementById("pdMin").value);
+  var max = parseFloat(document.getElementById("pdMax").value);
+  if(isNaN(min)) min = 0;
+  if(isNaN(max)) max = 99999;
+  if(min > max){ var tmp=min;min=max;max=tmp; }
+  priceMin = min; priceMax = max; priceActive = true;
+  var label = min + " — " + (max===99999?"5000+":max) + " " + t("currency");
+  document.getElementById("priceFilterLabel").textContent = label;
+  document.getElementById("priceFilterBtn").classList.add("active");
+  closePriceFilter();
+  renderProducts();
+}
+function clearPriceFilter(){
+  priceMin=0; priceMax=99999; priceActive=false;
+  document.getElementById("pdMin").value="";
+  document.getElementById("pdMax").value="";
+  document.querySelectorAll(".pd-preset").forEach(function(b){b.classList.remove("active");});
+  document.getElementById("priceFilterLabel").textContent = lang==="ar"?"تصفية السعر":"Filter Price";
+  document.getElementById("priceFilterBtn").classList.remove("active");
+  closePriceFilter();
+  renderProducts();
+}
+
+
+/* SEARCH & PRICE FILTER */
+var priceFilterOpen = false;
+var activeSearch = "";
+var activePriceMin = 0;
+var activePriceMax = 5000;
+
+function togglePricePanel(){
+  priceFilterOpen = !priceFilterOpen;
+  document.getElementById("priceFilterPanel").classList.toggle("open", priceFilterOpen);
+  document.getElementById("filterToggleBtn").classList.toggle("active", priceFilterOpen);
+}
+
+function applySearchFilter(){
+  activeSearch = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+  activePriceMin = parseInt(document.getElementById("priceMin").value) || 0;
+  activePriceMax = parseInt(document.getElementById("priceMax").value) || 5000;
+  renderProducts();
+}
+
+function resetPriceFilter(){
+  document.getElementById("priceMin").value = 0;
+  document.getElementById("priceMax").value = 5000;
+  activePriceMin = 0;
+  activePriceMax = 5000;
+  applySearchFilter();
+}
+
+function applyLangSearchFilter(){
+  var si = document.getElementById("searchInput");
+  if(si) si.placeholder = lang==="ar"?"ابحثي عن منتج...":"Search products...";
+  var fl = document.getElementById("filterBtnLabel");
+  if(fl) fl.textContent = lang==="ar"?"تصفية السعر":"Filter by Price";
+  var pl = document.getElementById("priceRangeLabel");
+  if(pl) pl.textContent = lang==="ar"?"نطاق السعر (ج.م)":"Price Range (EGP)";
+  var ap = document.getElementById("priceApplyBtn");
+  if(ap) ap.textContent = lang==="ar"?"تطبيق":"Apply";
+  var rp = document.getElementById("priceResetBtn");
+  if(rp) rp.textContent = lang==="ar"?"إعادة تعيين":"Reset";
+}
 
 loadProducts();
 try{sb.channel("products-ch").on("postgres_changes",{event:"*",schema:"public",table:"products"},function(){loadProducts();}).subscribe();}catch(e){console.warn(e);}
