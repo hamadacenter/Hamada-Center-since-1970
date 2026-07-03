@@ -309,6 +309,26 @@ html[dir="rtl"] .search-icon{left:auto;right:14px;}
 .price-apply-btn:hover{background:var(--pink-deep);}
 .price-reset-btn{background:transparent;color:var(--grey);border:1px solid var(--line-strong);border-radius:10px;padding:9px 16px;font-family:inherit;font-weight:700;font-size:.85rem;cursor:pointer;transition:.2s;}
 .price-reset-btn:hover{border-color:var(--pink);color:var(--pink);}
+
+/* CATEGORY BANNERS */
+.cat-banners-wrap{padding:18px 5% 0;max-width:1320px;margin:0 auto;}
+.cat-banners{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;}
+.cat-banners::-webkit-scrollbar{display:none;}
+.cat-banner{
+  flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:7px;
+  cursor:pointer;padding:10px 14px;border-radius:16px;border:1.5px solid var(--line-strong);
+  background:var(--card-bg);transition:all .22s cubic-bezier(.4,0,.2,1);min-width:74px;
+}
+.cat-banner:hover{border-color:var(--pink);background:var(--pink-soft);}
+.cat-banner.active{border-color:var(--pink);background:var(--pink-soft);}
+.cat-banner-img{
+  width:48px;height:48px;border-radius:12px;object-fit:cover;
+  background:var(--black2);display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;flex-shrink:0;overflow:hidden;
+}
+.cat-banner-img img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
+.cat-banner-label{font-size:.7rem;font-weight:800;color:var(--grey-light);text-align:center;white-space:nowrap;transition:color .2s;}
+.cat-banner:hover .cat-banner-label,.cat-banner.active .cat-banner-label{color:var(--pink);}
 </style>
 </head>
 <body>
@@ -393,7 +413,10 @@ html[dir="rtl"] .search-icon{left:auto;right:14px;}
   </div>
 </div>
 
-<div class="filters-wrap reveal"><div class="filters" id="filters"></div></div>
+<div class="cat-banners-wrap reveal">
+  <div class="cat-banners" id="catBanners"></div>
+</div>
+<div class="filters-wrap reveal" style="display:none"><div class="filters" id="filters"></div></div>
 
 <main class="grid" id="products"><div class="empty"><h3>جاري تحميل المنتجات...</h3></div></main>
 
@@ -542,7 +565,7 @@ function applyLang(){
   Object.keys(ph).forEach(function(id){var el=document.getElementById(id);if(el)el.placeholder=t(ph[id]);});
   var sh=document.getElementById("sectionHeading");
   if(sh)sh.innerHTML=activeCategory==="الكل"?(lang==="ar"?"جميع <em>المنتجات</em>":"All <em>Products</em>"):getCatLabel(activeCategory);
-  renderFilters();renderProducts();renderCart();renderDrawer();applyLangSearchFilter();
+  renderFilters();renderProducts();renderCart();renderDrawer();renderCatBanners();applyLangSearchFilter();
 }
 function toggleLang(){lang=lang==="ar"?"en":"ar";applyLang();}
 
@@ -730,7 +753,7 @@ function loadProducts(){
       return{id:p.id,name:p.name,category:p.category,desc:p.description||"",img:imgs[0]||"",images:imgs,variants:Array.isArray(p.variants)?p.variants:[],isNew:!!p.is_new,soldOut:!!p.sold_out};
     }).filter(function(p){return p.variants.length>0;});
     activeCategory="الكل";
-    renderFilters();renderProducts();renderDrawer();
+    renderFilters();renderProducts();renderDrawer();renderCatBanners();
   }).catch(function(){document.getElementById("connError").style.display="block";});
 }
 
@@ -746,7 +769,7 @@ function renderFilters(){
 }
 
 function setCategory(cat){
-  activeCategory=cat;renderFilters();renderProducts();renderDrawer();
+  activeCategory=cat;renderFilters();renderProducts();renderDrawer();renderCatBanners();
   var sh=document.getElementById("sectionHeading");
   if(sh)sh.innerHTML=cat==="الكل"?(lang==="ar"?"جميع <em>المنتجات</em>":"All <em>Products</em>"):getCatLabel(cat);
   window.scrollTo({top:0,behavior:"smooth"});
@@ -881,9 +904,10 @@ function clearPriceFilter(){
 
 /* SEARCH & PRICE FILTER */
 var priceFilterOpen = false;
-var activeSearch = "";
-var activePriceMin = 0;
-var activePriceMax = 5000;
+var searchQuery = "";
+var priceMin = 0;
+var priceMax = 5000;
+var priceActive = false;
 
 function togglePricePanel(){
   priceFilterOpen = !priceFilterOpen;
@@ -892,18 +916,18 @@ function togglePricePanel(){
 }
 
 function applySearchFilter(){
-  activeSearch = (document.getElementById("searchInput").value || "").trim().toLowerCase();
-  activePriceMin = parseInt(document.getElementById("priceMin").value) || 0;
-  activePriceMax = parseInt(document.getElementById("priceMax").value) || 5000;
+  searchQuery = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+  priceMin = parseInt(document.getElementById("priceMin").value) || 0;
+  priceMax = parseInt(document.getElementById("priceMax").value) || 5000;
+  priceActive = (priceMin > 0 || priceMax < 5000);
   renderProducts();
 }
 
 function resetPriceFilter(){
   document.getElementById("priceMin").value = 0;
   document.getElementById("priceMax").value = 5000;
-  activePriceMin = 0;
-  activePriceMax = 5000;
-  applySearchFilter();
+  priceMin = 0; priceMax = 5000; priceActive = false;
+  renderProducts();
 }
 
 function applyLangSearchFilter(){
@@ -917,6 +941,43 @@ function applyLangSearchFilter(){
   if(ap) ap.textContent = lang==="ar"?"تطبيق":"Apply";
   var rp = document.getElementById("priceResetBtn");
   if(rp) rp.textContent = lang==="ar"?"إعادة تعيين":"Reset";
+}
+
+
+/* CATEGORY BANNERS */
+var CAT_EMOJIS = {
+  "الكل":"🏠","روج":"💄","فاونديشن":"🌸","باليت":"🎨","كونتور":"✨",
+  "هايلايتر":"💫","بودرة":"🪄","مسكرا":"👁️","ايلاينر":"🖊️","إيشادو":"🌈",
+  "سيروم":"💧","مرطب وجه":"🧴","غسول":"🫧","واقي شمس":"☀️","عطور":"🌹",
+  "شامبو":"🧼","بلسم":"💆","ماسك شعر":"🎭","زيت شعر":"🫙","كريم شعر":"🎀",
+  "مكواة":"♨️","سشوار":"💨","أجهزة":"🔌","عناية بالجسم":"🛁","إكسسوارات":"💎"
+};
+
+function renderCatBanners(){
+  var el = document.getElementById("catBanners");
+  if(!el) return;
+  var active = {};
+  products.forEach(function(p){ active[p.category] = true; });
+  // Find first product image per category
+  var catImg = {};
+  products.forEach(function(p){
+    if(!catImg[p.category] && p.images && p.images.length > 0) catImg[p.category] = p.images[0];
+    else if(!catImg[p.category] && p.img) catImg[p.category] = p.img;
+  });
+  var h = "";
+  CATEGORIES_AR.forEach(function(c){
+    var has = c === "الكل" || active[c];
+    if(!has) return;
+    var isAct = c === activeCategory;
+    var imgSrc = catImg[c];
+    var imgHtml = imgSrc
+      ? '<div class="cat-banner-img"><img src="' + imgSrc + '" alt="" onerror="this.parentNode.innerHTML='' + (CAT_EMOJIS[c]||"🏷️") + ''"></div>'
+      : '<div class="cat-banner-img">' + (CAT_EMOJIS[c]||"🏷️") + '</div>';
+    h += '<div class="cat-banner' + (isAct ? " active" : "") + '" onclick="setCategory('' + c.replace(/'/g,"\\'") + '')">' +
+         imgHtml +
+         '<span class="cat-banner-label">' + getCatLabel(c) + '</span></div>';
+  });
+  el.innerHTML = h;
 }
 
 loadProducts();
