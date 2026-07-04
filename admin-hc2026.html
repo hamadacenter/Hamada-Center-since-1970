@@ -218,6 +218,18 @@
         <label>التصنيف</label>
         <input type="hidden" id="f-cat" value="مكياج - روج">
         <div class="cat-picker-wrap" id="catPicker"></div>
+        <script>
+        (function(){
+          function tryRender(){
+            if(typeof renderCatPicker === "function"){
+              renderCatPicker("مكياج - روج");
+            } else {
+              setTimeout(tryRender, 50);
+            }
+          }
+          tryRender();
+        })();
+        </script>
 
         <label>الوصف المختصر</label>
         <textarea id="f-desc" placeholder="وصف قصير يظهر تحت اسم المنتج"></textarea>
