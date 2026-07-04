@@ -277,24 +277,41 @@
 
 /* CATEGORY VISUAL PICKER */
 var ADMIN_CATS = [
-  {v:"روج",i:"💄"},{v:"فاونديشن",i:"🌸"},{v:"باليت",i:"🎨"},{v:"كونتور",i:"✨"},
-  {v:"هايلايتر",i:"💫"},{v:"بودرة",i:"🪄"},{v:"مسكرا",i:"👁️"},{v:"ايلاينر",i:"🖊️"},
-  {v:"إيشادو",i:"🌈"},{v:"سيروم",i:"💧"},{v:"مرطب وجه",i:"🧴"},{v:"غسول",i:"🫧"},
-  {v:"واقي شمس",i:"☀️"},{v:"عطور",i:"🌹"},{v:"شامبو",i:"🧼"},{v:"بلسم",i:"💆"},
-  {v:"ماسك شعر",i:"🎭"},{v:"زيت شعر",i:"🫙"},{v:"كريم شعر",i:"🎀"},{v:"مكواة",i:"♨️"},
-  {v:"سشوار",i:"💨"},{v:"أجهزة",i:"🔌"},{v:"عناية بالجسم",i:"🛁"},{v:"إكسسوارات",i:"💎"}
+  {v:"مكياج - روج",i:"💄"},{v:"مكياج - فاونديشن",i:"🌸"},{v:"مكياج - باليت",i:"🎨"},
+  {v:"مكياج - كونتور",i:"✨"},{v:"مكياج - هايلايتر",i:"💫"},{v:"مكياج - بودرة",i:"🪄"},
+  {v:"مسكرا",i:"👁️"},{v:"كحل",i:"🖊️"},{v:"إيشادو",i:"🌈"},
+  {v:"عطور",i:"🌹"},{v:"غسول جسم",i:"🚿"},{v:"كريم جسم",i:"🧴"},
+  {v:"واقي شمس",i:"☀️"},{v:"سيروم",i:"💧"},{v:"مرطب وجه",i:"🌿"},{v:"غسول وجه",i:"🫧"},
+  {v:"شامبو",i:"🧼"},{v:"بلسم",i:"💆"},{v:"ماسك شعر",i:"🎭"},
+  {v:"زيت شعر",i:"🫙"},{v:"كريم شعر",i:"🎀"},
+  {v:"مكواة شعر",i:"♨️"},{v:"سشوار",i:"💨"},{v:"أجهزة تجميل",i:"🔌"},
+  {v:"إكسسوارات",i:"💎"}
+]
+
+var ADMIN_GROUPS = [
+  {ar:"💄 مكياج", en:"💄 Makeup", cats:["مكياج - روج","مكياج - فاونديشن","مكياج - باليت","مكياج - كونتور","مكياج - هايلايتر","مكياج - بودرة","مسكرا","كحل","إيشادو"]},
+  {ar:"🧴 عناية بالجسم", en:"🧴 Body Care", cats:["عطور","غسول جسم","كريم جسم","واقي شمس","سيروم","مرطب وجه","غسول وجه"]},
+  {ar:"💇 عناية بالشعر", en:"💇 Hair Care", cats:["شامبو","بلسم","ماسك شعر","زيت شعر","كريم شعر"]},
+  {ar:"⚡ أجهزة", en:"⚡ Devices", cats:["مكواة شعر","سشوار","أجهزة تجميل"]},
+  {ar:"💎 إكسسوارات", en:"💎 Accessories", cats:["إكسسوارات"]}
 ];
 
 function renderCatPicker(selected){
   var el = document.getElementById("catPicker");
   if(!el) return;
-  var sel = selected || document.getElementById("f-cat").value || "عطور";
+  var sel = selected || document.getElementById("f-cat").value || "مكياج - روج";
+  if(!sel) sel = "مكياج - روج";
   var h = "";
-  ADMIN_CATS.forEach(function(c){
-    var isAct = c.v === sel;
-    var safeVal = c.v.split("'").join("\'");
-    h += "<button type=\"button\" class=\"cat-pill" + (isAct ? " active" : "") + "\" onclick=\"pickCat('" + safeVal + "')\">" +
-         "<span class=\"cat-pill-icon\">" + c.i + "</span>" + c.v + "</button>";
+  ADMIN_GROUPS.forEach(function(group){
+    h += "<div style=\"width:100%;margin:10px 0 5px;font-size:.72rem;font-weight:900;color:#1F4538;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid #EAE0D8;padding-bottom:4px;\">" + group.ar + "</div>";
+    group.cats.forEach(function(cv){
+      var cat = ADMIN_CATS.find(function(c){ return c.v === cv; });
+      if(!cat) return;
+      var isAct = cat.v === sel;
+      var safeVal = cat.v.split("'").join("\\'");
+      h += "<button type=\"button\" class=\"cat-pill" + (isAct ? " active" : "") + "\" onclick=\"pickCat('" + safeVal + "')\">" +
+           "<span class=\"cat-pill-icon\">" + cat.i + "</span>" + cat.v + "</button>";
+    });
   });
   el.innerHTML = h;
 }
@@ -308,13 +325,16 @@ function pickCat(val){
 
 /* CATEGORY VISUAL PICKER */
 var ADMIN_CATS = [
-  {v:"روج",i:"💄"},{v:"فاونديشن",i:"🌸"},{v:"باليت",i:"🎨"},{v:"كونتور",i:"✨"},
-  {v:"هايلايتر",i:"💫"},{v:"بودرة",i:"🪄"},{v:"مسكرا",i:"👁️"},{v:"ايلاينر",i:"🖊️"},
-  {v:"إيشادو",i:"🌈"},{v:"سيروم",i:"💧"},{v:"مرطب وجه",i:"🧴"},{v:"غسول",i:"🫧"},
-  {v:"واقي شمس",i:"☀️"},{v:"عطور",i:"🌹"},{v:"شامبو",i:"🧼"},{v:"بلسم",i:"💆"},
-  {v:"ماسك شعر",i:"🎭"},{v:"زيت شعر",i:"🫙"},{v:"كريم شعر",i:"🎀"},{v:"مكواة",i:"♨️"},
-  {v:"سشوار",i:"💨"},{v:"أجهزة",i:"🔌"},{v:"عناية بالجسم",i:"🛁"},{v:"إكسسوارات",i:"💎"}
-];
+  {v:"مكياج - روج",i:"💄"},{v:"مكياج - فاونديشن",i:"🌸"},{v:"مكياج - باليت",i:"🎨"},
+  {v:"مكياج - كونتور",i:"✨"},{v:"مكياج - هايلايتر",i:"💫"},{v:"مكياج - بودرة",i:"🪄"},
+  {v:"مسكرا",i:"👁️"},{v:"كحل",i:"🖊️"},{v:"إيشادو",i:"🌈"},
+  {v:"عطور",i:"🌹"},{v:"غسول جسم",i:"🚿"},{v:"كريم جسم",i:"🧴"},
+  {v:"واقي شمس",i:"☀️"},{v:"سيروم",i:"💧"},{v:"مرطب وجه",i:"🌿"},{v:"غسول وجه",i:"🫧"},
+  {v:"شامبو",i:"🧼"},{v:"بلسم",i:"💆"},{v:"ماسك شعر",i:"🎭"},
+  {v:"زيت شعر",i:"🫙"},{v:"كريم شعر",i:"🎀"},
+  {v:"مكواة شعر",i:"♨️"},{v:"سشوار",i:"💨"},{v:"أجهزة تجميل",i:"🔌"},
+  {v:"إكسسوارات",i:"💎"}
+]
 
 function pickCat(val){
   document.getElementById("f-cat").value = val;
@@ -574,7 +594,7 @@ function clearForm(){
   editingId = null; uploadedImages = [];
   document.getElementById('f-name').value = '';
   document.getElementById('f-desc').value = '';
-  document.getElementById('f-cat').value = 'عطور'; renderCatPicker('عطور');
+  document.getElementById('f-cat').value = 'مكياج - روج'; renderCatPicker('مكياج - روج');
   document.getElementById('f-img-upload').value = '';
   renderImagesGrid();
   document.getElementById('variants-container').innerHTML = '';
@@ -640,11 +660,24 @@ function editProduct(id){
   if(!p) return;
   editingId = id;
   document.getElementById('f-name').value = p.name;
-  const catMap = {'عناية بالبشرة':'سيروم','عناية بالشعر':'شامبو','أخرى':'إكسسوارات'};
+  const catMap = {
+    'روج':'مكياج - روج','فاونديشن':'مكياج - فاونديشن','باليت':'مكياج - باليت',
+    'كونتور':'مكياج - كونتور','هايلايتر':'مكياج - هايلايتر','بودرة':'مكياج - بودرة',
+    'مسكرا':'مسكرا','ايلاينر':'كحل','إيشادو':'إيشادو',
+    'عطور':'عطور','غسول':'غسول وجه','واقي شمس':'واقي شمس',
+    'سيروم':'سيروم','مرطب وجه':'مرطب وجه',
+    'شامبو':'شامبو','بلسم':'بلسم','ماسك شعر':'ماسك شعر',
+    'زيت شعر':'زيت شعر','كريم شعر':'كريم شعر',
+    'مكواة':'مكواة شعر','سشوار':'سشوار','أجهزة':'أجهزة تجميل',
+    'عناية بالجسم':'كريم جسم','إكسسوارات':'إكسسوارات',
+    'عناية بالبشرة':'سيروم','عناية بالشعر':'شامبو','أخرى':'إكسسوارات'
+  };
   const mappedCat = catMap[p.category] || p.category;
   const catSelect = document.getElementById('f-cat');
   catSelect.value = mappedCat;
-  if(!document.getElementById('f-cat').value) document.getElementById('f-cat').value = 'إكسسوارات'; renderCatPicker(document.getElementById('f-cat').value);
+  var finalCat = document.getElementById('f-cat').value || mappedCat || 'إكسسوارات';
+  document.getElementById('f-cat').value = finalCat;
+  renderCatPicker(finalCat);
   document.getElementById('f-desc').value = p.description || '';
   uploadedImages = Array.isArray(p.images) && p.images.length > 0 ? [...p.images] : (p.image ? [p.image] : []);
   renderImagesGrid();
@@ -677,13 +710,16 @@ function showToast(msg, isError){
 
 /* CATEGORY VISUAL PICKER */
 var ADMIN_CATS = [
-  {v:"روج",i:"💄"},{v:"فاونديشن",i:"🌸"},{v:"باليت",i:"🎨"},{v:"كونتور",i:"✨"},
-  {v:"هايلايتر",i:"💫"},{v:"بودرة",i:"🪄"},{v:"مسكرا",i:"👁️"},{v:"ايلاينر",i:"🖊️"},
-  {v:"إيشادو",i:"🌈"},{v:"سيروم",i:"💧"},{v:"مرطب وجه",i:"🧴"},{v:"غسول",i:"🫧"},
-  {v:"واقي شمس",i:"☀️"},{v:"عطور",i:"🌹"},{v:"شامبو",i:"🧼"},{v:"بلسم",i:"💆"},
-  {v:"ماسك شعر",i:"🎭"},{v:"زيت شعر",i:"🫙"},{v:"كريم شعر",i:"🎀"},{v:"مكواة",i:"♨️"},
-  {v:"سشوار",i:"💨"},{v:"أجهزة",i:"🔌"},{v:"عناية بالجسم",i:"🛁"},{v:"إكسسوارات",i:"💎"}
-];
+  {v:"مكياج - روج",i:"💄"},{v:"مكياج - فاونديشن",i:"🌸"},{v:"مكياج - باليت",i:"🎨"},
+  {v:"مكياج - كونتور",i:"✨"},{v:"مكياج - هايلايتر",i:"💫"},{v:"مكياج - بودرة",i:"🪄"},
+  {v:"مسكرا",i:"👁️"},{v:"كحل",i:"🖊️"},{v:"إيشادو",i:"🌈"},
+  {v:"عطور",i:"🌹"},{v:"غسول جسم",i:"🚿"},{v:"كريم جسم",i:"🧴"},
+  {v:"واقي شمس",i:"☀️"},{v:"سيروم",i:"💧"},{v:"مرطب وجه",i:"🌿"},{v:"غسول وجه",i:"🫧"},
+  {v:"شامبو",i:"🧼"},{v:"بلسم",i:"💆"},{v:"ماسك شعر",i:"🎭"},
+  {v:"زيت شعر",i:"🫙"},{v:"كريم شعر",i:"🎀"},
+  {v:"مكواة شعر",i:"♨️"},{v:"سشوار",i:"💨"},{v:"أجهزة تجميل",i:"🔌"},
+  {v:"إكسسوارات",i:"💎"}
+]
 
 function pickCat(val){
   document.getElementById("f-cat").value = val;
