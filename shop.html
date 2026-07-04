@@ -203,9 +203,10 @@ html[dir="ltr"] .feedback-fab{left:auto;right:28px;}
 footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
 .footer-logo{font-family:"Playfair Display",serif;font-size:1.2rem;font-weight:900;color:var(--white);}
 .footer-logo em{color:var(--pink);font-style:normal;}
-.footer-links{display:flex;gap:20px;}
-.footer-links a{color:var(--grey);text-decoration:none;font-size:.8rem;font-weight:700;transition:color .2s;}
-.footer-links a:hover{color:var(--pink);}
+.footer-links{display:flex;gap:14px;align-items:center;}
+.footer-links a{color:var(--grey);text-decoration:none;transition:color .2s,transform .2s;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;border:1px solid var(--line-strong);background:var(--card-bg);}
+.footer-links a:hover{color:var(--pink);border-color:var(--pink);transform:translateY(-2px);}
+.footer-links a svg{width:18px;height:18px;fill:currentColor;}
 .footer-copy{color:var(--grey);font-size:.72rem;}
 @media(max-width:600px){
   .cart-sidebar{width:100vw;}
@@ -329,6 +330,72 @@ html[dir="rtl"] .search-icon{left:auto;right:14px;}
 .cat-banner-img img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
 .cat-banner-label{font-size:.7rem;font-weight:800;color:var(--grey-light);text-align:center;white-space:nowrap;transition:color .2s;}
 .cat-banner:hover .cat-banner-label,.cat-banner.active .cat-banner-label{color:var(--pink);}
+
+/* FAVOURITES */
+.fav-btn{
+  margin-top:8px;background:transparent;color:var(--grey);border:1px solid var(--line-strong);
+  border-radius:12px;padding:11px;font-family:inherit;font-weight:800;font-size:.9rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .2s;
+}
+.fav-btn:hover{border-color:var(--pink);color:var(--pink);}
+.fav-btn.faved{background:var(--pink-soft);border-color:var(--pink);color:var(--pink);}
+.fav-icon-btn{
+  position:fixed;bottom:92px;left:28px;z-index:250;
+  background:var(--black2);border:1px solid var(--line-strong);
+  border-radius:50%;width:50px;height:50px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 16px rgba(0,0,0,.4);
+}
+html[dir="ltr"] .fav-icon-btn{left:auto;right:28px;}
+.fav-icon-btn:hover{transform:scale(1.1);border-color:var(--pink);}
+.fav-badge{
+  position:absolute;top:-5px;right:-5px;background:var(--pink);color:var(--black);
+  border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:900;
+  display:none;align-items:center;justify-content:center;
+}
+.fav-badge.show{display:flex;}
+.fav-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:450;display:none;opacity:0;transition:opacity .25s;}
+.fav-overlay.open{display:block;opacity:1;}
+.fav-sidebar{
+  position:fixed;top:0;left:0;bottom:0;width:min(420px,100vw);
+  background:var(--black2);z-index:451;transform:translateX(-110%);
+  transition:transform .3s ease;display:flex;flex-direction:column;
+  border-right:1px solid var(--line-strong);
+}
+html[dir="rtl"] .fav-sidebar{left:auto;right:0;transform:translateX(110%);border-right:none;border-left:1px solid var(--line-strong);}
+.fav-sidebar.open{transform:translateX(0)!important;}
+.fav-head{background:var(--black);border-bottom:1px solid var(--line);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
+.fav-head h2{font-size:1rem;font-weight:800;color:var(--white);}
+.close-fav{background:none;border:none;color:var(--grey);font-size:1.3rem;cursor:pointer;transition:color .2s;line-height:1;}
+.close-fav:hover{color:var(--pink);}
+.fav-toolbar{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.fav-select-all{background:transparent;border:1px solid var(--line-strong);color:var(--grey-light);padding:6px 12px;border-radius:8px;font-family:inherit;font-weight:700;font-size:.78rem;cursor:pointer;transition:.2s;}
+.fav-select-all:hover{border-color:var(--pink);color:var(--pink);}
+.fav-add-all{background:var(--pink);border:none;color:var(--black);padding:6px 14px;border-radius:8px;font-family:inherit;font-weight:800;font-size:.78rem;cursor:pointer;transition:.2s;margin-right:auto;}
+html[dir="ltr"] .fav-add-all{margin-right:0;margin-left:auto;}
+.fav-add-all:hover{background:var(--pink-deep);}
+.fav-items{flex:1;overflow-y:auto;padding:14px 16px;}
+.fav-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);}
+.fav-item-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line-strong);background:var(--card-bg);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s;}
+.fav-item-check.checked{background:var(--pink);border-color:var(--pink);color:var(--black);}
+.fav-item img{width:58px;height:58px;object-fit:cover;border-radius:10px;flex-shrink:0;background:#1a1a1a;}
+.fav-item-info{flex:1;min-width:0;}
+.fav-item-name{font-weight:800;font-size:.88rem;color:var(--white);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fav-item-cat{font-size:.72rem;color:var(--pink);margin-bottom:4px;}
+.fav-item-price{font-weight:900;color:var(--white);font-size:.9rem;}
+.fav-item-del{background:none;border:none;color:#EF4444;cursor:pointer;font-size:.85rem;flex-shrink:0;padding:4px;transition:opacity .2s;}
+.fav-item-del:hover{opacity:.7;}
+.fav-empty{text-align:center;padding:50px 20px;color:var(--grey);}
+.fav-footer{padding:14px 16px;border-top:1px solid var(--line);}
+.fav-add-selected{width:100%;background:var(--pink);color:var(--black);border:none;padding:13px;border-radius:12px;font-family:inherit;font-weight:900;font-size:.95rem;cursor:pointer;transition:background .2s;}
+.fav-add-selected:hover{background:var(--pink-deep);}
+.fav-add-selected:disabled{opacity:.4;cursor:not-allowed;}
+
+/* LOGO IMG */
+.logo-img{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;}
+.footer-logo-img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--line-strong);}
 </style>
 </head>
 <body>
@@ -337,7 +404,7 @@ html[dir="rtl"] .search-icon{left:auto;right:14px;}
   <div class="header-left">
     <a href="index.html" class="icon-btn">&#8592;</a>
     <button class="menu-btn" id="menuBtn" onclick="openDrawer()"><span></span><span></span><span></span></button>
-    <a href="index.html" class="logo">Hamada <em>Center</em></a>
+    <a href="index.html" class="logo"><img src="logo.png" alt="Hamada Center" class="logo-img" onerror="this.style.display='none'">Hamada <em>Center</em></a>
   </div>
   <div class="header-right">
     <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
@@ -468,6 +535,30 @@ html[dir="rtl"] .search-icon{left:auto;right:14px;}
   <div class="lb-counter" id="lbCounter"></div>
 </div>
 
+
+<!-- FAVOURITES ICON -->
+<button class="fav-icon-btn" onclick="openFav()">
+  ❤️
+  <span class="fav-badge" id="favBadge">0</span>
+</button>
+
+<!-- FAVOURITES SIDEBAR -->
+<div class="fav-overlay" id="favOverlay" onclick="closeFav()"></div>
+<div class="fav-sidebar" id="favSidebar">
+  <div class="fav-head">
+    <h2 id="favTitle">❤️ المفضلة</h2>
+    <button class="close-fav" onclick="closeFav()">✕</button>
+  </div>
+  <div class="fav-toolbar">
+    <button class="fav-select-all" onclick="toggleSelectAll()" id="selectAllBtn">تحديد الكل</button>
+    <button class="fav-add-all" onclick="addSelectedToCart()" id="addAllBtn">إضافة المحددة للسلة</button>
+  </div>
+  <div class="fav-items" id="favItems"></div>
+  <div class="fav-footer">
+    <button class="fav-add-selected" id="favAddSelected" onclick="addSelectedToCart()">إضافة المحددة للسلة</button>
+  </div>
+</div>
+
 <button class="feedback-fab" onclick="openFeedback()">💬<span class="fab-tip" id="fabTip">رأيك يهمنا</span></button>
 
 <div class="fb-overlay" id="fbOverlay">
@@ -491,11 +582,23 @@ html[dir="rtl"] .search-icon{left:auto;right:14px;}
 </div>
 
 <footer>
-  <div class="footer-logo">Hamada <em>Center</em></div>
+  <div class="footer-logo-wrap">
+    <img src="logo.png" alt="Hamada Center" class="footer-logo-img" onerror="this.style.display='none'">
+    <div class="footer-logo">Hamada <em>Center</em></div>
+  </div>
   <div class="footer-links">
-    <a href="https://www.facebook.com/hamadacenter" target="_blank">Facebook</a>
-    <a href="https://www.tiktok.com/@hamadacenter" target="_blank">TikTok</a>
-    <a href="https://t.me/hamadacenter" target="_blank">Telegram</a>
+    <a href="https://www.facebook.com/hamda.center?mibextid=LQQJ4d" target="_blank" title="Facebook">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/hamada_center1970" target="_blank" title="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@hamada_center_1970" target="_blank" title="TikTok">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+    <a href="https://t.me/hcenter1970" target="_blank" title="Telegram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+    </a>
   </div>
   <p class="footer-copy" id="footerCopy">Hamada Center © 2026 — جميع الحقوق محفوظة</p>
 </footer>
@@ -527,10 +630,10 @@ var T={
     btnCancel:"إلغاء",btnSubmit:"📲 إرسال الطلب",
     noProducts:"لا توجد منتجات هنا حالياً",noProductsSub:"تابعونا لمعرفة أحدث العروض",
     discount:"خصم",badgeNew:"جديد",badgeSold:"نفذ",was:"بدل",soldOutBtn:"نفذ من المخزون",
-    successTitle:"تم إرسال طلبك! 🎉",successMsg:"سيتواصل معك فريقنا قريباً لتأكيد الطلب والتوصيل.",
+    successTitle:"تم إرسال طلبك! 🎉",successMsg:"شكراً لثقتك بنا 💖 نتمنى لك طلباً سعيداً وخدمة مميزة!",
     btnClose:"إغلاق",connError:"تعذر تحميل المنتجات. حاولي تحديث الصفحة.",
     fabTip:"رأيك يهمنا",footerCopy:"Hamada Center © 2026 — جميع الحقوق محفوظة",
-    cats:"الفئات",products:"منتج"
+    cats:"الفئات",products:"منتج",addFav:"المفضلة",favEmpty:"لا توجد منتجات في المفضلة",favTitle:"❤️ المفضلة",addAllToCart:"إضافة الكل للسلة",selectAll:"تحديد الكل",removeFav:"حذف"
   },
   en:{
     langBtn:"عربي",drawerTitle:"🗂 Collections",cartBtn:"Cart",cartTitle:"🛒 Cart",
@@ -543,10 +646,10 @@ var T={
     btnCancel:"Cancel",btnSubmit:"📲 Send Order",
     noProducts:"No products here yet",noProductsSub:"Follow our pages for the latest deals",
     discount:"OFF",badgeNew:"New",badgeSold:"Sold Out",was:"was",soldOutBtn:"Sold Out",
-    successTitle:"Order Sent! 🎉",successMsg:"Our team will contact you soon to confirm the order and delivery.",
+    successTitle:"Order Sent! 🎉",successMsg:"Thank you for your trust 💖 We wish you a happy order and excellent service!",
     btnClose:"Close",connError:"Could not load products. Try refreshing.",
     fabTip:"Share your feedback",footerCopy:"Hamada Center © 2026 — All rights reserved",
-    cats:"Categories",products:"products"
+    cats:"Categories",products:"products",addFav:"Wishlist",favEmpty:"No products in wishlist",favTitle:"❤️ Wishlist",addAllToCart:"Add All to Cart",selectAll:"Select All",removeFav:"Remove"
   }
 };
 function t(k){return T[lang][k]||k;}
@@ -835,6 +938,9 @@ function renderProducts(){
         "<p class=\"card-desc\">"+esc(p.desc)+"</p>"+sel+
         "<div class=\"price-row\" id=\"pr-"+p.id+"\"><span class=\"price-new\">"+v0.price+" "+t("currency")+"</span>"+(v0.oldPrice?"<span class=\"price-old\">"+v0.oldPrice+" "+t("currency")+"</span>":"")+
         "</div><button class=\""+btnCls+"\" id=\"add-"+p.id+"\""+btnClick+">"+btnTxt+"</button>" +
+      "<button class=\"fav-btn"+(isFaved(p.id)?" faved":"")+"\" id=\"fav-"+p.id+"\" onclick=\"event.stopPropagation();toggleFav('"+p.id+"')\">"+
+        (isFaved(p.id)?"❤️":"🤍")+" "+t("addFav")+
+      "</button>" +
       "</div></div>";
   });
   grid.innerHTML=h;
@@ -980,6 +1086,120 @@ function renderCatBanners(){
   el.innerHTML = h;
 }
 
+
+/* FAVOURITES */
+var favourites = []; // array of productId
+var favSelected = {}; // productId -> bool
+
+function toggleFav(pid){
+  var idx = favourites.indexOf(pid);
+  if(idx === -1){
+    favourites.push(pid);
+    favSelected[pid] = true;
+  } else {
+    favourites.splice(idx, 1);
+    delete favSelected[pid];
+  }
+  updateFavBadge();
+  updateFavBtns();
+  renderFavItems();
+}
+
+function isFaved(pid){ return favourites.indexOf(pid) !== -1; }
+
+function updateFavBadge(){
+  var b = document.getElementById("favBadge");
+  if(!b) return;
+  b.textContent = favourites.length;
+  b.classList.toggle("show", favourites.length > 0);
+}
+
+function updateFavBtns(){
+  // Update all fav buttons on cards
+  favourites.forEach(function(pid){
+    var btn = document.getElementById("fav-"+pid);
+    if(btn) btn.classList.add("faved");
+  });
+}
+
+function openFav(){
+  document.getElementById("favOverlay").classList.add("open");
+  document.getElementById("favSidebar").classList.add("open");
+  renderFavItems();
+}
+function closeFav(){
+  document.getElementById("favOverlay").classList.remove("open");
+  document.getElementById("favSidebar").classList.remove("open");
+}
+
+function toggleSelectAll(){
+  var allSelected = favourites.every(function(pid){ return favSelected[pid]; });
+  favourites.forEach(function(pid){ favSelected[pid] = !allSelected; });
+  renderFavItems();
+}
+
+function toggleFavItem(pid){
+  favSelected[pid] = !favSelected[pid];
+  renderFavItems();
+}
+
+function removeFavItem(pid){
+  favourites = favourites.filter(function(id){ return id !== pid; });
+  delete favSelected[pid];
+  updateFavBadge();
+  // update card button
+  var btn = document.getElementById("fav-"+pid);
+  if(btn) btn.classList.remove("faved");
+  renderFavItems();
+}
+
+function addSelectedToCart(){
+  var added = 0;
+  favourites.forEach(function(pid){
+    if(!favSelected[pid]) return;
+    var p = products.find(function(x){ return x.id===pid; });
+    if(!p || p.soldOut) return;
+    addToCart(pid, 0);
+    added++;
+  });
+  if(added > 0) closeFav();
+}
+
+function renderFavItems(){
+  var el = document.getElementById("favItems");
+  var btn = document.getElementById("favAddSelected");
+  if(!el) return;
+  if(favourites.length === 0){
+    el.innerHTML = "<div class=\"fav-empty\">"+t("favEmpty")+" 🛍️</div>";
+    if(btn) btn.disabled = true;
+    return;
+  }
+  var anySelected = favourites.some(function(pid){ return favSelected[pid]; });
+  if(btn) btn.disabled = !anySelected;
+  var h = "";
+  favourites.forEach(function(pid){
+    var p = products.find(function(x){ return x.id===pid; });
+    if(!p) return;
+    var img = p.images&&p.images.length>0?p.images[0]:(p.img||PLACEHOLDER);
+    var v0 = p.variants[0];
+    var isSel = !!favSelected[pid];
+    h += "<div class=\"fav-item\">" +
+      "<div class=\"fav-item-check "+(isSel?"checked":"")+"\" onclick=\"toggleFavItem('"+pid+"')\">"+(isSel?"✓":"")+"</div>" +
+      "<img src=\""+img+"\" alt=\""+esc(p.name)+"\" onerror=\"this.src=PLACEHOLDER\">" +
+      "<div class=\"fav-item-info\">" +
+        "<div class=\"fav-item-name\">"+esc(p.name)+"</div>" +
+        "<div class=\"fav-item-cat\">"+esc(getCatLabel(p.category))+"</div>" +
+        "<div class=\"fav-item-price\">"+v0.price+" "+t("currency")+"</div>" +
+      "</div>" +
+      "<button class=\"fav-item-del\" onclick=\"removeFavItem('"+pid+"')\" title=\""+t("removeFav")+"\">🗑</button>" +
+    "</div>";
+  });
+  el.innerHTML = h;
+  // update select all button label
+  var allSel = favourites.every(function(pid){ return favSelected[pid]; });
+  var saBtn = document.getElementById("selectAllBtn");
+  if(saBtn) saBtn.textContent = allSel ? (lang==="ar"?"إلغاء التحديد":"Deselect All") : t("selectAll");
+}
 loadProducts();
 try{sb.channel("products-ch").on("postgres_changes",{event:"*",schema:"public",table:"products"},function(){loadProducts();}).subscribe();}catch(e){console.warn(e);}
 </script>
