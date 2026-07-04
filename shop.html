@@ -1064,7 +1064,6 @@ function renderCatBanners(){
   if(!el) return;
   var active = {};
   products.forEach(function(p){ active[p.category] = true; });
-  // Find first product image per category
   var catImg = {};
   products.forEach(function(p){
     if(!catImg[p.category] && p.images && p.images.length > 0) catImg[p.category] = p.images[0];
@@ -1075,13 +1074,15 @@ function renderCatBanners(){
     var has = c === "الكل" || active[c];
     if(!has) return;
     var isAct = c === activeCategory;
+    var emoji = CAT_EMOJIS[c] || "🏷️";
     var imgSrc = catImg[c];
-    var imgHtml = imgSrc
-      ? '<div class="cat-banner-img"><img src="' + imgSrc + '" alt="" onerror="this.parentNode.innerHTML='' + (CAT_EMOJIS[c]||"🏷️") + ''"></div>'
-      : '<div class="cat-banner-img">' + (CAT_EMOJIS[c]||"🏷️") + '</div>';
-    h += '<div class="cat-banner' + (isAct ? " active" : "") + '" onclick="setCategory('' + c.replace(/'/g,"\\'") + '')">' +
-         imgHtml +
-         '<span class="cat-banner-label">' + getCatLabel(c) + '</span></div>';
+    var imgInner = imgSrc
+      ? "<img src=\"" + imgSrc + "\" alt=\"" + esc(c) + "\" style=\"width:100%;height:100%;object-fit:cover;\" onerror=\"this.style.display='none'\">"
+      : emoji;
+    var safeCat = c.split("'").join("\\'");
+    h += "<div class=\"cat-banner" + (isAct ? " active" : "") + "\" onclick=\"setCategory('" + safeCat + "')\">" +
+         "<div class=\"cat-banner-img\">" + imgInner + "</div>" +
+         "<span class=\"cat-banner-label\">" + getCatLabel(c) + "</span></div>";
   });
   el.innerHTML = h;
 }
