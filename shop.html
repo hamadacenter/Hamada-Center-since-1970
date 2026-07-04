@@ -458,27 +458,6 @@ html[dir="ltr"] .fav-add-all{margin-right:0;margin-left:auto;}
 </div>
 
 
-<div class="search-filter-bar reveal">
-  <div class="search-wrap">
-    <input class="search-input" type="text" id="searchInput" placeholder="ابحثي عن منتج..." oninput="applySearchFilter()">
-    <span class="search-icon">🔍</span>
-  </div>
-  <button class="filter-toggle-btn" id="filterToggleBtn" onclick="togglePricePanel()">
-    ⚙️ <span id="filterBtnLabel">تصفية السعر</span>
-  </button>
-</div>
-<div class="price-filter-panel" id="priceFilterPanel">
-  <div class="price-panel-inner">
-    <h4 id="priceRangeLabel">نطاق السعر (ج.م)</h4>
-    <div class="price-range-row">
-      <input class="price-input" type="number" id="priceMin" value="0" min="0" max="5000" placeholder="0">
-      <span class="price-sep">—</span>
-      <input class="price-input" type="number" id="priceMax" value="5000" min="0" max="5000" placeholder="5000">
-      <button class="price-apply-btn" onclick="applySearchFilter()" id="priceApplyBtn">تطبيق</button>
-      <button class="price-reset-btn" onclick="resetPriceFilter()" id="priceResetBtn">إعادة تعيين</button>
-    </div>
-  </div>
-</div>
 
 <div class="cat-banners-wrap reveal">
   <div class="cat-banners" id="catBanners"></div>
