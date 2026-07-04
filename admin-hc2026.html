@@ -292,8 +292,9 @@ function renderCatPicker(selected){
   var h = "";
   ADMIN_CATS.forEach(function(c){
     var isAct = c.v === sel;
-    h += '<button type="button" class="cat-pill' + (isAct?" active":"") + '" onclick="pickCat('' + c.v.replace(/'/g,"\\'") + '')">' +
-         '<span class="cat-pill-icon">' + c.i + '</span>' + c.v + '</button>';
+    var safeVal = c.v.split("'").join("\'");
+    h += "<button type=\"button\" class=\"cat-pill" + (isAct ? " active" : "") + "\" onclick=\"pickCat('" + safeVal + "')\">" +
+         "<span class=\"cat-pill-icon\">" + c.i + "</span>" + c.v + "</button>";
   });
   el.innerHTML = h;
 }
@@ -314,19 +315,6 @@ var ADMIN_CATS = [
   {v:"ماسك شعر",i:"🎭"},{v:"زيت شعر",i:"🫙"},{v:"كريم شعر",i:"🎀"},{v:"مكواة",i:"♨️"},
   {v:"سشوار",i:"💨"},{v:"أجهزة",i:"🔌"},{v:"عناية بالجسم",i:"🛁"},{v:"إكسسوارات",i:"💎"}
 ];
-
-function renderCatPicker(selected){
-  var el = document.getElementById("catPicker");
-  if(!el) return;
-  var sel = selected || document.getElementById("f-cat").value || "عطور";
-  var h = "";
-  ADMIN_CATS.forEach(function(c){
-    var isAct = c.v === sel;
-    h += '<button type="button" class="cat-pill' + (isAct?" active":"") + '" onclick="pickCat('' + c.v.replace(/'/g,"\\'") + '')">' +
-         '<span class="cat-pill-icon">' + c.i + '</span>' + c.v + '</button>';
-  });
-  el.innerHTML = h;
-}
 
 function pickCat(val){
   document.getElementById("f-cat").value = val;
@@ -696,19 +684,6 @@ var ADMIN_CATS = [
   {v:"ماسك شعر",i:"🎭"},{v:"زيت شعر",i:"🫙"},{v:"كريم شعر",i:"🎀"},{v:"مكواة",i:"♨️"},
   {v:"سشوار",i:"💨"},{v:"أجهزة",i:"🔌"},{v:"عناية بالجسم",i:"🛁"},{v:"إكسسوارات",i:"💎"}
 ];
-
-function renderCatPicker(selected){
-  var el = document.getElementById("catPicker");
-  if(!el) return;
-  var sel = selected || document.getElementById("f-cat").value || "عطور";
-  var h = "";
-  ADMIN_CATS.forEach(function(c){
-    var isAct = c.v === sel;
-    h += '<button type="button" class="cat-pill' + (isAct?" active":"") + '" onclick="pickCat('' + c.v.replace(/'/g,"\\'") + '')">' +
-         '<span class="cat-pill-icon">' + c.i + '</span>' + c.v + '</button>';
-  });
-  el.innerHTML = h;
-}
 
 function pickCat(val){
   document.getElementById("f-cat").value = val;
