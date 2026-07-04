@@ -669,15 +669,14 @@ function renderDrawer(){
   var h="<div class=\"drawer-cat"+(allActive?" active":"")+"\" onclick=\"setCategory('الكل');closeDrawer();\"><span class=\"drawer-cat-icon\">🏠</span><span>"+(lang==="ar"?"الكل":"All")+"</span></div>";
   SHOP_GROUPS.forEach(function(g){
     var groupLabel=lang==="ar"?g.ar:g.en;
-    var hasAny=g.cats.some(function(c){return active[c];});
-    if(!hasAny)return;
     h+="<div class=\"drawer-sec\">"+groupLabel+"</div>";
     g.cats.forEach(function(c){
-      if(!active[c])return;
+      var isActive=active[c];
       var icon=CAT_ICONS[c]||"🏷️";
       var isAct=c===activeCategory;
       var safeC=c.split("'").join("\\'");
-      h+="<div class=\"drawer-cat"+(isAct?" active":"")+"\" onclick=\"setCategory('"+safeC+"');closeDrawer();\"><span class=\"drawer-cat-icon\">"+icon+"</span><span>"+getCatLabel(c)+"</span></div>";
+      var dimmed=!isActive?" style=\"opacity:.4\"":"";
+      h+="<div class=\"drawer-cat"+(isAct?" active":"")+"\""+dimmed+" onclick=\"setCategory('"+safeC+"');closeDrawer();\"><span class=\"drawer-cat-icon\">"+icon+"</span><span>"+getCatLabel(c)+"</span></div>";
     });
   });
   document.getElementById("drawerBody").innerHTML=h;
@@ -844,11 +843,25 @@ function loadProducts(){
   sb.from("products").select("*").order("created_at",{ascending:false}).then(function(res){
     if(res.error){document.getElementById("connError").style.display="block";document.getElementById("products").innerHTML="<div class=\"empty\"><h3>"+t("noProducts")+"</h3><p>"+t("noProductsSub")+"</p></div>";return;}
     document.getElementById("connError").style.display="none";
+    var CAT_REMAP={
+      "روج":"مكياج - روج","فاونديشن":"مكياج - فاونديشن","باليت":"مكياج - باليت",
+      "كونتور":"مكياج - كونتور","هايلايتر":"مكياج - هايلايتر","بودرة":"مكياج - بودرة",
+      "مسكرا":"مسكرا","ايلاينر":"كحل","إيشادو":"إيشادو",
+      "عطور":"عطور","غسول":"غسول وجه","غسول جسم":"غسول جسم","كريم جسم":"كريم جسم",
+      "واقي شمس":"واقي شمس","سيروم":"سيروم","مرطب وجه":"مرطب وجه",
+      "شامبو":"شامبو","بلسم":"بلسم","ماسك شعر":"ماسك شعر",
+      "زيت شعر":"زيت شعر","كريم شعر":"كريم شعر",
+      "مكواة":"مكواة شعر","سشوار":"سشوار","أجهزة":"أجهزة تجميل",
+      "عناية بالجسم":"كريم جسم","إكسسوارات":"إكسسوارات",
+      "عناية بالبشرة":"سيروم","عناية بالشعر":"شامبو"
+    };
     products=(res.data||[]).map(function(p){
       var imgs=[];
       if(Array.isArray(p.images)&&p.images.length>0){imgs=p.images;}
       else if(p.image){imgs=[p.image];}
-      return{id:p.id,name:p.name,category:p.category,desc:p.description||"",img:imgs[0]||"",images:imgs,variants:Array.isArray(p.variants)?p.variants:[],isNew:!!p.is_new,soldOut:!!p.sold_out};
+      var cat=p.category||"إكسسوارات";
+      cat=CAT_REMAP[cat]||cat;
+      return{id:p.id,name:p.name,category:cat,desc:p.description||"",img:imgs[0]||"",images:imgs,variants:Array.isArray(p.variants)?p.variants:[],isNew:!!p.is_new,soldOut:!!p.sold_out};
     }).filter(function(p){return p.variants.length>0;});
     activeCategory="الكل";
     renderFilters();renderProducts();renderDrawer();renderCatBanners();
@@ -859,9 +872,10 @@ function renderFilters(){
   var ac={};products.forEach(function(p){ac[p.category]=true;});
   var h="";
   CATEGORIES_AR.forEach(function(c){
-    var has=c==="الكل"||ac[c];if(!has)return;
+    var hasProd=c==="الكل"||ac[c];
     var isA=c===activeCategory;
-    h+="<button class=\"filter-btn"+(isA?" active":"")+"\" onclick=\"setCategory('"+c.replace(/'/g,"\\\'")+"')\">"+getCatLabel(c)+"</button>";
+    var dim=hasProd?"":" style=\"opacity:.35;pointer-events:none;\"";
+    h+="<button class=\"filter-btn"+(isA?" active":"")+"\""+dim+" onclick=\"setCategory('"+c.split("'").join("\\'")+"')\">"+getCatLabel(c)+"</button>";
   });
   document.getElementById("filters").innerHTML=h;
 }
@@ -1068,8 +1082,7 @@ function renderCatBanners(){
   });
   var h = "";
   CATEGORIES_AR.forEach(function(c){
-    var has = c === "الكل" || active[c];
-    if(!has) return;
+    var hasProd = c === "الكل" || active[c];
     var isAct = c === activeCategory;
     var emoji = CAT_EMOJIS[c] || "🏷️";
     var imgSrc = catImg[c];
@@ -1077,7 +1090,7 @@ function renderCatBanners(){
       ? "<img src=\"" + imgSrc + "\" alt=\"" + esc(c) + "\" style=\"width:100%;height:100%;object-fit:cover;\" onerror=\"this.style.display='none'\">"
       : emoji;
     var safeCat = c.split("'").join("\\'");
-    h += "<div class=\"cat-banner" + (isAct ? " active" : "") + "\" onclick=\"setCategory('" + safeCat + "')\">" +
+    h += "<div class=\"cat-banner" + (isAct ? " active" : "") + (!hasProd ? " style=\"opacity:.35\"" : "") + "\" onclick=\"setCategory('" + safeCat + "')\">" +
          "<div class=\"cat-banner-img\">" + imgInner + "</div>" +
          "<span class=\"cat-banner-label\">" + getCatLabel(c) + "</span></div>";
   });
