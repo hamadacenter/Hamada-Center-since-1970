@@ -216,7 +216,7 @@
         <input type="text" id="f-name" placeholder="مثال: عطر Amaran Qamarain">
 
         <label>التصنيف</label>
-        <input type="hidden" id="f-cat" value="عطور">
+        <input type="hidden" id="f-cat" value="مكياج - روج">
         <div class="cat-picker-wrap" id="catPicker"></div>
 
         <label>الوصف المختصر</label>
@@ -377,6 +377,7 @@ function showAdmin(){
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('adminApp').style.display = 'block';
   init();
+  setTimeout(function(){ renderCatPicker(); }, 100);
 }
 if(sessionStorage.getItem('hc_admin_auth')==='true' && typeof SUPABASE_URL !== 'undefined'){
   showAdmin();
@@ -524,6 +525,7 @@ function switchTab(tab){
   document.querySelectorAll('.tab')[tab==='add'?0:1].classList.add('active');
   document.getElementById(`tab-${tab}`).classList.add('active');
   if(tab==='manage') renderProductList();
+  if(tab==='add') renderCatPicker(document.getElementById('f-cat').value||'مكياج - روج');
 }
 
 /* ---------- STATUS PILLS ---------- */
