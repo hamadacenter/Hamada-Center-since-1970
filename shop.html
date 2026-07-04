@@ -49,6 +49,19 @@ html[dir="ltr"] .drawer{right:auto;left:0;transform:translateX(-110%);border-lef
 .close-drawer:hover{color:var(--pink);}
 .drawer-body{flex:1;overflow-y:auto;padding:10px 12px;}
 .drawer-sec{font-size:.62rem;font-weight:900;color:var(--pink);text-transform:uppercase;letter-spacing:1.8px;padding:14px 6px 7px;margin-bottom:4px;border-bottom:1px solid var(--line);}
+.drawer-group-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 10px;border-radius:12px;cursor:pointer;
+  font-weight:800;font-size:.92rem;color:var(--white);
+  transition:.18s;margin-bottom:2px;
+}
+.drawer-group-header:hover{background:var(--pink-soft);}
+.drawer-group-header.has-active{color:var(--pink);}
+.drawer-group-arrow{font-size:.7rem;color:var(--grey);transition:transform .2s;}
+.drawer-group-header.open .drawer-group-arrow{transform:rotate(90deg);}
+.drawer-group-subs{display:none;padding-right:10px;margin-bottom:6px;}
+html[dir="ltr"] .drawer-group-subs{padding-right:0;padding-left:10px;}
+.drawer-group-subs.open{display:block;}
 .drawer-cat{display:flex;align-items:center;gap:10px;padding:10px 8px;border-radius:10px;cursor:pointer;transition:.18s;font-weight:700;font-size:.87rem;color:var(--grey-light);}
 .drawer-cat:hover{background:var(--pink-soft);color:var(--white);}
 .drawer-cat.active{background:var(--pink-soft);color:var(--pink);border-right:2px solid var(--pink);}
@@ -665,22 +678,43 @@ var SHOP_GROUPS=[
 
 function renderDrawer(){
   var active={};products.forEach(function(p){active[p.category]=true;});
+  var el=document.getElementById("drawerBody");
+  if(!el)return;
+
+  // "All" item
   var allActive=activeCategory==="الكل";
   var h="<div class=\"drawer-cat"+(allActive?" active":"")+"\" onclick=\"setCategory('الكل');closeDrawer();\"><span class=\"drawer-cat-icon\">🏠</span><span>"+(lang==="ar"?"الكل":"All")+"</span></div>";
-  SHOP_GROUPS.forEach(function(g){
+
+  // 5 groups
+  SHOP_GROUPS.forEach(function(g,gi){
     var groupLabel=lang==="ar"?g.ar:g.en;
-    h+="<div class=\"drawer-sec\">"+groupLabel+"</div>";
+    var hasActive=g.cats.indexOf(activeCategory)!==-1;
+    var isOpen=hasActive||gi===0; // keep open if has active cat or first group
+    h+="<div class=\"drawer-group-header"+(hasActive?" has-active":"")+(isOpen?" open":"")+"\" onclick=\"toggleDrawerGroup(this)\">" +
+       "<span>"+groupLabel+"</span>" +
+       "<span class=\"drawer-group-arrow\">›</span>" +
+       "</div>";
+    h+="<div class=\"drawer-group-subs"+(isOpen?" open":"")+"\">";
     g.cats.forEach(function(c){
-      var isActive=active[c];
+      var hasProd=active[c];
       var icon=CAT_ICONS[c]||"🏷️";
       var isAct=c===activeCategory;
       var safeC=c.split("'").join("\\'");
-      var dimmed=!isActive?" style=\"opacity:.4\"":"";
-      h+="<div class=\"drawer-cat"+(isAct?" active":"")+"\""+dimmed+" onclick=\"setCategory('"+safeC+"');closeDrawer();\"><span class=\"drawer-cat-icon\">"+icon+"</span><span>"+getCatLabel(c)+"</span></div>";
+      var dim=hasProd?"":" style=\"opacity:.38;\"";
+      var click=hasProd?"onclick=\"setCategory('"+safeC+"');closeDrawer();\"":"";
+      h+="<div class=\"drawer-cat"+(isAct?" active":"")+"\""+dim+" "+click+"><span class=\"drawer-cat-icon\">"+icon+"</span><span>"+getCatLabel(c)+"</span></div>";
     });
+    h+="</div>";
   });
-  document.getElementById("drawerBody").innerHTML=h;
+  el.innerHTML=h;
 }
+
+function toggleDrawerGroup(header){
+  header.classList.toggle("open");
+  var subs=header.nextElementSibling;
+  if(subs)subs.classList.toggle("open");
+}
+
 
 var lbImgs=[],lbIdx=0,lbTx=0;
 function openLightbox(imgs,start){lbImgs=imgs;lbIdx=start||0;renderLb();document.getElementById("lbOverlay").classList.add("open");document.body.style.overflow="hidden";}
