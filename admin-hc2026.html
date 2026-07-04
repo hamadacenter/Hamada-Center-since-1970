@@ -376,8 +376,8 @@ function logout(){
 function showAdmin(){
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('adminApp').style.display = 'block';
+  renderCatPicker('مكياج - روج');
   init();
-  setTimeout(function(){ renderCatPicker(); }, 100);
 }
 if(sessionStorage.getItem('hc_admin_auth')==='true' && typeof SUPABASE_URL !== 'undefined'){
   showAdmin();
@@ -401,7 +401,6 @@ async function init(){
   await loadOrders();
   addVariantRow();
   setStatus('normal');
-  renderCatPicker();
 }
 
 /* ========== ORDERS ========== */
