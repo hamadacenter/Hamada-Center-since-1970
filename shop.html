@@ -672,18 +672,34 @@ function applyLang(){
 }
 function toggleLang(){lang=lang==="ar"?"en":"ar";applyLang();}
 
-var CAT_ICONS={"الكل":"🏠","روج":"💄","فاونديشن":"🌸","باليت":"🎨","كونتور":"✨","هايلايتر":"💫","بودرة":"🪄","مسكرا":"👁️","ايلاينر":"🖊️","إيشادو":"🌈","سيروم":"💧","مرطب وجه":"🧴","غسول":"🫧","واقي شمس":"☀️","عطور":"🌹","شامبو":"🧼","بلسم":"💆","ماسك شعر":"🎭","زيت شعر":"🫙","كريم شعر":"🎀","مكواة":"♨️","سشوار":"💨","أجهزة":"🔌","عناية بالجسم":"🛁","إكسسوارات":"💎"};
+var CAT_ICONS={"الكل":"🏠","مكياج - روج":"💄","مكياج - فاونديشن":"🌸","مكياج - باليت":"🎨","مكياج - كونتور":"✨","مكياج - هايلايتر":"💫","مكياج - بودرة":"🪄","مسكرا":"👁️","كحل":"🖊️","إيشادو":"🌈","عطور":"🌹","غسول جسم":"🚿","كريم جسم":"🧴","واقي شمس":"☀️","سيروم":"💧","مرطب وجه":"🌿","غسول وجه":"🫧","شامبو":"🧼","بلسم":"💆","ماسك شعر":"🎭","زيت شعر":"🫙","كريم شعر":"🎀","مكواة شعر":"♨️","سشوار":"💨","أجهزة تجميل":"🔌","إكسسوارات":"💎"};
 
 function openDrawer(){document.getElementById("drawerOverlay").classList.add("open");document.getElementById("drawer").classList.add("open");document.getElementById("menuBtn").classList.add("open");}
 function closeDrawer(){document.getElementById("drawerOverlay").classList.remove("open");document.getElementById("drawer").classList.remove("open");document.getElementById("menuBtn").classList.remove("open");}
+var SHOP_GROUPS=[
+  {ar:"💄 مكياج",en:"💄 Makeup",cats:["مكياج - روج","مكياج - فاونديشن","مكياج - باليت","مكياج - كونتور","مكياج - هايلايتر","مكياج - بودرة","مسكرا","كحل","إيشادو"]},
+  {ar:"🧴 عناية بالجسم",en:"🧴 Body Care",cats:["عطور","غسول جسم","كريم جسم","واقي شمس","سيروم","مرطب وجه","غسول وجه"]},
+  {ar:"💇 عناية بالشعر",en:"💇 Hair Care",cats:["شامبو","بلسم","ماسك شعر","زيت شعر","كريم شعر"]},
+  {ar:"⚡ أجهزة",en:"⚡ Devices",cats:["مكواة شعر","سشوار","أجهزة تجميل"]},
+  {ar:"💎 إكسسوارات",en:"💎 Accessories",cats:["إكسسوارات"]}
+];
+
 function renderDrawer(){
   var active={};products.forEach(function(p){active[p.category]=true;});
-  var h="<div class=\"drawer-sec\">"+t("cats")+"</div>";
-  CATEGORIES_AR.forEach(function(c){
-    var has=c==="الكل"||active[c];if(!has)return;
-    var icon=CAT_ICONS[c]||"🏷️";
-    var isAct=c===activeCategory;
-    h+="<div class=\"drawer-cat"+(isAct?" active":"")+"\" onclick=\"setCategory('"+c.replace(/'/g,"\\\'")+"');closeDrawer();\"><span class=\"drawer-cat-icon\">"+icon+"</span><span>"+getCatLabel(c)+"</span></div>";
+  var allActive=activeCategory==="الكل";
+  var h="<div class=\"drawer-cat"+(allActive?" active":"")+"\" onclick=\"setCategory('الكل');closeDrawer();\"><span class=\"drawer-cat-icon\">🏠</span><span>"+(lang==="ar"?"الكل":"All")+"</span></div>";
+  SHOP_GROUPS.forEach(function(g){
+    var groupLabel=lang==="ar"?g.ar:g.en;
+    var hasAny=g.cats.some(function(c){return active[c];});
+    if(!hasAny)return;
+    h+="<div class=\"drawer-sec\">"+groupLabel+"</div>";
+    g.cats.forEach(function(c){
+      if(!active[c])return;
+      var icon=CAT_ICONS[c]||"🏷️";
+      var isAct=c===activeCategory;
+      var safeC=c.split("'").join("\\'");
+      h+="<div class=\"drawer-cat"+(isAct?" active":"")+"\" onclick=\"setCategory('"+safeC+"');closeDrawer();\"><span class=\"drawer-cat-icon\">"+icon+"</span><span>"+getCatLabel(c)+"</span></div>";
+    });
   });
   document.getElementById("drawerBody").innerHTML=h;
 }
@@ -839,8 +855,8 @@ if(typeof SUPABASE_URL==="undefined"||typeof SUPABASE_ANON_KEY==="undefined"){do
 var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 var products=[];
 var activeCategory="الكل";
-var CATEGORIES_AR=["الكل","روج","فاونديشن","باليت","كونتور","هايلايتر","بودرة","مسكرا","ايلاينر","إيشادو","سيروم","مرطب وجه","غسول","واقي شمس","عطور","شامبو","بلسم","ماسك شعر","زيت شعر","كريم شعر","مكواة","سشوار","أجهزة","عناية بالجسم","إكسسوارات"];
-var CATEGORIES_EN=["All","Lipstick","Foundation","Palette","Contour","Highlighter","Powder","Mascara","Eyeliner","Eyeshadow","Serum","Moisturizer","Face Wash","Sunscreen","Perfumes","Shampoo","Conditioner","Hair Mask","Hair Oil","Hair Cream","Hair Iron","Hair Dryer","Devices","Body Care","Accessories"];
+var CATEGORIES_AR=["الكل","مكياج - روج","مكياج - فاونديشن","مكياج - باليت","مكياج - كونتور","مكياج - هايلايتر","مكياج - بودرة","مسكرا","كحل","إيشادو","عطور","غسول جسم","كريم جسم","واقي شمس","سيروم","مرطب وجه","غسول وجه","شامبو","بلسم","ماسك شعر","زيت شعر","كريم شعر","مكواة شعر","سشوار","أجهزة تجميل","إكسسوارات"];
+var CATEGORIES_EN=["All","Makeup - Lipstick","Makeup - Foundation","Makeup - Palette","Makeup - Contour","Makeup - Highlighter","Makeup - Powder","Mascara","Eyeliner","Eyeshadow","Perfumes","Body Wash","Body Cream","Sunscreen","Serum","Face Moisturizer","Face Wash","Shampoo","Conditioner","Hair Mask","Hair Oil","Hair Cream","Hair Iron","Hair Dryer","Beauty Devices","Accessories"];
 function getCatLabel(c){if(lang==="ar")return c;var i=CATEGORIES_AR.indexOf(c);return i>=0?CATEGORIES_EN[i]:c;}
 function esc(s){var d=document.createElement("div");d.textContent=s||"";return d.innerHTML;}
 var cardPos={};
@@ -1052,11 +1068,13 @@ function applyLangSearchFilter(){
 
 /* CATEGORY BANNERS */
 var CAT_EMOJIS = {
-  "الكل":"🏠","روج":"💄","فاونديشن":"🌸","باليت":"🎨","كونتور":"✨",
-  "هايلايتر":"💫","بودرة":"🪄","مسكرا":"👁️","ايلاينر":"🖊️","إيشادو":"🌈",
-  "سيروم":"💧","مرطب وجه":"🧴","غسول":"🫧","واقي شمس":"☀️","عطور":"🌹",
+  "الكل":"🏠","مكياج - روج":"💄","مكياج - فاونديشن":"🌸","مكياج - باليت":"🎨",
+  "مكياج - كونتور":"✨","مكياج - هايلايتر":"💫","مكياج - بودرة":"🪄",
+  "مسكرا":"👁️","كحل":"🖊️","إيشادو":"🌈",
+  "عطور":"🌹","غسول جسم":"🚿","كريم جسم":"🧴","واقي شمس":"☀️",
+  "سيروم":"💧","مرطب وجه":"🌿","غسول وجه":"🫧",
   "شامبو":"🧼","بلسم":"💆","ماسك شعر":"🎭","زيت شعر":"🫙","كريم شعر":"🎀",
-  "مكواة":"♨️","سشوار":"💨","أجهزة":"🔌","عناية بالجسم":"🛁","إكسسوارات":"💎"
+  "مكواة شعر":"♨️","سشوار":"💨","أجهزة تجميل":"🔌","إكسسوارات":"💎"
 };
 
 function renderCatBanners(){
