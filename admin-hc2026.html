@@ -376,12 +376,23 @@ function logout(){
 function showAdmin(){
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('adminApp').style.display = 'block';
-  renderCatPicker('مكياج - روج');
   init();
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      renderCatPicker(document.getElementById('f-cat').value || 'مكياج - روج');
+    });
+  });
 }
 if(sessionStorage.getItem('hc_admin_auth')==='true' && typeof SUPABASE_URL !== 'undefined'){
   showAdmin();
 }
+
+window.addEventListener('load', function(){
+  var picker = document.getElementById('catPicker');
+  if(picker && picker.children.length === 0){
+    renderCatPicker(document.getElementById('f-cat').value || 'مكياج - روج');
+  }
+});
 
 /* ---------- SUPABASE ---------- */
 let sb;
@@ -524,7 +535,7 @@ function switchTab(tab){
   document.querySelectorAll('.tab')[tab==='add'?0:1].classList.add('active');
   document.getElementById(`tab-${tab}`).classList.add('active');
   if(tab==='manage') renderProductList();
-  if(tab==='add') renderCatPicker(document.getElementById('f-cat').value||'مكياج - روج');
+  if(tab==='add'){ var cv=document.getElementById('f-cat').value||'مكياج - روج'; requestAnimationFrame(function(){ renderCatPicker(cv); }); }
 }
 
 /* ---------- STATUS PILLS ---------- */
