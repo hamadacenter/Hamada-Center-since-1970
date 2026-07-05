@@ -22,8 +22,9 @@ img{max-width:100%;display:block;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 header{background:rgba(17,17,17,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-strong);padding:13px 4%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
 .header-left{display:flex;align-items:center;gap:11px;}
-.logo{font-family:"Playfair Display",serif;font-size:1.3rem;font-weight:900;color:var(--white);display:flex;align-items:center;gap:4px;direction:ltr;text-decoration:none;}
+.logo{font-family:"Playfair Display",serif;font-size:1.3rem;font-weight:900;color:var(--white);display:flex;align-items:center;gap:6px;direction:ltr;text-decoration:none;}
 .logo em{color:var(--pink);font-style:normal;}
+.logo-img{width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;}
 .icon-btn{background:rgba(255,255,255,.07);border:1px solid var(--line-strong);color:var(--grey-light);width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:.2s;text-decoration:none;flex-shrink:0;}
 .icon-btn:hover{background:var(--pink-soft);border-color:var(--pink);color:var(--pink);}
 .menu-btn{background:rgba(255,255,255,.07);border:1px solid var(--line-strong);width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.2s;flex-shrink:0;}
@@ -48,37 +49,81 @@ html[dir="ltr"] .drawer{right:auto;left:0;transform:translateX(-110%);border-lef
 .close-drawer{background:none;border:none;color:var(--grey);font-size:1.2rem;cursor:pointer;transition:color .2s;line-height:1;}
 .close-drawer:hover{color:var(--pink);}
 .drawer-body{flex:1;overflow-y:auto;padding:10px 12px;}
-.drawer-sec{font-size:.62rem;font-weight:900;color:var(--pink);text-transform:uppercase;letter-spacing:1.8px;padding:14px 6px 7px;margin-bottom:4px;border-bottom:1px solid var(--line);}
-.drawer-group-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:13px 10px;border-radius:12px;cursor:pointer;
-  font-weight:800;font-size:.92rem;color:var(--white);
-  transition:.18s;margin-bottom:2px;
+
+/* ===== الدرج: اسم القسم الرئيسي فقط ===== */
+.drawer-cat{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 10px;border-radius:10px;cursor:pointer;
+  transition:.18s;font-weight:700;font-size:.9rem;color:var(--grey-light);
+  border:1px solid transparent;user-select:none;
 }
-.drawer-group-header:hover{background:var(--pink-soft);}
-.drawer-group-header.has-active{color:var(--pink);}
-.drawer-group-arrow{font-size:.7rem;color:var(--grey);transition:transform .2s;}
-.drawer-group-header.open .drawer-group-arrow{transform:rotate(90deg);}
-.drawer-group-subs{display:none;padding-right:10px;margin-bottom:6px;}
-html[dir="ltr"] .drawer-group-subs{padding-right:0;padding-left:10px;}
-.drawer-group-subs.open{display:block;}
-.drawer-cat{display:flex;align-items:center;gap:10px;padding:10px 8px;border-radius:10px;cursor:pointer;transition:.18s;font-weight:700;font-size:.87rem;color:var(--grey-light);}
-.drawer-cat:hover{background:var(--pink-soft);color:var(--white);}
-.drawer-cat.active{background:var(--pink-soft);color:var(--pink);border-right:2px solid var(--pink);}
-html[dir="ltr"] .drawer-cat.active{border-right:none;border-left:2px solid var(--pink);}
-.drawer-cat-icon{font-size:1.05rem;width:22px;text-align:center;flex-shrink:0;}
+.drawer-cat:hover{background:var(--pink-soft);color:var(--white);border-color:var(--line);}
+.drawer-cat.active{background:var(--pink-soft);color:var(--pink);border-color:rgba(232,160,176,.25);}
+.drawer-cat-icon{font-size:1.15rem;width:24px;text-align:center;flex-shrink:0;}
+.drawer-cat-name{flex:1;white-space:nowrap;}
+.drawer-cat-arrow{font-size:.7rem;color:var(--grey);transition:transform .25s;display:inline-block;flex-shrink:0;}
+.drawer-cat.open .drawer-cat-arrow{transform:rotate(90deg);}
+
+/* الفرعيات مخفية افتراضياً */
+.drawer-subs{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.drawer-subs.open{max-height:400px;}
+.drawer-sub{
+  display:block;padding:9px 10px 9px 46px;font-size:.8rem;font-weight:600;
+  color:var(--grey);cursor:pointer;transition:.15s;border-radius:8px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+html[dir="ltr"] .drawer-sub{padding:9px 46px 9px 10px;}
+.drawer-sub:hover{color:var(--white);background:rgba(255,255,255,.04);}
+.drawer-sub.active{color:var(--pink);background:var(--pink-soft);}
+
 .shop-bar{padding:22px 5% 0;max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 .shop-title{font-family:"Playfair Display",serif;font-size:1.55rem;font-weight:900;color:var(--white);}
 .shop-title em{color:var(--pink);font-style:normal;}
 .product-count{font-size:.76rem;color:var(--grey);font-weight:700;background:var(--card-bg);padding:6px 14px;border-radius:999px;border:1px solid var(--line);}
+.search-filter-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 5% 0;max-width:1320px;margin:0 auto;}
+.search-wrap{flex:1;min-width:180px;position:relative;}
+.search-input{width:100%;background:var(--card-bg);border:1px solid var(--line-strong);border-radius:999px;padding:10px 18px 10px 44px;font-family:"Tajawal",sans-serif;font-size:.9rem;color:var(--white);transition:border-color .2s;outline:none;}
+html[dir="rtl"] .search-input{padding:10px 44px 10px 18px;}
+.search-input::placeholder{color:var(--grey);}
+.search-input:focus{border-color:var(--pink);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--grey);pointer-events:none;}
+html[dir="rtl"] .search-icon{left:auto;right:14px;}
+.price-filter-btn{background:var(--card-bg);border:1px solid var(--line-strong);color:var(--grey-light);padding:10px 18px;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:7px;transition:.2s;white-space:nowrap;}
+.price-filter-btn:hover,.price-filter-btn.active{border-color:var(--pink);color:var(--pink);}
+.pd-overlay{position:fixed;inset:0;z-index:180;display:none;}
+.pd-overlay.open{display:block;}
+.price-dropdown{position:absolute;top:60px;left:5%;right:5%;max-width:400px;background:var(--black2);border:1px solid var(--line-strong);border-radius:16px;padding:18px 20px;z-index:181;display:none;box-shadow:0 8px 32px rgba(0,0,0,.5);}
+.price-dropdown.open{display:block;}
+.pd-title{font-weight:800;font-size:.9rem;margin-bottom:14px;color:var(--white);}
+.pd-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.pd-input{width:100px;background:var(--black);border:1px solid var(--line-strong);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.88rem;color:var(--white);text-align:center;outline:none;transition:border-color .2s;}
+.pd-input:focus{border-color:var(--pink);}
+.pd-sep{color:var(--grey);font-weight:700;}
+.pd-presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.pd-preset{background:var(--card-bg);border:1px solid var(--line-strong);color:var(--grey-light);padding:5px 12px;border-radius:999px;font-family:inherit;font-size:.78rem;cursor:pointer;transition:.2s;}
+.pd-preset:hover{border-color:var(--pink);color:var(--pink);}
+.pd-actions{display:flex;gap:8px;}
+.pd-clear{flex:1;background:transparent;border:1px solid var(--line-strong);color:var(--grey-light);padding:9px;border-radius:10px;font-family:inherit;font-weight:700;font-size:.85rem;cursor:pointer;transition:.2s;}
+.pd-clear:hover{border-color:var(--pink);color:var(--pink);}
+.pd-apply{flex:2;background:var(--pink);border:none;color:var(--black);padding:9px;border-radius:10px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer;transition:.2s;}
+.pd-apply:hover{background:var(--pink-deep);}
 .filters-wrap{padding:13px 5% 0;max-width:1320px;margin:0 auto;}
 .filters{display:flex;gap:7px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
 .filters::-webkit-scrollbar{display:none;}
 .filter-btn{border:1px solid var(--line-strong);background:transparent;color:var(--grey-light);padding:8px 18px;border-radius:999px;font-family:inherit;font-weight:700;font-size:.82rem;cursor:pointer;transition:.2s;white-space:nowrap;flex-shrink:0;}
 .filter-btn:hover{border-color:var(--pink);color:var(--pink);}
 .filter-btn.active{background:var(--pink);color:var(--black);border-color:var(--pink);}
+.cat-banners-wrap{padding:14px 5% 0;max-width:1320px;margin:0 auto;}
+.cat-banners{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;}
+.cat-banners::-webkit-scrollbar{display:none;}
+.cat-banner{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;padding:10px 14px;border-radius:16px;border:1.5px solid var(--line-strong);background:var(--card-bg);transition:all .22s;min-width:74px;}
+.cat-banner:hover,.cat-banner.active{border-color:var(--pink);background:var(--pink-soft);}
+.cat-banner-img{width:48px;height:48px;border-radius:12px;background:var(--black2);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;overflow:hidden;}
+.cat-banner-img img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
+.cat-banner-label{font-size:.7rem;font-weight:800;color:var(--grey-light);text-align:center;white-space:nowrap;transition:color .2s;}
+.cat-banner:hover .cat-banner-label,.cat-banner.active .cat-banner-label{color:var(--pink);}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;padding:20px 5% 100px;max-width:1320px;margin:0 auto;min-height:200px;}
-.card{background:var(--card-bg);border-radius:18px;overflow:hidden;border:1px solid var(--line);transition:transform .28s cubic-bezier(.4,0,.2,1),box-shadow .28s,border-color .28s;display:flex;flex-direction:column;position:relative;}
+.card{background:var(--card-bg);border-radius:18px;overflow:hidden;border:1px solid var(--line);transition:transform .28s,box-shadow .28s,border-color .28s;display:flex;flex-direction:column;position:relative;}
 .card:hover{transform:translateY(-5px);box-shadow:0 20px 44px rgba(0,0,0,.55);border-color:var(--line-strong);}
 .card.sold-out-card{opacity:.6;}
 .card-img{aspect-ratio:1/1;overflow:hidden;background:#1a1a1a;position:relative;cursor:zoom-in;}
@@ -91,8 +136,7 @@ html[dir="ltr"] .drawer-cat.active{border-right:none;border-left:2px solid var(-
 .card:hover .c-arrow{opacity:1;}
 .c-arrow:hover{background:var(--pink);border-color:var(--pink);color:var(--black);}
 .c-arrow.cprev{right:8px;} .c-arrow.cnext{left:8px;}
-html[dir="ltr"] .c-arrow.cprev{right:auto;left:8px;}
-html[dir="ltr"] .c-arrow.cnext{left:auto;right:8px;}
+html[dir="ltr"] .c-arrow.cprev{right:auto;left:8px;} html[dir="ltr"] .c-arrow.cnext{left:auto;right:8px;}
 .badge-row{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:5px;z-index:3;}
 html[dir="ltr"] .badge-row{right:auto;left:10px;}
 .badge{font-size:.64rem;font-weight:900;padding:4px 10px;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.4);white-space:nowrap;}
@@ -106,12 +150,15 @@ html[dir="ltr"] .badge-row{right:auto;left:10px;}
 .price-row{display:flex;align-items:baseline;gap:8px;margin-top:4px;}
 .price-new{font-size:1.2rem;font-weight:900;color:var(--white);font-family:"Playfair Display",serif;}
 .price-old{font-size:.85rem;color:var(--grey);text-decoration:line-through;}
-.variant-select{border:1px solid var(--line-strong);border-radius:10px;padding:8px 10px;font-family:inherit;font-size:.84rem;background:var(--black2);color:var(--white);cursor:pointer;transition:border-color .2s;}
+.variant-select{border:1px solid var(--line-strong);border-radius:10px;padding:8px 10px;font-family:inherit;font-size:.84rem;background:var(--black2);color:var(--white);cursor:pointer;width:100%;}
 .variant-select:focus{outline:none;border-color:var(--pink);}
 .add-cart-btn{margin-top:8px;background:var(--white);color:var(--black);border:none;border-radius:12px;padding:12px;font-family:inherit;font-weight:900;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .2s,transform .15s;}
 .add-cart-btn:active{transform:scale(.97);}
 .add-cart-btn:hover,.add-cart-btn.added{background:var(--pink);}
 .btn-soldout{background:rgba(255,255,255,.07)!important;color:var(--grey)!important;cursor:not-allowed!important;border:1px solid var(--line);}
+.fav-btn{margin-top:6px;background:transparent;color:var(--grey);border:1px solid var(--line-strong);border-radius:12px;padding:10px;font-family:inherit;font-weight:800;font-size:.88rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;}
+.fav-btn:hover{border-color:var(--pink);color:var(--pink);}
+.fav-btn.faved{background:var(--pink-soft);border-color:var(--pink);color:var(--pink);}
 .empty{text-align:center;padding:80px 20px;color:var(--grey);grid-column:1/-1;}
 .empty h3{color:var(--white);margin-bottom:8px;font-family:"Playfair Display",serif;font-size:1.5rem;}
 .lb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:700;display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px;}
@@ -123,8 +170,7 @@ html[dir="ltr"] .badge-row{right:auto;left:10px;}
 .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:1px solid var(--line-strong);color:var(--white);border-radius:50%;width:44px;height:44px;font-size:1.3rem;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;}
 .lb-arrow:hover{background:var(--pink);border-color:var(--pink);color:var(--black);}
 .lb-arrow.lprev{right:-58px;} .lb-arrow.lnext{left:-58px;}
-html[dir="ltr"] .lb-arrow.lprev{right:auto;left:-58px;}
-html[dir="ltr"] .lb-arrow.lnext{left:auto;right:-58px;}
+html[dir="ltr"] .lb-arrow.lprev{right:auto;left:-58px;} html[dir="ltr"] .lb-arrow.lnext{left:auto;right:-58px;}
 .lb-dots-row{display:flex;gap:8px;margin-top:16px;}
 .lb-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:.2s;}
 .lb-dot.active{background:var(--pink);}
@@ -149,8 +195,8 @@ html[dir="rtl"] .cart-sidebar{left:auto;right:0;transform:translateX(110%);borde
 .qty-btn{background:var(--card-bg);border:1px solid var(--line-strong);color:var(--white);width:28px;height:28px;border-radius:7px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:800;transition:.2s;}
 .qty-btn:hover{border-color:var(--pink);color:var(--pink);}
 .qty-num{font-weight:700;min-width:20px;text-align:center;color:var(--white);}
-.remove-item{background:none;border:none;color:#EF4444;cursor:pointer;font-size:.78rem;margin-right:auto;margin-left:0;}
-html[dir="ltr"] .remove-item{margin-left:auto;margin-right:0;}
+.remove-item{background:none;border:none;color:#EF4444;cursor:pointer;font-size:.78rem;margin-right:auto;}
+html[dir="ltr"] .remove-item{margin-right:0;margin-left:auto;}
 .cart-empty-msg{text-align:center;padding:50px 20px;color:var(--grey);}
 .cart-footer{padding:16px 20px;border-top:1px solid var(--line);}
 .cart-total{display:flex;justify-content:space-between;font-weight:800;font-size:1.05rem;margin-bottom:14px;color:var(--white);}
@@ -185,10 +231,45 @@ html[dir="ltr"] .remove-item{margin-left:auto;margin-right:0;}
 .success-screen h3{font-family:"Playfair Display",serif;color:var(--pink);font-size:1.5rem;margin-bottom:8px;}
 .success-screen p{color:var(--grey-light);font-size:.9rem;line-height:1.6;}
 .conn-error{text-align:center;padding:14px;background:rgba(239,68,68,.1);border-bottom:1px solid rgba(239,68,68,.2);color:#FCA5A5;font-size:.83rem;display:none;}
+.fav-icon-btn{position:fixed;bottom:92px;left:28px;z-index:250;background:var(--black2);border:1px solid var(--line-strong);border-radius:50%;width:50px;height:50px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 16px rgba(0,0,0,.4);}
+html[dir="ltr"] .fav-icon-btn{left:auto;right:28px;}
+.fav-icon-btn:hover{transform:scale(1.1);border-color:var(--pink);}
+.fav-badge{position:absolute;top:-5px;right:-5px;background:var(--pink);color:var(--black);border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:900;display:none;align-items:center;justify-content:center;}
+.fav-badge.show{display:flex;}
+.fav-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:450;display:none;opacity:0;transition:opacity .25s;}
+.fav-overlay.open{display:block;opacity:1;}
+.fav-sidebar{position:fixed;top:0;left:0;bottom:0;width:min(420px,100vw);background:var(--black2);z-index:451;transform:translateX(-110%);transition:transform .3s ease;display:flex;flex-direction:column;border-right:1px solid var(--line-strong);}
+html[dir="rtl"] .fav-sidebar{left:auto;right:0;transform:translateX(110%);border-right:none;border-left:1px solid var(--line-strong);}
+.fav-sidebar.open{transform:translateX(0)!important;}
+.fav-head{background:var(--black);border-bottom:1px solid var(--line);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
+.fav-head h2{font-size:1rem;font-weight:800;color:var(--white);}
+.close-fav{background:none;border:none;color:var(--grey);font-size:1.3rem;cursor:pointer;transition:color .2s;line-height:1;}
+.close-fav:hover{color:var(--pink);}
+.fav-toolbar{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.fav-select-all{background:transparent;border:1px solid var(--line-strong);color:var(--grey-light);padding:6px 12px;border-radius:8px;font-family:inherit;font-weight:700;font-size:.78rem;cursor:pointer;transition:.2s;}
+.fav-select-all:hover{border-color:var(--pink);color:var(--pink);}
+.fav-add-all{background:var(--pink);border:none;color:var(--black);padding:6px 14px;border-radius:8px;font-family:inherit;font-weight:800;font-size:.78rem;cursor:pointer;transition:.2s;margin-right:auto;}
+html[dir="ltr"] .fav-add-all{margin-right:0;margin-left:auto;}
+.fav-add-all:hover{background:var(--pink-deep);}
+.fav-items{flex:1;overflow-y:auto;padding:14px 16px;}
+.fav-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);}
+.fav-item-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line-strong);background:var(--card-bg);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s;}
+.fav-item-check.checked{background:var(--pink);border-color:var(--pink);color:var(--black);}
+.fav-item img{width:58px;height:58px;object-fit:cover;border-radius:10px;flex-shrink:0;background:#1a1a1a;}
+.fav-item-info{flex:1;min-width:0;}
+.fav-item-name{font-weight:800;font-size:.88rem;color:var(--white);margin-bottom:2px;}
+.fav-item-cat{font-size:.72rem;color:var(--pink);margin-bottom:4px;}
+.fav-item-price{font-weight:900;color:var(--white);font-size:.9rem;}
+.fav-item-del{background:none;border:none;color:#EF4444;cursor:pointer;font-size:.85rem;flex-shrink:0;padding:4px;}
+.fav-empty{text-align:center;padding:50px 20px;color:var(--grey);}
+.fav-footer{padding:14px 16px;border-top:1px solid var(--line);}
+.fav-add-selected{width:100%;background:var(--pink);color:var(--black);border:none;padding:13px;border-radius:12px;font-family:inherit;font-weight:900;font-size:.95rem;cursor:pointer;transition:background .2s;}
+.fav-add-selected:hover{background:var(--pink-deep);}
+.fav-add-selected:disabled{opacity:.4;cursor:not-allowed;}
 .feedback-fab{position:fixed;bottom:28px;left:28px;z-index:250;background:var(--pink);border:none;border-radius:50%;width:54px;height:54px;cursor:pointer;box-shadow:0 4px 22px rgba(232,160,176,.4);display:flex;align-items:center;justify-content:center;font-size:1.4rem;transition:transform .2s,box-shadow .2s;}
 html[dir="ltr"] .feedback-fab{left:auto;right:28px;}
-.feedback-fab:hover{transform:scale(1.12);box-shadow:0 8px 34px rgba(232,160,176,.55);}
-.fab-tip{position:absolute;bottom:62px;left:50%;transform:translateX(-50%);background:var(--white);color:var(--black);font-family:"Tajawal",sans-serif;font-size:.72rem;font-weight:800;white-space:nowrap;padding:5px 11px;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .2s;box-shadow:0 4px 14px rgba(0,0,0,.3);}
+.feedback-fab:hover{transform:scale(1.12);}
+.fab-tip{position:absolute;bottom:62px;left:50%;transform:translateX(-50%);background:var(--white);color:var(--black);font-family:"Tajawal",sans-serif;font-size:.72rem;font-weight:800;white-space:nowrap;padding:5px 11px;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .2s;}
 .feedback-fab:hover .fab-tip{opacity:1;}
 .fb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:550;display:none;align-items:center;justify-content:center;padding:16px;}
 .fb-overlay.open{display:flex;}
@@ -214,1039 +295,787 @@ html[dir="ltr"] .feedback-fab{left:auto;right:28px;}
 .fb-success h3{font-family:"Playfair Display",serif;color:var(--pink);font-size:1.35rem;margin-bottom:6px;}
 .fb-success p{color:var(--grey-light);font-size:.88rem;}
 footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;}
 .footer-logo{font-family:"Playfair Display",serif;font-size:1.2rem;font-weight:900;color:var(--white);}
 .footer-logo em{color:var(--pink);font-style:normal;}
+.footer-logo-img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--line-strong);}
 .footer-links{display:flex;gap:14px;align-items:center;}
 .footer-links a{color:var(--grey);text-decoration:none;transition:color .2s,transform .2s;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;border:1px solid var(--line-strong);background:var(--card-bg);}
-.footer-links a:hover{color:var(--pink);border-color:var(--pink);transform:translateY(-2px);}
 .footer-links a svg{width:18px;height:18px;fill:currentColor;}
+.footer-links a:hover{color:var(--pink);border-color:var(--pink);transform:translateY(-2px);}
 .footer-copy{color:var(--grey);font-size:.72rem;}
+.loading-grid{text-align:center;padding:80px 20px;color:var(--grey);grid-column:1/-1;}
+.loading-grid .spinner{display:inline-block;width:32px;height:32px;border:3px solid var(--line-strong);border-top-color:var(--pink);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
 @media(max-width:600px){
-  .cart-sidebar{width:100vw;}
+  .cart-sidebar,.fav-sidebar{width:100vw;}
   .modal{padding:20px;}
   .feedback-fab{bottom:20px;left:16px;}
   html[dir="ltr"] .feedback-fab{left:auto;right:16px;}
+  html[dir="ltr"] .fav-icon-btn{left:auto;right:16px;}
   .grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;padding:14px 4% 100px;}
   .lb-arrow.lprev{right:-32px;} .lb-arrow.lnext{left:-32px;}
   footer{flex-direction:column;text-align:center;}
   .footer-links{justify-content:center;}
 }
-
-/* SEARCH + FILTER BAR */
-.search-filter-bar{
-  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
-  padding:12px 5% 0;max-width:1320px;margin:0 auto;
-}
-.search-wrap{
-  position:relative;flex:1;min-width:180px;
-}
-.search-input{
-  width:100%;background:var(--card-bg);border:1px solid var(--line-strong);
-  border-radius:999px;padding:10px 18px 10px 44px;
-  font-family:"Tajawal",sans-serif;font-size:.9rem;color:var(--white);
-  transition:border-color .2s;outline:none;
-}
-html[dir="rtl"] .search-input{padding:10px 44px 10px 18px;}
-.search-input:focus{border-color:var(--pink);}
-.search-input::placeholder{color:var(--grey);}
-.search-icon{
-  position:absolute;top:50%;transform:translateY(-50%);
-  left:16px;color:var(--grey);font-size:.95rem;pointer-events:none;
-}
-html[dir="rtl"] .search-icon{left:auto;right:16px;}
-.price-filter-btn{
-  background:var(--card-bg);border:1px solid var(--line-strong);color:var(--grey-light);
-  padding:10px 18px;border-radius:999px;font-family:"Tajawal",sans-serif;
-  font-weight:700;font-size:.85rem;cursor:pointer;transition:.2s;
-  display:flex;align-items:center;gap:7px;white-space:nowrap;flex-shrink:0;
-}
-.price-filter-btn:hover,.price-filter-btn.active{border-color:var(--pink);color:var(--pink);}
-.price-filter-btn.active{background:var(--pink-soft);}
-
-/* PRICE FILTER DROPDOWN */
-.price-dropdown{
-  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:var(--black2);border:1px solid var(--line-strong);border-radius:18px;
-  padding:24px;width:min(340px,92vw);z-index:600;display:none;
-  box-shadow:0 20px 50px rgba(0,0,0,.7);
-}
-.price-dropdown.open{display:block;}
-.pd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:599;display:none;}
-.pd-overlay.open{display:block;}
-.pd-title{font-family:"Playfair Display",serif;font-size:1.1rem;font-weight:900;color:var(--white);margin-bottom:18px;}
-.pd-row{display:flex;gap:10px;align-items:center;margin-bottom:18px;}
-.pd-input{
-  flex:1;background:var(--black);border:1.5px solid var(--line-strong);
-  border-radius:10px;padding:10px 14px;font-family:"Tajawal",sans-serif;
-  font-size:.92rem;color:var(--white);outline:none;transition:border-color .2s;
-}
-.pd-input:focus{border-color:var(--pink);}
-.pd-sep{color:var(--grey);font-weight:700;}
-.pd-presets{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px;}
-.pd-preset{
-  background:var(--card-bg);border:1px solid var(--line-strong);color:var(--grey-light);
-  padding:6px 14px;border-radius:999px;font-family:"Tajawal",sans-serif;
-  font-size:.78rem;font-weight:700;cursor:pointer;transition:.2s;
-}
-.pd-preset:hover{border-color:var(--pink);color:var(--pink);}
-.pd-preset.active{background:var(--pink);color:var(--black);border-color:var(--pink);}
-.pd-actions{display:flex;gap:10px;}
-.pd-actions button{
-  flex:1;padding:11px;border-radius:11px;font-family:"Tajawal",sans-serif;
-  font-weight:800;font-size:.9rem;cursor:pointer;border:none;transition:.2s;
-}
-.pd-clear{background:var(--card-bg);border:1px solid var(--line-strong)!important;color:var(--grey-light);}
-.pd-clear:hover{border-color:var(--pink)!important;color:var(--pink);}
-.pd-apply{background:var(--pink);color:var(--black);}
-.pd-apply:hover{background:var(--pink-deep);}
-
-/* SEARCH & FILTER BAR */
-.search-filter-bar{padding:12px 5% 0;max-width:1320px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-.search-wrap{flex:1;min-width:200px;position:relative;}
-.search-input{width:100%;background:var(--card-bg);border:1px solid var(--line-strong);border-radius:999px;padding:10px 42px 10px 18px;font-family:"Tajawal",sans-serif;font-size:.9rem;color:var(--white);transition:border-color .2s;outline:none;}
-html[dir="rtl"] .search-input{padding:10px 18px 10px 42px;}
-.search-input::placeholder{color:var(--grey);}
-.search-input:focus{border-color:var(--pink);}
-.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--grey);font-size:1rem;pointer-events:none;}
-html[dir="rtl"] .search-icon{left:auto;right:14px;}
-.filter-toggle-btn{background:var(--card-bg);border:1px solid var(--line-strong);color:var(--grey-light);padding:10px 18px;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:7px;transition:.2s;white-space:nowrap;}
-.filter-toggle-btn:hover,.filter-toggle-btn.active{border-color:var(--pink);color:var(--pink);}
-.price-filter-panel{display:none;padding:14px 5% 0;max-width:1320px;margin:0 auto;}
-.price-filter-panel.open{display:block;}
-.price-panel-inner{background:var(--card-bg);border:1px solid var(--line-strong);border-radius:16px;padding:18px 20px;}
-.price-panel-inner h4{font-size:.82rem;font-weight:800;color:var(--grey-light);margin-bottom:14px;}
-.price-range-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.price-input{width:110px;background:var(--black2);border:1px solid var(--line-strong);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.88rem;color:var(--white);text-align:center;transition:border-color .2s;outline:none;}
-.price-input:focus{border-color:var(--pink);}
-.price-sep{color:var(--grey);font-size:.85rem;font-weight:700;}
-.price-apply-btn{background:var(--pink);color:var(--black);border:none;border-radius:10px;padding:9px 20px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer;transition:background .2s;}
-.price-apply-btn:hover{background:var(--pink-deep);}
-.price-reset-btn{background:transparent;color:var(--grey);border:1px solid var(--line-strong);border-radius:10px;padding:9px 16px;font-family:inherit;font-weight:700;font-size:.85rem;cursor:pointer;transition:.2s;}
-.price-reset-btn:hover{border-color:var(--pink);color:var(--pink);}
-
-/* CATEGORY BANNERS */
-.cat-banners-wrap{padding:18px 5% 0;max-width:1320px;margin:0 auto;}
-.cat-banners{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;}
-.cat-banners::-webkit-scrollbar{display:none;}
-.cat-banner{
-  flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:7px;
-  cursor:pointer;padding:10px 14px;border-radius:16px;border:1.5px solid var(--line-strong);
-  background:var(--card-bg);transition:all .22s cubic-bezier(.4,0,.2,1);min-width:74px;
-}
-.cat-banner:hover{border-color:var(--pink);background:var(--pink-soft);}
-.cat-banner.active{border-color:var(--pink);background:var(--pink-soft);}
-.cat-banner-img{
-  width:48px;height:48px;border-radius:12px;object-fit:cover;
-  background:var(--black2);display:flex;align-items:center;justify-content:center;
-  font-size:1.6rem;flex-shrink:0;overflow:hidden;
-}
-.cat-banner-img img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
-.cat-banner-label{font-size:.7rem;font-weight:800;color:var(--grey-light);text-align:center;white-space:nowrap;transition:color .2s;}
-.cat-banner:hover .cat-banner-label,.cat-banner.active .cat-banner-label{color:var(--pink);}
-
-/* FAVOURITES */
-.fav-btn{
-  margin-top:8px;background:transparent;color:var(--grey);border:1px solid var(--line-strong);
-  border-radius:12px;padding:11px;font-family:inherit;font-weight:800;font-size:.9rem;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
-  transition:all .2s;
-}
-.fav-btn:hover{border-color:var(--pink);color:var(--pink);}
-.fav-btn.faved{background:var(--pink-soft);border-color:var(--pink);color:var(--pink);}
-.fav-icon-btn{
-  position:fixed;bottom:92px;left:28px;z-index:250;
-  background:var(--black2);border:1px solid var(--line-strong);
-  border-radius:50%;width:50px;height:50px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 16px rgba(0,0,0,.4);
-}
-html[dir="ltr"] .fav-icon-btn{left:auto;right:28px;}
-.fav-icon-btn:hover{transform:scale(1.1);border-color:var(--pink);}
-.fav-badge{
-  position:absolute;top:-5px;right:-5px;background:var(--pink);color:var(--black);
-  border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:900;
-  display:none;align-items:center;justify-content:center;
-}
-.fav-badge.show{display:flex;}
-.fav-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:450;display:none;opacity:0;transition:opacity .25s;}
-.fav-overlay.open{display:block;opacity:1;}
-.fav-sidebar{
-  position:fixed;top:0;left:0;bottom:0;width:min(420px,100vw);
-  background:var(--black2);z-index:451;transform:translateX(-110%);
-  transition:transform .3s ease;display:flex;flex-direction:column;
-  border-right:1px solid var(--line-strong);
-}
-html[dir="rtl"] .fav-sidebar{left:auto;right:0;transform:translateX(110%);border-right:none;border-left:1px solid var(--line-strong);}
-.fav-sidebar.open{transform:translateX(0)!important;}
-.fav-head{background:var(--black);border-bottom:1px solid var(--line);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
-.fav-head h2{font-size:1rem;font-weight:800;color:var(--white);}
-.close-fav{background:none;border:none;color:var(--grey);font-size:1.3rem;cursor:pointer;transition:color .2s;line-height:1;}
-.close-fav:hover{color:var(--pink);}
-.fav-toolbar{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.fav-select-all{background:transparent;border:1px solid var(--line-strong);color:var(--grey-light);padding:6px 12px;border-radius:8px;font-family:inherit;font-weight:700;font-size:.78rem;cursor:pointer;transition:.2s;}
-.fav-select-all:hover{border-color:var(--pink);color:var(--pink);}
-.fav-add-all{background:var(--pink);border:none;color:var(--black);padding:6px 14px;border-radius:8px;font-family:inherit;font-weight:800;font-size:.78rem;cursor:pointer;transition:.2s;margin-right:auto;}
-html[dir="ltr"] .fav-add-all{margin-right:0;margin-left:auto;}
-.fav-add-all:hover{background:var(--pink-deep);}
-.fav-items{flex:1;overflow-y:auto;padding:14px 16px;}
-.fav-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);}
-.fav-item-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line-strong);background:var(--card-bg);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s;}
-.fav-item-check.checked{background:var(--pink);border-color:var(--pink);color:var(--black);}
-.fav-item img{width:58px;height:58px;object-fit:cover;border-radius:10px;flex-shrink:0;background:#1a1a1a;}
-.fav-item-info{flex:1;min-width:0;}
-.fav-item-name{font-weight:800;font-size:.88rem;color:var(--white);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.fav-item-cat{font-size:.72rem;color:var(--pink);margin-bottom:4px;}
-.fav-item-price{font-weight:900;color:var(--white);font-size:.9rem;}
-.fav-item-del{background:none;border:none;color:#EF4444;cursor:pointer;font-size:.85rem;flex-shrink:0;padding:4px;transition:opacity .2s;}
-.fav-item-del:hover{opacity:.7;}
-.fav-empty{text-align:center;padding:50px 20px;color:var(--grey);}
-.fav-footer{padding:14px 16px;border-top:1px solid var(--line);}
-.fav-add-selected{width:100%;background:var(--pink);color:var(--black);border:none;padding:13px;border-radius:12px;font-family:inherit;font-weight:900;font-size:.95rem;cursor:pointer;transition:background .2s;}
-.fav-add-selected:hover{background:var(--pink-deep);}
-.fav-add-selected:disabled{opacity:.4;cursor:not-allowed;}
-
-/* LOGO IMG */
-.logo-img{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;}
-.footer-logo-wrap{display:flex;align-items:center;gap:10px;}
-.footer-logo-img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--line-strong);}
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-left">
-    <a href="index.html" class="icon-btn">&#8592;</a>
-    <button class="menu-btn" id="menuBtn" onclick="openDrawer()"><span></span><span></span><span></span></button>
-    <a href="index.html" class="logo"><img src="logo.png" alt="Hamada Center" class="logo-img" onerror="this.style.display='none'">Hamada <em>Center</em></a>
+    <button class="menu-btn" id="menuBtn" aria-label="القائمة"><span></span><span></span><span></span></button>
+    <a href="#" class="logo"><em>Hamada</em> Center</a>
   </div>
   <div class="header-right">
-    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
-    <button class="cart-btn" onclick="openCart()">🛒 <span id="cartBtnLabel">السلة</span><span class="cart-count" id="cartCount">0</span></button>
+    <button class="lang-btn" id="langBtn">EN</button>
+    <button class="cart-btn" id="cartBtn">🛒 <span class="cart-count" id="cartCount">0</span></button>
   </div>
 </header>
 
-<div class="conn-error" id="connError">تعذر تحميل المنتجات. حاولي تحديث الصفحة.</div>
-
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-<div class="drawer" id="drawer">
-  <div class="drawer-head"><h2 id="drawerTitle">🗂 التصنيفات</h2><button class="close-drawer" onclick="closeDrawer()">✕</button></div>
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<nav class="drawer" id="drawer">
+  <div class="drawer-head"><h2>التصنيفات</h2><button class="close-drawer" id="closeDrawer">✕</button></div>
   <div class="drawer-body" id="drawerBody"></div>
-</div>
+</nav>
 
 <div class="shop-bar reveal">
-  <div class="shop-title" id="sectionHeading">جميع <em>المنتجات</em></div>
-  <span class="product-count" id="productCount"></span>
+  <h1 class="shop-title" id="shopTitle">المتجر <em>كله</em></h1>
+  <span class="product-count" id="productCount">0 منتج</span>
 </div>
 
-<!-- SEARCH + PRICE FILTER -->
 <div class="search-filter-bar reveal">
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
-    <input class="search-input" type="text" id="searchInput" placeholder="ابحث عن منتج..." oninput="onSearch()">
+    <input class="search-input" id="searchInput" type="text" placeholder="ابحثي عن منتج...">
   </div>
-  <button class="price-filter-btn" id="priceFilterBtn" onclick="openPriceFilter()">
-    🎛 <span id="priceFilterLabel">تصفية السعر</span>
-  </button>
+  <button class="price-filter-btn" id="priceFilterBtn">💰 نطاق السعر</button>
 </div>
 
-<div class="pd-overlay" id="pdOverlay" onclick="closePriceFilter()"></div>
+<div class="pd-overlay" id="pdOverlay"></div>
 <div class="price-dropdown" id="priceDropdown">
-  <div class="pd-title" id="pdTitle">تصفية حسب السعر</div>
+  <div class="pd-title">حددي السعر</div>
   <div class="pd-row">
-    <input class="pd-input" type="number" id="pdMin" placeholder="أقل سعر" min="0">
+    <input class="pd-input" id="pdMin" type="number" placeholder="من">
     <span class="pd-sep">—</span>
-    <input class="pd-input" type="number" id="pdMax" placeholder="أعلى سعر" min="0">
+    <input class="pd-input" id="pdMax" type="number" placeholder="إلى">
   </div>
-  <div class="pd-presets" id="pdPresets">
-    <button class="pd-preset" onclick="setPreset(0,200)">تحت 200</button>
-    <button class="pd-preset" onclick="setPreset(200,500)">200 — 500</button>
-    <button class="pd-preset" onclick="setPreset(500,1000)">500 — 1000</button>
-    <button class="pd-preset" onclick="setPreset(1000,2000)">1000 — 2000</button>
-    <button class="pd-preset" onclick="setPreset(2000,5000)">2000 — 5000</button>
+  <div class="pd-presets">
+    <button class="pd-preset" data-min="0" data-max="50">أقل من 50</button>
+    <button class="pd-preset" data-min="50" data-max="100">50 - 100</button>
+    <button class="pd-preset" data-min="100" data-max="200">100 - 200</button>
+    <button class="pd-preset" data-min="200" data-max="9999">أكثر من 200</button>
   </div>
   <div class="pd-actions">
-    <button class="pd-clear" onclick="clearPriceFilter()">مسح</button>
-    <button class="pd-apply" onclick="applyPriceFilter()">تطبيق</button>
+    <button class="pd-clear" id="pdClear">مسح</button>
+    <button class="pd-apply" id="pdApply">تطبيق</button>
   </div>
 </div>
 
-
+<div class="filters-wrap reveal">
+  <div class="filters" id="filtersBar"></div>
+</div>
 
 <div class="cat-banners-wrap reveal">
   <div class="cat-banners" id="catBanners"></div>
 </div>
-<div class="filters-wrap reveal" style="display:none"><div class="filters" id="filters"></div></div>
 
-<main class="grid" id="products"><div class="empty"><h3>جاري تحميل المنتجات...</h3></div></main>
-
-<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
-<div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-head"><h2 id="cartTitle">🛒 السلة</h2><button class="close-cart" onclick="closeCart()">✕</button></div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="cart-footer">
-    <div class="cart-total"><span id="totalLabel">الإجمالي</span><span id="cartTotal">0 ج.م</span></div>
-    <button class="checkout-btn" onclick="openOrderModal()">✅ <span id="checkoutLabel">إتمام الطلب</span></button>
-  </div>
-</div>
-
-<div class="modal-overlay" id="orderModal">
-  <div class="modal" id="modalContent">
-    <h2 id="modalTitle">تفاصيل التوصيل</h2>
-    <p class="subtitle" id="modalSub">أدخلي بياناتك لإتمام الطلب</p>
-    <div class="order-summary" id="orderSummary"></div>
-    <div class="field-group">
-      <label id="labelAddress">📍 العنوان بالتفصيل</label>
-      <input type="text" id="fieldAddress" placeholder="مثال: شارع النيل، شقة 5">
-      <div class="err-msg" id="errAddress">برجاء إدخال العنوان</div>
-    </div>
-    <div class="field-group">
-      <label id="labelCity">🏙️ المدينة / المحافظة</label>
-      <input type="text" id="fieldCity" placeholder="مثال: طنطا">
-      <div class="err-msg" id="errCity">برجاء إدخال المدينة</div>
-    </div>
-    <div class="field-group">
-      <label id="labelPhone">📞 رقم الهاتف</label>
-      <input type="tel" id="fieldPhone" placeholder="مثال: 01012345678">
-      <div class="err-msg" id="errPhone">برجاء إدخال رقم هاتف صحيح</div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeOrderModal()" id="btnCancel">إلغاء</button>
-      <button class="btn-submit" onclick="submitOrder()" id="btnSubmit">📲 إرسال الطلب</button>
-    </div>
-  </div>
+<div class="grid" id="productGrid">
+  <div class="loading-grid"><div class="spinner"></div><div>جاري تحميل المنتجات...</div></div>
 </div>
 
 <div class="lb-overlay" id="lbOverlay">
-  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-close" id="lbClose">✕</button>
   <div class="lb-wrap">
+    <button class="lb-arrow lprev" id="lbPrev">❯</button>
     <img class="lb-img" id="lbImg" src="" alt="">
-    <button class="lb-arrow lprev" onclick="lbMove(-1)">›</button>
-    <button class="lb-arrow lnext" onclick="lbMove(1)">‹</button>
+    <button class="lb-arrow lnext" id="lbNext">❮</button>
   </div>
   <div class="lb-dots-row" id="lbDots"></div>
   <div class="lb-counter" id="lbCounter"></div>
 </div>
 
-
-<!-- FAVOURITES ICON -->
-<button class="fav-icon-btn" onclick="openFav()">
-  ❤️
-  <span class="fav-badge" id="favBadge">0</span>
-</button>
-
-<!-- FAVOURITES SIDEBAR -->
-<div class="fav-overlay" id="favOverlay" onclick="closeFav()"></div>
-<div class="fav-sidebar" id="favSidebar">
-  <div class="fav-head">
-    <h2 id="favTitle">❤️ المفضلة</h2>
-    <button class="close-fav" onclick="closeFav()">✕</button>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-sidebar" id="cartSidebar">
+  <div class="cart-head"><h2>🛒 سلة التسوق</h2><button class="close-cart" id="closeCart">✕</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>المجموع</span><span id="cartTotal">0 ج.م</span></div>
+    <button class="checkout-btn" id="checkoutBtn">إتمام الطلب</button>
   </div>
+</aside>
+
+<button class="fav-icon-btn" id="favIconBtn">♡<span class="fav-badge" id="favBadge">0</span></button>
+<div class="fav-overlay" id="favOverlay"></div>
+<aside class="fav-sidebar" id="favSidebar">
+  <div class="fav-head"><h2>♡ المفضلة</h2><button class="close-fav" id="closeFav">✕</button></div>
   <div class="fav-toolbar">
-    <button class="fav-select-all" onclick="toggleSelectAll()" id="selectAllBtn">تحديد الكل</button>
-    <button class="fav-add-all" onclick="addSelectedToCart()" id="addAllBtn">إضافة المحددة للسلة</button>
+    <button class="fav-select-all" id="favSelectAll">تحديد الكل</button>
+    <button class="fav-add-all" id="favAddAll">أضف الكل للسلة</button>
   </div>
   <div class="fav-items" id="favItems"></div>
   <div class="fav-footer">
-    <button class="fav-add-selected" id="favAddSelected" onclick="addSelectedToCart()">إضافة المحددة للسلة</button>
+    <button class="fav-add-selected" id="favAddSelected" disabled>أضف المحدد للسلة</button>
+  </div>
+</aside>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="orderModal">
+    <h2>إتمام الطلب</h2>
+    <p class="subtitle">أكملي بياناتك لتأكيد الطلب</p>
+    <div class="order-summary" id="orderSummary"></div>
+    <div class="field-group"><label>الاسم الكامل</label><input id="fName" type="text" placeholder="أدخلي اسمك"><div class="err-msg" id="errName">الرجاء إدخال الاسم</div></div>
+    <div class="field-group"><label>رقم الجوال</label><input id="fPhone" type="tel" placeholder="05XXXXXXXX"><div class="err-msg" id="errPhone">الرجاء إدخال رقم صحيح</div></div>
+    <div class="field-group"><label>المدينة</label><input id="fCity" type="text" placeholder="مثال: الرياض"><div class="err-msg" id="errCity">الرجاء إدخال المدينة</div></div>
+    <div class="field-group"><label>العنوان التفصيلي</label><input id="fAddr" type="text" placeholder="الحي، الشارع، رقم المبنى"><div class="err-msg" id="errAddr">الرجاء إدخال العنوان</div></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="modalCancel">إلغاء</button>
+      <button class="btn-submit" id="modalSubmit">تأكيد الطلب</button>
+    </div>
+    <div class="success-screen" id="successScreen" style="display:none">
+      <div class="icon">🎉</div>
+      <h3>تم تأكيد طلبك!</h3>
+      <p>سنتواصل معك قريباً لتأكيد التفاصيل والشحن.</p>
+    </div>
   </div>
 </div>
 
-<button class="feedback-fab" onclick="openFeedback()">💬<span class="fab-tip" id="fabTip">رأيك يهمنا</span></button>
-
+<button class="feedback-fab" id="feedbackFab">✎<span class="fab-tip">قيّمين تجربتك</span></button>
 <div class="fb-overlay" id="fbOverlay">
   <div class="fb-modal" id="fbModal">
-    <h2>💬 رأيك يهمنا</h2>
-    <p class="fb-sub">ساعدنا نتحسن — شاركنا تجربتك</p>
-    <div class="stars" id="starsRow">
-      <span class="star" onclick="setStar(1)">★</span>
-      <span class="star" onclick="setStar(2)">★</span>
-      <span class="star" onclick="setStar(3)">★</span>
-      <span class="star" onclick="setStar(4)">★</span>
-      <span class="star" onclick="setStar(5)">★</span>
-    </div>
-    <input class="fb-input" type="text" id="fbName" placeholder="اسمك (اختياري)">
-    <textarea class="fb-textarea" id="fbMessage" placeholder="اكتب رأيك أو اقتراحك هنا..."></textarea>
+    <h2>شاركينا رأيك</h2>
+    <p class="fb-sub">تقييمك يساعدنا في التحسين</p>
+    <div class="stars" id="starsRow"></div>
+    <input class="fb-input" id="fbName" type="text" placeholder="اسمك (اختياري)">
+    <textarea class="fb-textarea" id="fbText" placeholder="اكتبي تعليقك هنا..."></textarea>
     <div class="fb-actions">
-      <button class="fb-cancel-btn" onclick="closeFeedback()">إلغاء</button>
-      <button class="fb-send-btn" id="fbSendBtn" onclick="sendFeedback()">📨 إرسال</button>
+      <button class="fb-cancel-btn" id="fbCancel">إلغاء</button>
+      <button class="fb-send-btn" id="fbSend" disabled>إرسال</button>
+    </div>
+    <div class="fb-success" id="fbSuccess" style="display:none">
+      <div class="fb-sicon">💝</div>
+      <h3>شكراً لك!</h3>
+      <p>نقدّر تقييمك واهتمامك.</p>
     </div>
   </div>
 </div>
 
 <footer>
   <div class="footer-logo-wrap">
-    <img src="logo.png" alt="Hamada Center" class="footer-logo-img" onerror="this.style.display='none'">
-    <div class="footer-logo">Hamada <em>Center</em></div>
+    <img class="footer-logo-img" src="https://picsum.photos/seed/hamada-logo/96/96.jpg" alt="logo">
+    <span class="footer-logo"><em>Hamada</em> Center</span>
   </div>
   <div class="footer-links">
-    <a href="https://www.facebook.com/hamda.center?mibextid=LQQJ4d" target="_blank" title="Facebook">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-    </a>
-    <a href="https://www.instagram.com/hamada_center1970" target="_blank" title="Instagram">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-    </a>
-    <a href="https://www.tiktok.com/@hamada_center_1970" target="_blank" title="TikTok">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-    </a>
-    <a href="https://t.me/hcenter1970" target="_blank" title="Telegram">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-    </a>
+    <a href="#" aria-label="انستقرام"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.97.24 2.43.403a4.08 4.08 0 0 1 1.523.99 4.08 4.08 0 0 1 .99 1.524c.163.46.35 1.26.403 2.428.058 1.267.07 1.647.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.403 2.43a4.08 4.08 0 0 1-.99 1.523 4.08 4.08 0 0 1-1.524.99c-.46.163-1.26.35-2.428.403-1.267.058-1.647.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.43-.403a4.08 4.08 0 0 1-1.523-.99 4.08 4.08 0 0 1-.99-1.524c-.163-.46-.35-1.26-.403-2.428C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.054-1.17.24-1.97.403-2.43a4.08 4.08 0 0 1 .99-1.523A4.08 4.08 0 0 1 4.15 2.203c.46-.163 1.26-.35 2.428-.403C8.416 2.175 8.796 2.163 12 2.163zM12 0C8.741 0 8.333.014 7.053.072 5.775.131 4.903.333 4.14.63a5.876 5.876 0 0 0-2.126 1.384A5.876 5.876 0 0 0 .63 4.14C.333 4.903.131 5.775.072 7.053.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.059 1.277.261 2.149.558 2.913a5.876 5.876 0 0 0 1.384 2.126A5.876 5.876 0 0 0 4.14 23.37c.763.297 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.059 2.149-.261 2.913-.558a5.876 5.876 0 0 0 2.126-1.384 5.876 5.876 0 0 0 1.384-2.126c.297-.763.499-1.636.558-2.913C23.986 15.667 24 15.259 24 12s-.014-3.667-.072-4.947c-.059-1.277-.261-2.149-.558-2.913a5.876 5.876 0 0 0-1.384-2.126A5.876 5.876 0 0 0 19.86.63C19.097.333 18.224.131 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+    <a href="#" aria-label="تيك توك"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.2a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.73a8.19 8.19 0 0 0 4.76 1.52V6.8a4.84 4.84 0 0 1-1-.11z"/></svg></a>
+    <a href="#" aria-label="واتساب"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a>
   </div>
-  <p class="footer-copy" id="footerCopy">Hamada Center © 2026 — جميع الحقوق محفوظة</p>
+  <div class="footer-copy">© 2025 Hamada Center. جميع الحقوق محفوظة.</div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="config.js"></script>
 <script>
-emailjs.init("OgjTaLNUjmDOfq92r");
-
-function initReveal(){
-  var els=document.querySelectorAll(".reveal:not(.visible)");
-  if(!window.IntersectionObserver){els.forEach(function(e){e.classList.add("visible");});return;}
-  var obs=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting)en.target.classList.add("visible");});},{threshold:.07});
-  els.forEach(function(el){obs.observe(el);});
-}
-document.addEventListener("DOMContentLoaded",initReveal);
-
-var lang="ar";
-var T={
-  ar:{
-    langBtn:"EN",drawerTitle:"🗂 التصنيفات",cartBtn:"السلة",cartTitle:"🛒 السلة",
-    totalLabel:"الإجمالي",checkoutLabel:"إتمام الطلب",currency:"ج.م",
-    cartEmpty:"السلة فارغة",addToCart:"أضف للسلة",added:"تمت الإضافة ✓",removeItem:"حذف",
-    modalTitle:"تفاصيل التوصيل",modalSub:"أدخلي بياناتك لإتمام الطلب",
-    labelAddress:"📍 العنوان بالتفصيل",labelCity:"🏙️ المدينة / المحافظة",labelPhone:"📞 رقم الهاتف",
-    phAddress:"مثال: شارع النيل، شقة 5",phCity:"مثال: طنطا",phPhone:"مثال: 01012345678",
-    errAddress:"برجاء إدخال العنوان",errCity:"برجاء إدخال المدينة",errPhone:"برجاء إدخال رقم صحيح",
-    btnCancel:"إلغاء",btnSubmit:"📲 إرسال الطلب",
-    noProducts:"لا توجد منتجات هنا حالياً",noProductsSub:"تابعونا لمعرفة أحدث العروض",
-    discount:"خصم",badgeNew:"جديد",badgeSold:"نفذ",was:"بدل",soldOutBtn:"نفذ من المخزون",
-    successTitle:"تم إرسال طلبك! 🎉",successMsg:"شكراً لثقتك بنا 💖 نتمنى لك طلباً سعيداً وخدمة مميزة!",
-    btnClose:"إغلاق",connError:"تعذر تحميل المنتجات. حاولي تحديث الصفحة.",
-    fabTip:"رأيك يهمنا",footerCopy:"Hamada Center © 2026 — جميع الحقوق محفوظة",
-    cats:"الفئات",products:"منتج",addFav:"المفضلة",favEmpty:"لا توجد منتجات في المفضلة",favTitle:"❤️ المفضلة",addAllToCart:"إضافة الكل للسلة",selectAll:"تحديد الكل",removeFav:"حذف"
-  },
-  en:{
-    langBtn:"عربي",drawerTitle:"🗂 Collections",cartBtn:"Cart",cartTitle:"🛒 Cart",
-    totalLabel:"Total",checkoutLabel:"Place Order",currency:"EGP",
-    cartEmpty:"Your cart is empty",addToCart:"Add to Cart",added:"Added ✓",removeItem:"Remove",
-    modalTitle:"Delivery Details",modalSub:"Enter your details to complete the order",
-    labelAddress:"📍 Detailed Address",labelCity:"🏙️ City / Governorate",labelPhone:"📞 Phone Number",
-    phAddress:"e.g. 5 El-Nile Street, Apt 5",phCity:"e.g. Tanta",phPhone:"e.g. 01012345678",
-    errAddress:"Please enter your address",errCity:"Please enter your city",errPhone:"Please enter a valid phone number",
-    btnCancel:"Cancel",btnSubmit:"📲 Send Order",
-    noProducts:"No products here yet",noProductsSub:"Follow our pages for the latest deals",
-    discount:"OFF",badgeNew:"New",badgeSold:"Sold Out",was:"was",soldOutBtn:"Sold Out",
-    successTitle:"Order Sent! 🎉",successMsg:"Thank you for your trust 💖 We wish you a happy order and excellent service!",
-    btnClose:"Close",connError:"Could not load products. Try refreshing.",
-    fabTip:"Share your feedback",footerCopy:"Hamada Center © 2026 — All rights reserved",
-    cats:"Categories",products:"products",addFav:"Wishlist",favEmpty:"No products in wishlist",favTitle:"❤️ Wishlist",addAllToCart:"Add All to Cart",selectAll:"Select All",removeFav:"Remove"
-  }
-};
-function t(k){return T[lang][k]||k;}
-
-function applyLang(){
-  var html=document.getElementById("htmlRoot");
-  html.lang=lang; html.dir=lang==="ar"?"rtl":"ltr";
-  var ids={langBtn:"langBtn",drawerTitle:"drawerTitle",cartBtnLabel:"cartBtn",cartTitle:"cartTitle",
-    totalLabel:"totalLabel",checkoutLabel:"checkoutLabel",connError:"connError",
-    fabTip:"fabTip",footerCopy:"footerCopy",modalTitle:"modalTitle",modalSub:"modalSub",
-    labelAddress:"labelAddress",labelCity:"labelCity",labelPhone:"labelPhone",
-    errAddress:"errAddress",errCity:"errCity",errPhone:"errPhone",
-    btnCancel:"btnCancel",btnSubmit:"btnSubmit"};
-  Object.keys(ids).forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=t(ids[id]);});
-  var ph={fieldAddress:"phAddress",fieldCity:"phCity",fieldPhone:"phPhone"};
-  Object.keys(ph).forEach(function(id){var el=document.getElementById(id);if(el)el.placeholder=t(ph[id]);});
-  var sh=document.getElementById("sectionHeading");
-  if(sh)sh.innerHTML=activeCategory==="الكل"?(lang==="ar"?"جميع <em>المنتجات</em>":"All <em>Products</em>"):getCatLabel(activeCategory);
-  renderFilters();renderProducts();renderCart();renderDrawer();renderCatBanners();applyLangSearchFilter();
-}
-function toggleLang(){lang=lang==="ar"?"en":"ar";applyLang();}
-
-var CAT_ICONS={"الكل":"🏠","مكياج - روج":"💄","مكياج - فاونديشن":"🌸","مكياج - باليت":"🎨","مكياج - كونتور":"✨","مكياج - هايلايتر":"💫","مكياج - بودرة":"🪄","مسكرا":"👁️","كحل":"🖊️","إيشادو":"🌈","عطور":"🌹","غسول جسم":"🚿","كريم جسم":"🧴","واقي شمس":"☀️","سيروم":"💧","مرطب وجه":"🌿","غسول وجه":"🫧","شامبو":"🧼","بلسم":"💆","ماسك شعر":"🎭","زيت شعر":"🫙","كريم شعر":"🎀","مكواة شعر":"♨️","سشوار":"💨","أجهزة تجميل":"🔌","إكسسوارات":"💎"};
-
-function openDrawer(){document.getElementById("drawerOverlay").classList.add("open");document.getElementById("drawer").classList.add("open");document.getElementById("menuBtn").classList.add("open");}
-function closeDrawer(){document.getElementById("drawerOverlay").classList.remove("open");document.getElementById("drawer").classList.remove("open");document.getElementById("menuBtn").classList.remove("open");}
-var SHOP_GROUPS=[
-  {ar:"💄 مكياج",en:"💄 Makeup",cats:["مكياج - روج","مكياج - فاونديشن","مكياج - باليت","مكياج - كونتور","مكياج - هايلايتر","مكياج - بودرة","مسكرا","كحل","إيشادو"]},
-  {ar:"🧴 عناية بالجسم",en:"🧴 Body Care",cats:["عطور","غسول جسم","كريم جسم","واقي شمس","سيروم","مرطب وجه","غسول وجه"]},
-  {ar:"💇 عناية بالشعر",en:"💇 Hair Care",cats:["شامبو","بلسم","ماسك شعر","زيت شعر","كريم شعر"]},
-  {ar:"⚡ أجهزة",en:"⚡ Devices",cats:["مكواة شعر","سشوار","أجهزة تجميل"]},
-  {ar:"💎 إكسسوارات",en:"💎 Accessories",cats:["إكسسوارات"]}
+/* ============================================================
+   التصنيفات - نفس البنية بالضبط مثل صفحة الأدمن
+   القسم الرئيسي ← الفرعيات
+   ============================================================ */
+var SHOP_GROUPS = [
+  { name:"مكياج", icon:"💄", subs:["روج","فاونديشن","باليت","كونتور","هايلايتر","بودرة","مسكرا","كحل","إيشادو"] },
+  { name:"عناية بالجسم", icon:"🧴", subs:["عطور","غسول جسم","كريم جسم","واقي شمس","سيروم","مرطب وجه","غسول وجه"] },
+  { name:"عناية بالشعر", icon:"💇", subs:["شامبو","بلسم","ماسك شعر","زيت شعر","كريم شعر"] },
+  { name:"أجهزة", icon:"⚡", subs:["مكواة شعر","سشوار","أجهزة تجميل"] },
+  { name:"إكسسوارات", icon:"💎", subs:["إكسسوارات"] }
 ];
 
-function renderDrawer(){
-  var active={};products.forEach(function(p){active[p.category]=true;});
-  var el=document.getElementById("drawerBody");
-  if(!el)return;
+/* ========== الحالة العامة ========== */
+var PRODUCTS = [];
+var currentFilter = 'all';
+var currentSubFilter = null;
+var searchQuery = '';
+var priceMin = null, priceMax = null;
+var cart = [];
+var favorites = [];
+var favSelected = {};
+var lbProduct = null, lbIndex = 0;
+var fbRating = 0;
+var sb;
 
-  // "All" item
-  var allActive=activeCategory==="الكل";
-  var h="<div class=\"drawer-cat"+(allActive?" active":"")+"\" onclick=\"setCategory('الكل');closeDrawer();\"><span class=\"drawer-cat-icon\">🏠</span><span>"+(lang==="ar"?"الكل":"All")+"</span></div>";
+/* ========== Supabase ========== */
+try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch(e) { console.error('Supabase error:', e); }
 
-  // 5 groups
-  SHOP_GROUPS.forEach(function(g,gi){
-    var groupLabel=lang==="ar"?g.ar:g.en;
-    var hasActive=g.cats.indexOf(activeCategory)!==-1;
-    var isOpen=hasActive||gi===0; // keep open if has active cat or first group
-    h+="<div class=\"drawer-group-header"+(hasActive?" has-active":"")+(isOpen?" open":"")+"\" onclick=\"toggleDrawerGroup(this)\">" +
-       "<span>"+groupLabel+"</span>" +
-       "<span class=\"drawer-group-arrow\">›</span>" +
-       "</div>";
-    h+="<div class=\"drawer-group-subs"+(isOpen?" open":"")+"\">";
-    g.cats.forEach(function(c){
-      var hasProd=active[c];
-      var icon=CAT_ICONS[c]||"🏷️";
-      var isAct=c===activeCategory;
-      var safeC=c.split("'").join("\\'");
-      var dim=hasProd?"":" style=\"opacity:.38;\"";
-      var click=hasProd?"onclick=\"setCategory('"+safeC+"');closeDrawer();\"":"";
-      h+="<div class=\"drawer-cat"+(isAct?" active":"")+"\""+dim+" "+click+"><span class=\"drawer-cat-icon\">"+icon+"</span><span>"+getCatLabel(c)+"</span></div>";
-    });
-    h+="</div>";
-  });
-  el.innerHTML=h;
-}
-
-function toggleDrawerGroup(header){
-  header.classList.toggle("open");
-  var subs=header.nextElementSibling;
-  if(subs)subs.classList.toggle("open");
-}
-
-
-var lbImgs=[],lbIdx=0,lbTx=0;
-function openLightbox(imgs,start){lbImgs=imgs;lbIdx=start||0;renderLb();document.getElementById("lbOverlay").classList.add("open");document.body.style.overflow="hidden";}
-function closeLightbox(){document.getElementById("lbOverlay").classList.remove("open");document.body.style.overflow="";}
-function lbMove(d){lbIdx=(lbIdx+d+lbImgs.length)%lbImgs.length;renderLb();}
-function renderLb(){
-  document.getElementById("lbImg").src=lbImgs[lbIdx]||PLACEHOLDER;
-  document.getElementById("lbCounter").textContent=(lbIdx+1)+" / "+lbImgs.length;
-  var show=lbImgs.length>1;
-  document.querySelector(".lb-arrow.lprev").style.display=show?"flex":"none";
-  document.querySelector(".lb-arrow.lnext").style.display=show?"flex":"none";
-  var de=document.getElementById("lbDots");
-  if(!show){de.style.display="none";return;}
-  de.style.display="flex";
-  var h="";for(var i=0;i<lbImgs.length;i++)h+="<div class=\"lb-dot"+(i===lbIdx?" active":"")+"\" onclick=\"(function(){lbIdx="+i+";renderLb();})()\"></div>";
-  de.innerHTML=h;
-}
-document.getElementById("lbOverlay").addEventListener("touchstart",function(e){lbTx=e.touches[0].clientX;});
-document.getElementById("lbOverlay").addEventListener("touchend",function(e){var dx=e.changedTouches[0].clientX-lbTx;if(Math.abs(dx)>40)lbMove(dx>0?1:-1);});
-document.getElementById("lbOverlay").addEventListener("click",function(e){if(e.target===this)closeLightbox();});
-
-var cart=[];
-function addToCart(pid,vi){
-  var p=products.find(function(x){return x.id===pid;});
-  if(!p||p.soldOut)return;
-  var ex=cart.find(function(i){return i.productId===pid&&i.variantIndex===vi;});
-  if(ex){ex.qty++;}else{cart.push({productId:pid,variantIndex:vi,qty:1});}
-  updateCartCount();renderCart();
-  var btn=document.getElementById("add-"+pid);
-  if(btn){btn.textContent=t("added");btn.classList.add("added");setTimeout(function(){btn.innerHTML="🛒 "+t("addToCart");btn.classList.remove("added");},1400);}
-}
-function updateCartCount(){document.getElementById("cartCount").textContent=cart.reduce(function(s,i){return s+i.qty;},0);}
-function changeQty(pid,vi,d){
-  var item=cart.find(function(i){return i.productId===pid&&i.variantIndex===vi;});if(!item)return;
-  item.qty+=d;
-  if(item.qty<=0)cart=cart.filter(function(i){return!(i.productId===pid&&i.variantIndex===vi);});
-  updateCartCount();renderCart();
-}
-function removeFromCart(pid,vi){cart=cart.filter(function(i){return!(i.productId===pid&&i.variantIndex===vi);});updateCartCount();renderCart();}
-function cartTotal(){return cart.reduce(function(s,i){var p=products.find(function(x){return x.id===i.productId;});return s+(p?p.variants[i.variantIndex].price*i.qty:0);},0);}
-function renderCart(){
-  var el=document.getElementById("cartItems");
-  if(cart.length===0){el.innerHTML="<div class=\"cart-empty-msg\">"+t("cartEmpty")+" 🛍️</div>";document.getElementById("cartTotal").textContent="0 "+t("currency");return;}
-  var h="";
-  cart.forEach(function(item){
-    var p=products.find(function(x){return x.id===item.productId;});if(!p)return;
-    var v=p.variants[item.variantIndex];
-    var img=p.images&&p.images.length>0?p.images[0]:(p.img||PLACEHOLDER);
-    h+="<div class=\"cart-item\"><img src=\""+img+"\" alt=\""+esc(p.name)+"\" onerror=\"this.src=PLACEHOLDER\"><div class=\"ci-info\"><div class=\"ci-name\">"+esc(p.name)+"</div><div class=\"ci-variant\">"+esc(v.label)+"</div><div class=\"ci-price\">"+(v.price*item.qty)+" "+t("currency")+"</div><div class=\"ci-qty\"><button class=\"qty-btn\" onclick=\"changeQty('"+p.id+"',"+item.variantIndex+",-1)\">-</button><span class=\"qty-num\">"+item.qty+"</span><button class=\"qty-btn\" onclick=\"changeQty('"+p.id+"',"+item.variantIndex+",1)\">+</button><button class=\"remove-item\" onclick=\"removeFromCart('"+p.id+"',"+item.variantIndex+")\" >🗑 "+t("removeItem")+"</button></div></div></div>";
-  });
-  el.innerHTML=h;
-  document.getElementById("cartTotal").textContent=cartTotal()+" "+t("currency");
-}
-function openCart(){document.getElementById("cartOverlay").classList.add("open");document.getElementById("cartSidebar").classList.add("open");}
-function closeCart(){document.getElementById("cartOverlay").classList.remove("open");document.getElementById("cartSidebar").classList.remove("open");}
-
-function openOrderModal(){if(cart.length===0)return;closeCart();buildSummary();document.getElementById("orderModal").classList.add("open");}
-function closeOrderModal(){document.getElementById("orderModal").classList.remove("open");resetForm();rebuildModal();}
-function buildSummary(){
-  var h="";
-  cart.forEach(function(item){var p=products.find(function(x){return x.id===item.productId;});if(!p)return;var v=p.variants[item.variantIndex];h+="<div class=\"os-item\"><span>"+esc(p.name)+" ("+esc(v.label)+") x"+item.qty+"</span><span>"+(v.price*item.qty)+" "+t("currency")+"</span></div>";});
-  h+="<div class=\"os-total\"><span>"+t("totalLabel")+"</span><span>"+cartTotal()+" "+t("currency")+"</span></div>";
-  document.getElementById("orderSummary").innerHTML=h;
-}
-function resetForm(){["fieldAddress","fieldCity","fieldPhone"].forEach(function(id){var e=document.getElementById(id);if(e){e.value="";e.classList.remove("err");}});["errAddress","errCity","errPhone"].forEach(function(id){var e=document.getElementById(id);if(e)e.classList.remove("show");});}
-function rebuildModal(){
-  var m=document.getElementById("modalContent");
-  if(!m.querySelector(".success-screen"))return;
-  m.innerHTML="<h2 id=\"modalTitle\">"+t("modalTitle")+"</h2><p class=\"subtitle\" id=\"modalSub\">"+t("modalSub")+"</p><div class=\"order-summary\" id=\"orderSummary\"></div><div class=\"field-group\"><label id=\"labelAddress\">"+t("labelAddress")+"</label><input type=\"text\" id=\"fieldAddress\" placeholder=\""+t("phAddress")+"\"><div class=\"err-msg\" id=\"errAddress\">"+t("errAddress")+"</div></div><div class=\"field-group\"><label id=\"labelCity\">"+t("labelCity")+"</label><input type=\"text\" id=\"fieldCity\" placeholder=\""+t("phCity")+"\"><div class=\"err-msg\" id=\"errCity\">"+t("errCity")+"</div></div><div class=\"field-group\"><label id=\"labelPhone\">"+t("labelPhone")+"</label><input type=\"tel\" id=\"fieldPhone\" placeholder=\""+t("phPhone")+"\"><div class=\"err-msg\" id=\"errPhone\">"+t("errPhone")+"</div></div><div class=\"modal-actions\"><button class=\"btn-cancel\" onclick=\"closeOrderModal()\" id=\"btnCancel\">"+t("btnCancel")+"</button><button class=\"btn-submit\" onclick=\"submitOrder()\" id=\"btnSubmit\">"+t("btnSubmit")+"</button></div>";
-}
-function validate(){
-  var ok=true,addr=document.getElementById("fieldAddress").value.trim(),city=document.getElementById("fieldCity").value.trim(),phone=document.getElementById("fieldPhone").value.trim();
-  function chk(val,fid,eid){if(!val){document.getElementById(fid).classList.add("err");document.getElementById(eid).classList.add("show");ok=false;}else{document.getElementById(fid).classList.remove("err");document.getElementById(eid).classList.remove("show");}}
-  chk(addr,"fieldAddress","errAddress");chk(city,"fieldCity","errCity");
-  if(!/^[0-9+\s]{7,15}$/.test(phone)){document.getElementById("fieldPhone").classList.add("err");document.getElementById("errPhone").classList.add("show");ok=false;}
-  else{document.getElementById("fieldPhone").classList.remove("err");document.getElementById("errPhone").classList.remove("show");}
-  return ok?{addr:addr,city:city,phone:phone}:null;
-}
-function submitOrder(){
-  var vals=validate();if(!vals)return;
-  var btn=document.getElementById("btnSubmit");btn.disabled=true;btn.textContent="...";
-  var items=cart.map(function(item){var p=products.find(function(x){return x.id===item.productId;});var v=p.variants[item.variantIndex];return{name:p.name,variant:v.label,qty:item.qty,price:v.price*item.qty};});
-  var total=cartTotal();
-  var lines=items.map(function(i){return "• "+i.name+" ("+i.variant+") x"+i.qty+" = "+i.price+" "+t("currency");}).join("\n");
-  var sep = "========================";
-  var msg = [
-    "طلب جديد - Hamada Center",
-    sep,
-    lines,
-    sep,
-    "الاجمالي: "+total+" "+t("currency"),
-    sep,
-    "العنوان: "+vals.addr,
-    "المدينة: "+vals.city,
-    "هاتف العميل: "+vals.phone
-  ].join("\n");
-  var waUrl="https://wa.me/201095951764?text="+encodeURIComponent(msg);
-  var w=window.open(waUrl,"_blank");
-  if(!w||w.closed||typeof w.closed==="undefined")window.location.href=waUrl;
-  sb.from("orders").insert([{items:items,total:total,address:vals.addr,city:vals.city,customer_phone:vals.phone,status:"جديد",created_at:new Date().toISOString()}]).then(function(r){if(r.error)console.warn(r.error);});
-  showSuccess();
-}
-function showSuccess(){
-  var d=document.createElement("div");d.className="success-screen";
-  var ic=document.createElement("div");ic.className="icon";ic.textContent="🎉";
-  var h3=document.createElement("h3");h3.textContent=t("successTitle");
-  var p=document.createElement("p");p.textContent=t("successMsg");
-  var wr=document.createElement("div");wr.style.marginTop="22px";
-  var cb=document.createElement("button");cb.className="checkout-btn";cb.style.cssText="padding:13px;border-radius:13px;font-size:.95rem;";
-  cb.textContent=t("btnClose");cb.onclick=function(){closeOrderModal();cart=[];updateCartCount();renderCart();};
-  wr.appendChild(cb);d.appendChild(ic);d.appendChild(h3);d.appendChild(p);d.appendChild(wr);
-  var m=document.getElementById("modalContent");m.innerHTML="";m.appendChild(d);
-}
-
-var fbRating=0;
-function openFeedback(){
-  fbRating=0;renderStars(0);
-  var fn=document.getElementById("fbName");if(fn)fn.value="";
-  var fm=document.getElementById("fbMessage");if(fm)fm.value="";
-  document.getElementById("fbOverlay").classList.add("open");
-}
-function closeFeedback(){document.getElementById("fbOverlay").classList.remove("open");}
-function setStar(n){fbRating=n;renderStars(n);}
-function renderStars(n){var s=document.querySelectorAll(".star");for(var i=0;i<s.length;i++){s[i].classList.toggle("lit",i<n);}}
-function sendFeedback(){
-  var name=(document.getElementById("fbName").value.trim())||(lang==="ar"?"زائر":"Visitor");
-  var msg=document.getElementById("fbMessage").value.trim();
-  if(!msg){document.getElementById("fbMessage").style.borderColor="#EF4444";return;}
-  document.getElementById("fbMessage").style.borderColor="";
-  var btn=document.getElementById("fbSendBtn");btn.disabled=true;btn.textContent="...";
-  var stars="";for(var i=0;i<fbRating;i++)stars+="★";for(var j=fbRating;j<5;j++)stars+="☆";
-  emailjs.send("service_6w8f269","template_1uk3o9q",{
-    title:lang==="ar"?"تقييم من موقع حمادة سنتر":"Feedback - Hamada Center",
-    name:name,
-    message:(fbRating>0?"التقييم: "+stars+" ("+fbRating+"/5)\n\n":"")+msg,
-    email:"danyfares455@gmail.com"
-  }).then(function(){
-    var m=document.getElementById("fbModal");m.innerHTML="";
-    var wr=document.createElement("div");wr.className="fb-success";
-    var ic=document.createElement("div");ic.className="fb-sicon";ic.textContent="🎉";
-    var h3=document.createElement("h3");h3.textContent=lang==="ar"?"شكراً على رأيك!":"Thank you!";
-    var p=document.createElement("p");p.textContent=lang==="ar"?"رأيك وصل لنا.":"We received your feedback.";
-    var cb=document.createElement("button");cb.className="checkout-btn";cb.style.cssText="margin-top:20px;padding:12px;border-radius:12px;font-size:.92rem;";
-    cb.textContent=lang==="ar"?"إغلاق":"Close";cb.onclick=closeFeedback;
-    wr.appendChild(ic);wr.appendChild(h3);wr.appendChild(p);wr.appendChild(cb);m.appendChild(wr);
-  },function(err){console.error(err);btn.disabled=false;btn.textContent="📨 "+(lang==="ar"?"إرسال":"Send");});
-}
-
-if(typeof SUPABASE_URL==="undefined"||typeof SUPABASE_ANON_KEY==="undefined"){document.getElementById("products").innerHTML="<div class=\"empty\"><h3>خطأ في الإعداد</h3></div>";throw new Error("Missing config.js");}
-var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-var products=[];
-var activeCategory="الكل";
-var CATEGORIES_AR=["الكل","مكياج - روج","مكياج - فاونديشن","مكياج - باليت","مكياج - كونتور","مكياج - هايلايتر","مكياج - بودرة","مسكرا","كحل","إيشادو","عطور","غسول جسم","كريم جسم","واقي شمس","سيروم","مرطب وجه","غسول وجه","شامبو","بلسم","ماسك شعر","زيت شعر","كريم شعر","مكواة شعر","سشوار","أجهزة تجميل","إكسسوارات"];
-var CATEGORIES_EN=["All","Makeup - Lipstick","Makeup - Foundation","Makeup - Palette","Makeup - Contour","Makeup - Highlighter","Makeup - Powder","Mascara","Eyeliner","Eyeshadow","Perfumes","Body Wash","Body Cream","Sunscreen","Serum","Face Moisturizer","Face Wash","Shampoo","Conditioner","Hair Mask","Hair Oil","Hair Cream","Hair Iron","Hair Dryer","Beauty Devices","Accessories"];
-function getCatLabel(c){if(lang==="ar")return c;var i=CATEGORIES_AR.indexOf(c);return i>=0?CATEGORIES_EN[i]:c;}
-function esc(s){var d=document.createElement("div");d.textContent=s||"";return d.innerHTML;}
-var cardPos={};
-
-function loadProducts(){
-  sb.from("products").select("*").order("created_at",{ascending:false}).then(function(res){
-    if(res.error){document.getElementById("connError").style.display="block";document.getElementById("products").innerHTML="<div class=\"empty\"><h3>"+t("noProducts")+"</h3><p>"+t("noProductsSub")+"</p></div>";return;}
-    document.getElementById("connError").style.display="none";
-    var CAT_REMAP={
-      "روج":"مكياج - روج","فاونديشن":"مكياج - فاونديشن","باليت":"مكياج - باليت",
-      "كونتور":"مكياج - كونتور","هايلايتر":"مكياج - هايلايتر","بودرة":"مكياج - بودرة",
-      "مسكرا":"مسكرا","ايلاينر":"كحل","إيشادو":"إيشادو",
-      "عطور":"عطور","غسول":"غسول وجه","غسول جسم":"غسول جسم","كريم جسم":"كريم جسم",
-      "واقي شمس":"واقي شمس","سيروم":"سيروم","مرطب وجه":"مرطب وجه",
-      "شامبو":"شامبو","بلسم":"بلسم","ماسك شعر":"ماسك شعر",
-      "زيت شعر":"زيت شعر","كريم شعر":"كريم شعر",
-      "مكواة":"مكواة شعر","سشوار":"سشوار","أجهزة":"أجهزة تجميل",
-      "عناية بالجسم":"كريم جسم","إكسسوارات":"إكسسوارات",
-      "عناية بالبشرة":"سيروم","عناية بالشعر":"شامبو"
-    };
-    products=(res.data||[]).map(function(p){
-      var imgs=[];
-      if(Array.isArray(p.images)&&p.images.length>0){imgs=p.images;}
-      else if(p.image){imgs=[p.image];}
-      var cat=p.category||"إكسسوارات";
-      cat=CAT_REMAP[cat]||cat;
-      return{id:p.id,name:p.name,category:cat,desc:p.description||"",img:imgs[0]||"",images:imgs,variants:Array.isArray(p.variants)?p.variants:[],isNew:!!p.is_new,soldOut:!!p.sold_out};
-    }).filter(function(p){return p.variants.length>0;});
-    activeCategory="الكل";
-    renderFilters();renderProducts();renderDrawer();renderCatBanners();
-  }).catch(function(){document.getElementById("connError").style.display="block";});
-}
-
-function renderFilters(){
-  var ac={};products.forEach(function(p){ac[p.category]=true;});
-  var h="";
-  CATEGORIES_AR.forEach(function(c){
-    var hasProd=c==="الكل"||ac[c];
-    var isA=c===activeCategory;
-    var dim=hasProd?"":" style=\"opacity:.35;pointer-events:none;\"";
-    h+="<button class=\"filter-btn"+(isA?" active":"")+"\""+dim+" onclick=\"setCategory('"+c.split("'").join("\\'")+"')\">"+getCatLabel(c)+"</button>";
-  });
-  document.getElementById("filters").innerHTML=h;
-}
-
-function setCategory(cat){
-  activeCategory=cat;renderFilters();renderProducts();renderDrawer();renderCatBanners();
-  var sh=document.getElementById("sectionHeading");
-  if(sh)sh.innerHTML=cat==="الكل"?(lang==="ar"?"جميع <em>المنتجات</em>":"All <em>Products</em>"):getCatLabel(cat);
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function slideCard(pid,d){var p=products.find(function(x){return x.id===pid;});if(!p||p.images.length<=1)return;cardPos[pid]=((cardPos[pid]||0)+d+p.images.length)%p.images.length;updateSlider(pid);}
-function dotCard(pid,i){cardPos[pid]=i;updateSlider(pid);}
-function updateSlider(pid){
-  var p=products.find(function(x){return x.id===pid;});if(!p)return;
-  var idx=cardPos[pid]||0;
-  var track=document.getElementById("trk-"+pid);
-  if(track)track.style.transform=(lang==="ar"?"translateX(":"translateX(-")+(idx*100)+"%)";
-  var dots=document.querySelectorAll(".cd-"+pid);
-  for(var i=0;i<dots.length;i++)dots[i].classList.toggle("active",i===idx);
-}
-
-function renderProducts(){
-  var grid=document.getElementById("products");
-  var list=(activeCategory==="الكل"?products:products.filter(function(p){return p.category===activeCategory;}))
-    .filter(function(p){
-      if(searchQuery){
-        var hay=(p.name+" "+p.desc+" "+p.category).toLowerCase();
-        if(hay.indexOf(searchQuery)===-1)return false;
-      }
-      if(priceActive){
-        var minP=Math.min.apply(null,p.variants.map(function(v){return v.price;}));
-        if(minP<priceMin||minP>priceMax)return false;
-      }
-      return true;
-    });
-  var cnt=document.getElementById("productCount");
-  if(cnt)cnt.textContent=list.length+" "+(lang==="ar"?"منتج":"products");
-  if(list.length===0){grid.innerHTML="<div class=\"empty\"><h3>"+t("noProducts")+"</h3><p>"+t("noProductsSub")+"</p></div>";return;}
-  var h="";
-  list.forEach(function(p){
-    var v0=p.variants[0];
-    var disc=v0.oldPrice?Math.round(100-(v0.price/v0.oldPrice*100)):0;
-    cardPos[p.id]=0;
-    var imgs=p.images.length>0?p.images:[PLACEHOLDER];
-    var slides="";imgs.forEach(function(src){slides+="<img class=\"img-slide\" src=\""+src+"\" alt=\""+esc(p.name)+"\" loading=\"lazy\" onerror=\"this.src=PLACEHOLDER\">";});
-    var cdots="";if(imgs.length>1){imgs.forEach(function(s,i){cdots+="<div class=\"cdot cd-"+p.id+(i===0?" active":"")+"\" onclick=\"event.stopPropagation();dotCard('"+p.id+"',"+i+")\"></div>";});}
-    var arrows="";if(imgs.length>1){arrows="<button class=\"c-arrow cprev\" onclick=\"event.stopPropagation();slideCard('"+p.id+"',-1)\">›</button><button class=\"c-arrow cnext\" onclick=\"event.stopPropagation();slideCard('"+p.id+"',1)\">‹</button>";}
-    var badges="<div class=\"badge-row\">";
-    if(disc>0)badges+="<span class=\"badge badge-disc\">"+t("discount")+" "+disc+"%</span>";
-    if(p.isNew)badges+="<span class=\"badge badge-new\">"+t("badgeNew")+"</span>";
-    if(p.soldOut)badges+="<span class=\"badge badge-sold\">"+t("badgeSold")+"</span>";
-    badges+="</div>";
-    var imgJSON=JSON.stringify(imgs);
-    var opts="";p.variants.forEach(function(v,i){opts+="<option value=\""+i+"\">"+esc(v.label)+" — "+v.price+" "+t("currency")+(v.oldPrice?" ("+t("was")+" "+v.oldPrice+")" :"")+"></option>";});
-    var sel=p.variants.length>1?"<select class=\"variant-select\" id=\"sel-"+p.id+"\" onchange=\"updPrice('"+p.id+"',this)\" onclick=\"event.stopPropagation()\">"+opts+"</select>":"";
-    var addClick=p.variants.length>1?"addToCart('"+p.id+"',parseInt(document.getElementById('sel-"+p.id+"').value))":"addToCart('"+p.id+"',0)";
-    var btnCls=p.soldOut?"add-cart-btn btn-soldout":"add-cart-btn";
-    var btnClick=p.soldOut?"":" onclick=\"event.stopPropagation();"+addClick+"\"";
-    var btnTxt=p.soldOut?t("soldOutBtn"):"🛒 "+t("addToCart");
-    h+="<div class=\"card reveal"+(p.soldOut?" sold-out-card":"")+"\">" +
-      "<div class=\"card-img\" onclick=\"openLightbox("+imgJSON+",0)\">" +
-        "<div class=\"img-track\" id=\"trk-"+p.id+"\">"+slides+"</div>" +
-        (imgs.length>1?"<div class=\"card-dots\">"+cdots+"</div>":"")+arrows+badges+
-      "</div>" +
-      "<div class=\"card-body\">" +
-        "<span class=\"card-cat\">"+esc(getCatLabel(p.category))+"</span>" +
-        "<h3 class=\"card-title\">"+esc(p.name)+"</h3>" +
-        "<p class=\"card-desc\">"+esc(p.desc)+"</p>"+sel+
-        "<div class=\"price-row\" id=\"pr-"+p.id+"\"><span class=\"price-new\">"+v0.price+" "+t("currency")+"</span>"+(v0.oldPrice?"<span class=\"price-old\">"+v0.oldPrice+" "+t("currency")+"</span>":"")+
-        "</div><button class=\""+btnCls+"\" id=\"add-"+p.id+"\""+btnClick+">"+btnTxt+"</button>" +
-      "<button class=\"fav-btn"+(isFaved(p.id)?" faved":"")+"\" id=\"fav-"+p.id+"\" onclick=\"event.stopPropagation();toggleFav('"+p.id+"')\">"+
-        (isFaved(p.id)?"❤️":"🤍")+" "+t("addFav")+
-      "</button>" +
-      "</div></div>";
-  });
-  grid.innerHTML=h;
-  initReveal();
-}
-
-function updPrice(pid,sel){
-  var p=products.find(function(x){return x.id===pid;});
-  var v=p.variants[parseInt(sel.value)];
-  document.getElementById("pr-"+pid).innerHTML="<span class=\"price-new\">"+v.price+" "+t("currency")+"</span>"+(v.oldPrice?"<span class=\"price-old\">"+v.oldPrice+" "+t("currency")+"</span>":"");
-}
-
-var PLACEHOLDER="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Crect width='600' height='600' fill='%23222'/%3E%3C/svg%3E";
-
-
-/* SEARCH + PRICE FILTER */
-var searchQuery = "";
-var priceMin = 0;
-var priceMax = 99999;
-var priceActive = false;
-
-function onSearch(){
-  searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
-  renderProducts();
-}
-
-function openPriceFilter(){
-  document.getElementById("priceDropdown").classList.add("open");
-  document.getElementById("pdOverlay").classList.add("open");
-  document.getElementById("priceFilterBtn").classList.add("active");
-}
-function closePriceFilter(){
-  document.getElementById("priceDropdown").classList.remove("open");
-  document.getElementById("pdOverlay").classList.remove("open");
-  if(!priceActive) document.getElementById("priceFilterBtn").classList.remove("active");
-}
-function setPreset(min,max){
-  document.getElementById("pdMin").value = min;
-  document.getElementById("pdMax").value = max;
-  document.querySelectorAll(".pd-preset").forEach(function(b){b.classList.remove("active");});
-  event.target.classList.add("active");
-}
-function applyPriceFilter(){
-  var min = parseFloat(document.getElementById("pdMin").value);
-  var max = parseFloat(document.getElementById("pdMax").value);
-  if(isNaN(min)) min = 0;
-  if(isNaN(max)) max = 99999;
-  if(min > max){ var tmp=min;min=max;max=tmp; }
-  priceMin = min; priceMax = max; priceActive = true;
-  var label = min + " — " + (max===99999?"5000+":max) + " " + t("currency");
-  document.getElementById("priceFilterLabel").textContent = label;
-  document.getElementById("priceFilterBtn").classList.add("active");
-  closePriceFilter();
-  renderProducts();
-}
-function clearPriceFilter(){
-  priceMin=0; priceMax=99999; priceActive=false;
-  document.getElementById("pdMin").value="";
-  document.getElementById("pdMax").value="";
-  document.querySelectorAll(".pd-preset").forEach(function(b){b.classList.remove("active");});
-  document.getElementById("priceFilterLabel").textContent = lang==="ar"?"تصفية السعر":"Filter Price";
-  document.getElementById("priceFilterBtn").classList.remove("active");
-  closePriceFilter();
-  renderProducts();
-}
-
-
-/* SEARCH & PRICE FILTER */
-var priceFilterOpen = false;
-var searchQuery = "";
-var priceMin = 0;
-var priceMax = 5000;
-var priceActive = false;
-
-function togglePricePanel(){
-  priceFilterOpen = !priceFilterOpen;
-  document.getElementById("priceFilterPanel").classList.toggle("open", priceFilterOpen);
-  document.getElementById("filterToggleBtn").classList.toggle("active", priceFilterOpen);
-}
-
-function applySearchFilter(){
-  searchQuery = (document.getElementById("searchInput").value || "").trim().toLowerCase();
-  priceMin = parseInt(document.getElementById("priceMin").value) || 0;
-  priceMax = parseInt(document.getElementById("priceMax").value) || 5000;
-  priceActive = (priceMin > 0 || priceMax < 5000);
-  renderProducts();
-}
-
-function resetPriceFilter(){
-  document.getElementById("priceMin").value = 0;
-  document.getElementById("priceMax").value = 5000;
-  priceMin = 0; priceMax = 5000; priceActive = false;
-  renderProducts();
-}
-
-function applyLangSearchFilter(){
-  var si = document.getElementById("searchInput");
-  if(si) si.placeholder = lang==="ar"?"ابحثي عن منتج...":"Search products...";
-  var fl = document.getElementById("filterBtnLabel");
-  if(fl) fl.textContent = lang==="ar"?"تصفية السعر":"Filter by Price";
-  var pl = document.getElementById("priceRangeLabel");
-  if(pl) pl.textContent = lang==="ar"?"نطاق السعر (ج.م)":"Price Range (EGP)";
-  var ap = document.getElementById("priceApplyBtn");
-  if(ap) ap.textContent = lang==="ar"?"تطبيق":"Apply";
-  var rp = document.getElementById("priceResetBtn");
-  if(rp) rp.textContent = lang==="ar"?"إعادة تعيين":"Reset";
-}
-
-
-/* CATEGORY BANNERS */
-var CAT_EMOJIS = {
-  "الكل":"🏠","مكياج - روج":"💄","مكياج - فاونديشن":"🌸","مكياج - باليت":"🎨",
-  "مكياج - كونتور":"✨","مكياج - هايلايتر":"💫","مكياج - بودرة":"🪄",
-  "مسكرا":"👁️","كحل":"🖊️","إيشادو":"🌈",
-  "عطور":"🌹","غسول جسم":"🚿","كريم جسم":"🧴","واقي شمس":"☀️",
-  "سيروم":"💧","مرطب وجه":"🌿","غسول وجه":"🫧",
-  "شامبو":"🧼","بلسم":"💆","ماسك شعر":"🎭","زيت شعر":"🫙","كريم شعر":"🎀",
-  "مكواة شعر":"♨️","سشوار":"💨","أجهزة تجميل":"🔌","إكسسوارات":"💎"
-};
-
-function renderCatBanners(){
-  var el = document.getElementById("catBanners");
-  if(!el) return;
-  var active = {};
-  products.forEach(function(p){ active[p.category] = true; });
-  var catImg = {};
-  products.forEach(function(p){
-    if(!catImg[p.category] && p.images && p.images.length > 0) catImg[p.category] = p.images[0];
-    else if(!catImg[p.category] && p.img) catImg[p.category] = p.img;
-  });
-  var h = "";
-  CATEGORIES_AR.forEach(function(c){
-    var hasProd = c === "الكل" || active[c];
-    var isAct = c === activeCategory;
-    var emoji = CAT_EMOJIS[c] || "🏷️";
-    var imgSrc = catImg[c];
-    var imgInner = imgSrc
-      ? "<img src=\"" + imgSrc + "\" alt=\"" + esc(c) + "\" style=\"width:100%;height:100%;object-fit:cover;\" onerror=\"this.style.display='none'\">"
-      : emoji;
-    var safeCat = c.split("'").join("\\'");
-    h += "<div class=\"cat-banner" + (isAct ? " active" : "") + (!hasProd ? " style=\"opacity:.35\"" : "") + "\" onclick=\"setCategory('" + safeCat + "')\">" +
-         "<div class=\"cat-banner-img\">" + imgInner + "</div>" +
-         "<span class=\"cat-banner-label\">" + getCatLabel(c) + "</span></div>";
-  });
-  el.innerHTML = h;
-}
-
-
-/* FAVOURITES */
-var favourites = []; // array of productId
-var favSelected = {}; // productId -> bool
-
-function toggleFav(pid){
-  var idx = favourites.indexOf(pid);
-  if(idx === -1){
-    favourites.push(pid);
-    favSelected[pid] = true;
-  } else {
-    favourites.splice(idx, 1);
-    delete favSelected[pid];
+/* تحليل قيمة التصنيف من قاعدة البيانات
+   الصيغة المحفوظة: "مكياج - روج" → main="مكياج", sub="روج"
+   التصنيفات القديمة بدون " - " يتم محاولة مطابقتها */
+function parseCategory(catStr) {
+  if (!catStr) return { main: '', sub: '' };
+  if (catStr.indexOf(' - ') > -1) {
+    var parts = catStr.split(' - ');
+    return { main: parts[0].trim(), sub: parts[1].trim() };
   }
-  updateFavBadge();
-  updateFavBtns();
-  renderFavItems();
+  /* تصنيفات قديمة بدون فاصل - محاولة الربط */
+  var oldMap = {
+    'روج':'مكياج','فاونديشن':'مكياج','باليت':'مكياج','كونتور':'مكياج',
+    'هايلايتر':'مكياج','بودرة':'مكياج','مسكرا':'مكياج','كحل':'مكياج',
+    'إيشادو':'مكياج','ايلاينر':'مكياج',
+    'عطور':'عناية بالجسم','غسول جسم':'عناية بالجسم','كريم جسم':'عناية بالجسم',
+    'واقي شمس':'عناية بالجسم','سيروم':'عناية بالجسم','مرطب وجه':'عناية بالجسم',
+    'غسول وجه':'عناية بالجسم',
+    'شامبو':'عناية بالشعر','بلسم':'عناية بالشعر','ماسك شعر':'عناية بالشعر',
+    'زيت شعر':'عناية بالشعر','كريم شعر':'عناية بالشعر',
+    'مكواة شعر':'أجهزة','مكواة':'أجهزة','سشوار':'أجهزة','أجهزة تجميل':'أجهزة',
+    'إكسسوارات':'إكسسوارات'
+  };
+  var mapped = oldMap[catStr.trim()];
+  if (mapped) return { main: mapped, sub: catStr.trim() };
+  return { main: catStr.trim(), sub: '' };
 }
 
-function isFaved(pid){ return favourites.indexOf(pid) !== -1; }
-
-function updateFavBadge(){
-  var b = document.getElementById("favBadge");
-  if(!b) return;
-  b.textContent = favourites.length;
-  b.classList.toggle("show", favourites.length > 0);
+/* تحميل المنتجات من Supabase */
+async function loadProducts() {
+  try {
+    var res = await sb.from('products').select('*').order('created_at', { ascending: false });
+    if (res.error) { console.warn('Load error:', res.error.message); return; }
+    PRODUCTS = (res.data || []).map(function(p) {
+      var parsed = parseCategory(p.category);
+      var firstVariant = (p.variants && p.variants.length > 0) ? p.variants[0] : null;
+      var discount = null;
+      if (firstVariant && firstVariant.oldPrice && firstVariant.price < firstVariant.oldPrice) {
+        discount = Math.round((1 - firstVariant.price / firstVariant.oldPrice) * 100) + '% off';
+      }
+      return {
+        id: p.id,
+        name: p.name,
+        mainCat: parsed.main,
+        subCat: parsed.sub,
+        cat: parsed.main,
+        sub: parsed.sub,
+        price: firstVariant ? firstVariant.price : 0,
+        oldPrice: firstVariant ? (firstVariant.oldPrice || null) : null,
+        imgs: (p.images && p.images.length > 0) ? p.images : (p.image ? [p.image] : []),
+        desc: p.description || '',
+        badge: p.is_new ? 'جديد' : (discount || null),
+        variants: (p.variants || []).map(function(v) { return v.label; }),
+        variantData: p.variants || [],
+        soldOut: p.sold_out || false
+      };
+    });
+    renderAll();
+  } catch(e) { console.warn('Fetch failed:', e); }
 }
 
-function updateFavBtns(){
-  // Update all fav buttons on cards
-  favourites.forEach(function(pid){
-    var btn = document.getElementById("fav-"+pid);
-    if(btn) btn.classList.add("faved");
+/* ========== بناء درج القائمة - اسم القسم الرئيسي فقط ========== */
+function buildDrawer() {
+  var body = document.getElementById('drawerBody');
+  body.innerHTML = '';
+
+  /* زر "الكل" */
+  var allBtn = document.createElement('div');
+  allBtn.className = 'drawer-cat' + (currentFilter === 'all' && !currentSubFilter ? ' active' : '');
+  allBtn.innerHTML = '<span class="drawer-cat-icon">🛍️</span><span class="drawer-cat-name">جميع المنتجات</span>';
+  allBtn.addEventListener('click', function() {
+    currentFilter = 'all'; currentSubFilter = null;
+    closeDrawer(); renderAll();
+  });
+  body.appendChild(allBtn);
+
+  /* كل قسم رئيسي */
+  SHOP_GROUPS.forEach(function(group) {
+    var isGroupActive = (currentFilter === group.name && !currentSubFilter);
+    var isSubActive = (currentFilter === group.name && currentSubFilter);
+    var isOpen = isSubActive;
+
+    var catEl = document.createElement('div');
+    catEl.className = 'drawer-cat' + (isGroupActive ? ' active' : '') + (isOpen ? ' open' : '');
+    catEl.innerHTML = '<span class="drawer-cat-icon">' + group.icon + '</span>' +
+      '<span class="drawer-cat-name">' + group.name + '</span>' +
+      (group.subs.length > 0 ? '<span class="drawer-cat-arrow">❯</span>' : '');
+
+    /* النقر على اسم القسم = فلترة بالقسم + إغلاق الدرج */
+    catEl.addEventListener('click', function(e) {
+      if (e.target.classList.contains('drawer-cat-arrow')) {
+        e.stopPropagation();
+        var subsEl = catEl.nextElementSibling;
+        if (subsEl && subsEl.classList.contains('drawer-subs')) {
+          var opening = !subsEl.classList.contains('open');
+          subsEl.classList.toggle('open');
+          catEl.classList.toggle('open', opening);
+        }
+        return;
+      }
+      currentFilter = group.name;
+      currentSubFilter = null;
+      closeDrawer(); renderAll();
+    });
+    body.appendChild(catEl);
+
+    /* الفرعيات */
+    if (group.subs.length > 0) {
+      var subsEl = document.createElement('div');
+      subsEl.className = 'drawer-subs' + (isOpen ? ' open' : '');
+      group.subs.forEach(function(sub) {
+        var subEl = document.createElement('div');
+        subEl.className = 'drawer-sub' + (currentSubFilter === sub ? ' active' : '');
+        subEl.textContent = sub;
+        subEl.addEventListener('click', function(e) {
+          e.stopPropagation();
+          currentFilter = group.name;
+          currentSubFilter = sub;
+          closeDrawer(); renderAll();
+        });
+        subsEl.appendChild(subEl);
+      });
+      body.appendChild(subsEl);
+    }
   });
 }
 
-function openFav(){
-  document.getElementById("favOverlay").classList.add("open");
-  document.getElementById("favSidebar").classList.add("open");
-  renderFavItems();
-}
-function closeFav(){
-  document.getElementById("favOverlay").classList.remove("open");
-  document.getElementById("favSidebar").classList.remove("open");
-}
-
-function toggleSelectAll(){
-  var allSelected = favourites.every(function(pid){ return favSelected[pid]; });
-  favourites.forEach(function(pid){ favSelected[pid] = !allSelected; });
-  renderFavItems();
-}
-
-function toggleFavItem(pid){
-  favSelected[pid] = !favSelected[pid];
-  renderFavItems();
-}
-
-function removeFavItem(pid){
-  favourites = favourites.filter(function(id){ return id !== pid; });
-  delete favSelected[pid];
-  updateFavBadge();
-  // update card button
-  var btn = document.getElementById("fav-"+pid);
-  if(btn) btn.classList.remove("faved");
-  renderFavItems();
-}
-
-function addSelectedToCart(){
-  var added = 0;
-  favourites.forEach(function(pid){
-    if(!favSelected[pid]) return;
-    var p = products.find(function(x){ return x.id===pid; });
-    if(!p || p.soldOut) return;
-    addToCart(pid, 0);
-    added++;
+/* ========== بانرات التصنيفات ========== */
+function buildCatBanners() {
+  var wrap = document.getElementById('catBanners');
+  wrap.innerHTML = '';
+  var allB = document.createElement('div');
+  allB.className = 'cat-banner' + (currentFilter === 'all' ? ' active' : '');
+  allB.innerHTML = '<div class="cat-banner-img">🛍️</div><div class="cat-banner-label">الكل</div>';
+  allB.addEventListener('click', function() { currentFilter='all'; currentSubFilter=null; renderAll(); });
+  wrap.appendChild(allB);
+  SHOP_GROUPS.forEach(function(g) {
+    var el = document.createElement('div');
+    el.className = 'cat-banner' + (currentFilter === g.name ? ' active' : '');
+    el.innerHTML = '<div class="cat-banner-img">' + g.icon + '</div><div class="cat-banner-label">' + g.name + '</div>';
+    el.addEventListener('click', function() { currentFilter=g.name; currentSubFilter=null; renderAll(); });
+    wrap.appendChild(el);
   });
-  if(added > 0) closeFav();
 }
 
-function renderFavItems(){
-  var el = document.getElementById("favItems");
-  var btn = document.getElementById("favAddSelected");
-  if(!el) return;
-  if(favourites.length === 0){
-    el.innerHTML = "<div class=\"fav-empty\">"+t("favEmpty")+" 🛍️</div>";
-    if(btn) btn.disabled = true;
+/* ========== أزرار الفلتر السريعة ========== */
+function buildFilterBar() {
+  var bar = document.getElementById('filtersBar');
+  bar.innerHTML = '';
+  var allBtn = document.createElement('button');
+  allBtn.className = 'filter-btn' + (currentFilter === 'all' ? ' active' : '');
+  allBtn.textContent = 'الكل';
+  allBtn.dataset.filter = 'all';
+  bar.appendChild(allBtn);
+  SHOP_GROUPS.forEach(function(g) {
+    var btn = document.createElement('button');
+    btn.className = 'filter-btn' + (currentFilter === g.name ? ' active' : '');
+    btn.textContent = g.name;
+    btn.dataset.filter = g.name;
+    bar.appendChild(btn);
+  });
+}
+
+/* ========== الفلترة ========== */
+function getFiltered() {
+  return PRODUCTS.filter(function(p) {
+    if (currentFilter !== 'all' && p.mainCat !== currentFilter) return false;
+    if (currentSubFilter && p.subCat !== currentSubFilter) return false;
+    if (searchQuery) {
+      var q = searchQuery.toLowerCase();
+      if (p.name.toLowerCase().indexOf(q) === -1 &&
+          p.mainCat.indexOf(q) === -1 &&
+          p.subCat.indexOf(q) === -1 &&
+          p.desc.toLowerCase().indexOf(q) === -1) return false;
+    }
+    if (priceMin !== null && p.price < priceMin) return false;
+    if (priceMax !== null && p.price > priceMax) return false;
+    return true;
+  });
+}
+
+/* ========== بناء البطاقات ========== */
+function buildGrid() {
+  var grid = document.getElementById('productGrid');
+  var items = getFiltered();
+  document.getElementById('productCount').textContent = items.length + ' منتج';
+
+  /* تحديث عنوان الصفحة */
+  var titleEl = document.getElementById('shopTitle');
+  if (currentSubFilter) {
+    titleEl.innerHTML = currentSubFilter + ' <em>- ' + currentFilter + '</em>';
+  } else if (currentFilter !== 'all') {
+    titleEl.innerHTML = currentFilter + ' <em>الكل</em>';
+  } else {
+    titleEl.innerHTML = 'المتجر <em>كله</em>';
+  }
+
+  if (!items.length) {
+    grid.innerHTML = '<div class="empty"><h3>لا توجد منتجات</h3><p>جربي تغيير الفلتر أو البحث</p></div>';
     return;
   }
-  var anySelected = favourites.some(function(pid){ return favSelected[pid]; });
-  if(btn) btn.disabled = !anySelected;
-  var h = "";
-  favourites.forEach(function(pid){
-    var p = products.find(function(x){ return x.id===pid; });
-    if(!p) return;
-    var img = p.images&&p.images.length>0?p.images[0]:(p.img||PLACEHOLDER);
-    var v0 = p.variants[0];
-    var isSel = !!favSelected[pid];
-    h += "<div class=\"fav-item\">" +
-      "<div class=\"fav-item-check "+(isSel?"checked":"")+"\" onclick=\"toggleFavItem('"+pid+"')\">"+(isSel?"✓":"")+"</div>" +
-      "<img src=\""+img+"\" alt=\""+esc(p.name)+"\" onerror=\"this.src=PLACEHOLDER\">" +
-      "<div class=\"fav-item-info\">" +
-        "<div class=\"fav-item-name\">"+esc(p.name)+"</div>" +
-        "<div class=\"fav-item-cat\">"+esc(getCatLabel(p.category))+"</div>" +
-        "<div class=\"fav-item-price\">"+v0.price+" "+t("currency")+"</div>" +
-      "</div>" +
-      "<button class=\"fav-item-del\" onclick=\"removeFavItem('"+pid+"')\" title=\""+t("removeFav")+"\">🗑</button>" +
-    "</div>";
+
+  grid.innerHTML = items.map(function(p) {
+    var isFav = favorites.indexOf(p.id) > -1;
+    var inCart = cart.find(function(c) { return c.id === p.id; });
+    var badgeHTML = '';
+    if (p.soldOut) badgeHTML = '<span class="badge badge-sold">نفذت الكمية</span>';
+    else if (p.badge === 'جديد') badgeHTML = '<span class="badge badge-new">جديد</span>';
+    else if (p.badge) badgeHTML = '<span class="badge badge-disc">' + p.badge + '</span>';
+
+    var dotsHTML = p.imgs.length > 1
+      ? '<div class="card-dots">' + p.imgs.map(function(_,i) { return '<span class="cdot'+(i===0?' active':'')+'" data-i="'+i+'"></span>'; }).join('') + '</div>' : '';
+    var arrowsHTML = p.imgs.length > 1
+      ? '<button class="c-arrow cprev" data-d="-1">❯</button><button class="c-arrow cnext" data-d="1">❮</button>' : '';
+    var variantHTML = p.variants.length
+      ? '<select class="variant-select" data-pid="'+p.id+'">' + p.variants.map(function(v) { return '<option>'+v+'</option>'; }).join('') + '</select>' : '';
+    var btnClass = p.soldOut ? 'add-cart-btn btn-soldout' : 'add-cart-btn' + (inCart ? ' added' : '');
+    var btnText = p.soldOut ? 'نفذت الكمية' : (inCart ? '✓ في السلة' : 'أضيفي للسلة');
+
+    return '<div class="card'+(p.soldOut?' sold-out-card':'')+' reveal" data-pid="'+p.id+'">' +
+      '<div class="card-img" data-pid="'+p.id+'">' +
+        '<div class="img-track" data-pid="'+p.id+'" data-idx="0">' +
+          p.imgs.map(function(src) { return '<img class="img-slide" src="'+src+'" alt="'+p.name+'" loading="lazy">'; }).join('') +
+        '</div>' + arrowsHTML + dotsHTML +
+        '<div class="badge-row">' + badgeHTML + '</div>' +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="card-cat">' + p.subCat + '</div>' +
+        '<div class="card-title">' + p.name + '</div>' +
+        '<div class="card-desc">' + p.desc + '</div>' +
+        '<div class="price-row">' +
+          '<span class="price-new">' + p.price + ' ج.م</span>' +
+          (p.oldPrice ? '<span class="price-old">' + p.oldPrice + ' ج.م</span>' : '') +
+        '</div>' + variantHTML +
+        '<button class="'+btnClass+'" data-pid="'+p.id+'" '+(p.soldOut?'disabled':'')+'>'+btnText+'</button>' +
+        '<button class="fav-btn'+(isFav?' faved':'')+'" data-pid="'+p.id+'">'+(isFav?'♥':'♡')+' '+(isFav?'في المفضلة':'أضيفي للمفضلة')+'</button>' +
+      '</div></div>';
+  }).join('');
+
+  requestAnimationFrame(function() {
+    grid.querySelectorAll('.reveal').forEach(function(el, i) {
+      setTimeout(function() { el.classList.add('visible'); }, i * 50);
+    });
   });
-  el.innerHTML = h;
-  // update select all button label
-  var allSel = favourites.every(function(pid){ return favSelected[pid]; });
-  var saBtn = document.getElementById("selectAllBtn");
-  if(saBtn) saBtn.textContent = allSel ? (lang==="ar"?"إلغاء التحديد":"Deselect All") : t("selectAll");
 }
-loadProducts();
-try{sb.channel("products-ch").on("postgres_changes",{event:"*",schema:"public",table:"products"},function(){loadProducts();}).subscribe();}catch(e){console.warn(e);}
-</script>
-</body>
-</html>
+
+/* ========== عرض الكل ========== */
+function renderAll() {
+  buildDrawer();
+  buildCatBanners();
+  buildFilterBar();
+  buildGrid();
+  updateCartUI();
+  updateFavUI();
+}
+
+/* ========== سلايدر الصور ========== */
+document.getElementById('productGrid').addEventListener('click', function(e) {
+  var arrow = e.target.closest('.c-arrow');
+  if (arrow) {
+    e.stopPropagation();
+    var card = arrow.closest('.card-img');
+    var track = card.querySelector('.img-track');
+    var pid = parseInt(track.dataset.pid);
+    var prod = PRODUCTS.find(function(p) { return p.id === pid; });
+    var total = prod ? prod.imgs.length : 1;
+    var idx = parseInt(track.dataset.idx) + parseInt(arrow.dataset.d);
+    if (idx < 0) idx = total - 1; if (idx >= total) idx = 0;
+    track.dataset.idx = idx;
+    track.style.transform = 'translateX(' + (idx * 100) + '%)';
+    card.querySelectorAll('.cdot').forEach(function(d,i) { d.classList.toggle('active', i === idx); });
+    return;
+  }
+  var dot = e.target.closest('.cdot');
+  if (dot) {
+    e.stopPropagation();
+    var card = dot.closest('.card-img');
+    var track = card.querySelector('.img-track');
+    var idx = parseInt(dot.dataset.i);
+    track.dataset.idx = idx;
+    track.style.transform = 'translateX(' + (idx * 100) + '%)';
+    card.querySelectorAll('.cdot').forEach(function(d,i) { d.classList.toggle('active', i === idx); });
+    return;
+  }
+  var cardImg = e.target.closest('.card-img');
+  if (cardImg) { openLightbox(parseInt(cardImg.dataset.pid)); return; }
+  var addBtn = e.target.closest('.add-cart-btn');
+  if (addBtn && !addBtn.disabled) { addToCart(parseInt(addBtn.dataset.pid)); return; }
+  var favBtn = e.target.closest('.fav-btn');
+  if (favBtn) { toggleFav(parseInt(favBtn.dataset.pid)); return; }
+});
+
+/* ========== لايت بوكس ========== */
+function openLightbox(pid) {
+  lbProduct = PRODUCTS.find(function(p) { return p.id === pid; });
+  lbIndex = 0; updateLB();
+  document.getElementById('lbOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function updateLB() {
+  if (!lbProduct) return;
+  document.getElementById('lbImg').src = lbProduct.imgs[lbIndex];
+  document.getElementById('lbCounter').textContent = (lbIndex+1) + ' / ' + lbProduct.imgs.length;
+  document.getElementById('lbDots').innerHTML = lbProduct.imgs.map(function(_,i) {
+    return '<span class="lb-dot'+(i===lbIndex?' active':'')+'" data-i="'+i+'"></span>';
+  }).join('');
+}
+function closeLightbox() {
+  document.getElementById('lbOverlay').classList.remove('open');
+  document.body.style.overflow = ''; lbProduct = null;
+}
+document.getElementById('lbClose').addEventListener('click', closeLightbox);
+document.getElementById('lbOverlay').addEventListener('click', function(e) { if (e.target === e.currentTarget) closeLightbox(); });
+document.getElementById('lbPrev').addEventListener('click', function() {
+  if (!lbProduct) return; lbIndex = (lbIndex-1+lbProduct.imgs.length) % lbProduct.imgs.length; updateLB();
+});
+document.getElementById('lbNext').addEventListener('click', function() {
+  if (!lbProduct) return; lbIndex = (lbIndex+1) % lbProduct.imgs.length; updateLB();
+});
+document.getElementById('lbDots').addEventListener('click', function(e) {
+  if (e.target.classList.contains('lb-dot')) { lbIndex = parseInt(e.target.dataset.i); updateLB(); }
+});
+
+/* ========== السلة ========== */
+function getCartItemPrice(cartItem) {
+  var prod = PRODUCTS.find(function(p) { return p.id === cartItem.id; });
+  if (!prod) return 0;
+  var vd = prod.variantData[cartItem.variantIdx || 0];
+  return vd ? vd.price : prod.price;
+}
+function addToCart(pid) {
+  var p = PRODUCTS.find(function(x) { return x.id === pid; });
+  if (!p || p.soldOut) return;
+  var sel = document.querySelector('.variant-select[data-pid="'+pid+'"]');
+  var vIdx = sel ? sel.selectedIndex : 0;
+  var existing = cart.find(function(c) { return c.id === pid && c.variantIdx === vIdx; });
+  if (existing) { existing.qty++; }
+  else { cart.push({ id: pid, variantIdx: vIdx, qty: 1 }); }
+  updateCartUI(); buildGrid();
+}
+function removeFromCart(idx) { cart.splice(idx, 1); updateCartUI(); buildGrid(); }
+function changeCartQty(idx, delta) {
+  cart[idx].qty += delta;
+  if (cart[idx].qty < 1) { removeFromCart(idx); return; }
+  updateCartUI();
+}
+function updateCartUI() {
+  var count = cart.reduce(function(s,c) { return s + c.qty; }, 0);
+  document.getElementById('cartCount').textContent = count;
+  var itemsEl = document.getElementById('cartItems');
+  if (!cart.length) {
+    itemsEl.innerHTML = '<div class="cart-empty-msg">السلة فارغة 🛒</div>';
+    document.getElementById('cartTotal').textContent = '0 ج.م'; return;
+  }
+  itemsEl.innerHTML = cart.map(function(c, idx) {
+    var p = PRODUCTS.find(function(x) { return x.id === c.id; });
+    var vd = p.variantData[c.variantIdx || 0];
+    var vLabel = vd ? vd.label : '';
+    var price = getCartItemPrice(c);
+    return '<div class="cart-item"><img src="'+p.imgs[0]+'" alt="'+p.name+'"><div class="ci-info"><div class="ci-name">'+p.name+'</div><div class="ci-variant">'+vLabel+'</div><div class="ci-price">'+(price*c.qty)+' ج.م</div><div class="ci-qty"><button class="qty-btn" data-idx="'+idx+'" data-d="-1">−</button><span class="qty-num">'+c.qty+'</span><button class="qty-btn" data-idx="'+idx+'" data-d="1">+</button><button class="remove-item" data-idx="'+idx+'">🗑 حذف</button></div></div></div>';
+  }).join('');
+  var total = cart.reduce(function(s,c) { return s + getCartItemPrice(c) * c.qty; }, 0);
+  document.getElementById('cartTotal').textContent = total + ' ج.م';
+}
+document.getElementById('cartItems').addEventListener('click', function(e) {
+  var qtyBtn = e.target.closest('.qty-btn');
+  if (qtyBtn) { changeCartQty(parseInt(qtyBtn.dataset.idx), parseInt(qtyBtn.dataset.d)); return; }
+  var remBtn = e.target.closest('.remove-item');
+  if (remBtn) { removeFromCart(parseInt(remBtn.dataset.idx)); return; }
+});
+function openCart() { document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartSidebar').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartSidebar').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('cartBtn').addEventListener('click', openCart);
+document.getElementById('closeCart').addEventListener('click', closeCart);
+document.getElementById('cartOverlay').addEventListener('click', closeCart);
+
+/* ========== المفضلة ========== */
+function toggleFav(pid) {
+  var idx = favorites.indexOf(pid);
+  if (idx > -1) { favorites.splice(idx, 1); delete favSelected[pid]; }
+  else { favorites.push(pid); }
+  updateFavUI(); buildGrid();
+}
+function updateFavUI() {
+  var badge = document.getElementById('favBadge');
+  badge.textContent = favorites.length;
+  badge.classList.toggle('show', favorites.length > 0);
+  var itemsEl = document.getElementById('favItems');
+  if (!favorites.length) { itemsEl.innerHTML = '<div class="fav-empty">لا توجد منتجات مفضلة ♡</div>'; document.getElementById('favAddSelected').disabled=true; return; }
+  itemsEl.innerHTML = favorites.map(function(fid) {
+    var p = PRODUCTS.find(function(x) { return x.id === fid; });
+    if (!p) return '';
+    var checked = favSelected[fid];
+    return '<div class="fav-item"><div class="fav-item-check'+(checked?' checked':'')+'" data-fid="'+fid+'">'+(checked?'✓':'')+'</div><img src="'+p.imgs[0]+'" alt="'+p.name+'"><div class="fav-item-info"><div class="fav-item-name">'+p.name+'</div><div class="fav-item-cat">'+p.mainCat+'</div><div class="fav-item-price">'+p.price+' ج.م</div></div><button class="fav-item-del" data-fid="'+fid+'">✕</button></div>';
+  }).join('');
+  document.getElementById('favAddSelected').disabled = !Object.keys(favSelected).length;
+}
+document.getElementById('favItems').addEventListener('click', function(e) {
+  var chk = e.target.closest('.fav-item-check');
+  if (chk) { var fid=chk.dataset.fid; if(favSelected[fid]) delete favSelected[fid]; else favSelected[fid]=true; updateFavUI(); return; }
+  var del = e.target.closest('.fav-item-del');
+  if (del) { toggleFav(parseInt(del.dataset.fid)); return; }
+});
+function openFav() { document.getElementById('favOverlay').classList.add('open'); document.getElementById('favSidebar').classList.add('open'); document.body.style.overflow='hidden'; updateFavUI(); }
+function closeFav() { document.getElementById('favOverlay').classList.remove('open'); document.getElementById('favSidebar').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('favIconBtn').addEventListener('click', openFav);
+document.getElementById('closeFav').addEventListener('click', closeFav);
+document.getElementById('favOverlay').addEventListener('click', closeFav);
+document.getElementById('favSelectAll').addEventListener('click', function() {
+  var allSelected = favorites.every(function(id) { return favSelected[id]; });
+  if (allSelected) { favSelected = {}; } else { favorites.forEach(function(id) { favSelected[id] = true; }); }
+  updateFavUI();
+});
+document.getElementById('favAddAll').addEventListener('click', function() { favorites.forEach(function(id) { addToCart(id); }); closeFav(); });
+document.getElementById('favAddSelected').addEventListener('click', function() {
+  Object.keys(favSelected).forEach(function(id) { addToCart(parseInt(id)); });
+  favSelected = {}; closeFav();
+});
+
+/* ========== الدرج ========== */
+function openDrawer() { document.getElementById('drawerOverlay').classList.add('open'); document.getElementById('drawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeDrawer() { document.getElementById('drawerOverlay').classList.remove('open'); document.getElementById('drawer').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('menuBtn').addEventListener('click', function() {
+  var btn = document.getElementById('menuBtn');
+  var isOpen = btn.classList.toggle('open');
+  isOpen ? openDrawer() : closeDrawer();
+});
+document.getElementById('closeDrawer').addEventListener('click', function() { document.getElementById('menuBtn').classList.remove('open'); closeDrawer(); });
+document.getElementById('drawerOverlay').addEventListener('click', function() { document.getElementById('menuBtn').classList.remove('open'); closeDrawer(); });
+
+/* ========== البحث ========== */
+document.getElementById('searchInput').addEventListener('input', function(e) { searchQuery = e.target.value.trim(); buildGrid(); });
+
+/* ========== فلتر السعر ========== */
+var pdBtn = document.getElementById('priceFilterBtn');
+var pdOverlay = document.getElementById('pdOverlay');
+var pdDropdown = document.getElementById('priceDropdown');
+pdBtn.addEventListener('click', function() { pdOverlay.classList.add('open'); pdDropdown.classList.add('open'); });
+pdOverlay.addEventListener('click', function() { pdOverlay.classList.remove('open'); pdDropdown.classList.remove('open'); });
+document.querySelectorAll('.pd-preset').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.getElementById('pdMin').value = btn.dataset.min;
+    document.getElementById('pdMax').value = btn.dataset.max;
+  });
+});
+document.getElementById('pdClear').addEventListener('click', function() {
+  priceMin = priceMax = null;
+  document.getElementById('pdMin').value = ''; document.getElementById('pdMax').value = '';
+  pdBtn.classList.remove('active');
+  pdOverlay.classList.remove('open'); pdDropdown.classList.remove('open');
+  buildGrid();
+});
+document.getElementById('pdApply').addEventListener('click', function() {
+  var min = document.getElementById('pdMin').value;
+  var max = document.getElementById('pdMax').value;
+  priceMin = min ? parseInt(min) : null;
+  priceMax = max ? parseInt(max) : null;
+  pdBtn.classList.toggle('active', priceMin !== null || priceMax !== null);
+  pdOverlay.classList.remove('open'); pdDropdown.classList.remove('open');
+  buildGrid();
+});
+
+/* ========== أزرار الفلتر ========== */
+document.getElementById('filtersBar').addEventListener('click', function(e) {
+  var btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  currentFilter = btn.dataset.filter; currentSubFilter = null; renderAll();
+});
+
+/* ========== مودال الطلب ========== */
+function openModal() {
+  if (!cart.length) return;
+  var overlay = document.getElementById('modalOverlay');
+  overlay.classList.add('open'); document.body.style.overflow = 'hidden';
+  document.getElementById('successScreen').style.display = 'none';
+  ['fName','fPhone','fCity','fAddr'].forEach(function(id) {
+    document.getElementById(id).classList.remove('err');
+    document.getElementById(id).disabled = false;
+    document.getElementById(id).value = '';
+  });
+  document.querySelectorAll('.err-msg').forEach(function(e) { e.classList.remove('show'); });
+  document.getElementById('modalCancel').style.display = '';
+  document.getElementById('modalSubmit').style.display = '';
+  document.querySelector('.modal .subtitle').style.display = '';
+  document.querySelector('.order-summary').style.display = '';
+  document.querySelectorAll('.field-group').forEach(function(e) { e.style.display = ''; });
+  document.querySelector('.modal h2').textContent = 'إتمام الطلب';
+  var summary = document.getElementById('orderSummary');
+  summary.innerHTML = cart.map(function(c) {
+    var p = PRODUCTS.find(function(x) { return x.id === c.id; });
+    var vd = p.variantData[c.variantIdx || 0];
+    var vLabel = vd ? vd.label : '';
+    var price = getCartItemPrice(c);
+    return '<div class="os-item"><span>'+p.name+' ('+vLabel+') × '+c.qty+'</span><span>'+(price*c.qty)+' ج.م</span></div>';
+  }).join('');
+  var total = cart.reduce(function(s,c) { return s + getCartItemPrice(c) * c.qty; }, 0);
+  summary.innerHTML += '<div class="os-total"><span>المجموع</span><span>'+total+' ج.م</span></div>';
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('checkoutBtn').addEventListener('click', openModal);
+document.getElementById('modalCancel').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === e.currentTarget) closeModal(); });
+document.getElementById('modalSubmit').addEventListener('click', async function() {
+  var valid = true;
+  var name = document.getElementById('fName').value.trim();
+  var phone = document.getElementById('fPhone').value.trim();
+  var city = document.getElementById('fCity').value.trim();
+  var addr = document.getElementById('fAddr').value.trim();
+  if (!name) { document.getElementById('fName').classList.add('err'); document.getElementById('errName').classList.add('show'); valid=false; } else { document.getElementById('fName').classList.remove('err'); document.getElementById('errName').classList.remove('show'); }
+  if (!/^05\d{8}$/.test(phone)) { document.getElementById('fPhone').classList.add('err'); document.getElementById('errPhone').classList.add('show'); valid=false; } else { document.getElementById('fPhone').classList.remove('err'); document.getElementById('errPhone').classList.remove('show'); }
+  if (!city) { document.getElementById('fCity').classList.add('err'); document.getElementById('errCity').classList.add('show'); valid=false; } else { document.getElementById('fCity').classList.remove('err'); document.getElementById('errCity').classList.remove('show'); }
+  if (!addr) { document.getElementById('fAddr').classList.add('err'); document.getElementById('errAddr').classList.add('show'); valid=false; } else { document.getElementById('fAddr').classList.remove('err'); document.getElementById('errAddr').classList.remove('show'); }
+  if (!valid) return;
+  var submitBtn = document.getElementById('modalSubmit');
+  submitBtn.disabled = true; submitBtn.textContent = 'جاري الإرسال...';
+  var total = cart.reduce(function(s,c) { return s + getCartItemPrice(c) * c.qty; }, 0);
+  var orderItems = cart.map(function(c) {
+    var p = PRODUCTS.find(function(x) { return x.id === c.id; });
+    var vd = p.variantData[c.variantIdx || 0];
+    return { name: p.name, variant: vd ? vd.label : '', qty: c.qty, price: getCartItemPrice(c), img: p.imgs[0] || '' };
+  });
+  var orderPayload = {
+    customer_name: name, customer_phone: phone, city: city, address: addr,
+    items: orderItems, total: total, status: 'جديد'
+  };
+  try {
+    var res = await sb.from('orders').insert(orderPayload);
+    if (res.error) { alert('خطأ: ' + res.error.message); submitBtn.disabled=false; submitBtn.textContent='تأكيد الطلب'; return; }
+    document.querySelector('.modal h2').textContent = '';
+    document.querySelector('.modal .subtitle').style.display = 'none';
+    document.querySelector('.order-summary').style.display = 'none';
+    document.querySelectorAll('.field-group').forEach(function(e) { e.style.display = 'none'; });
+    document.getElementById('modalCancel').style.display = 'none';
+    document.getElementById('modalSubmit').style.display = 'none';
+    document.getElementById('successScreen').style.display = '';
+    cart = []; updateCartUI(); buildGrid();
+    setTimeout(closeModal, 3000);
+  } catch(e) { alert('فشل الإرسال'); }
+  submitBtn.disabled = false; submitBtn.textContent = 'تأكيد الطلب';
+});
+
+/* ========== التقييم ========== */
+function openFeedback() {
+  document.getElementById('fbOverlay').classList.add('open'); document.body.style.overflow='hidden';
+  fbRating=0; updateStars();
+  document.getElementById('fbName').value=''; document.getElementById('fbText').value='';
+  document.getElementById('fbSuccess').style.display='none';
+  document.getElementById('fbModal').querySelector('h2').style.display='';
+  document.querySelector('.fb-sub').style.display='';
+  document.getElementById('starsRow').style.display='';
+  document.getElementById('fbName').style.display='';
+  document.getElementById('fbText').style.display='';
+  document.getElementById('fbActions').style.display='';
+}
+function closeFeedback() { document.getElementById('fbOverlay').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('feedbackFab').addEventListener('click', openFeedback);
+document.getElementById('fbCancel').addEventListener('click', closeFeedback);
+document.getElementById('fbOverlay').addEventListener('click', function(e) { if (e.target === e.currentTarget) closeFeedback(); });
+var starsRow = document.getElementById('starsRow');
+for (var i = 1; i <= 5; i++) {
+  (function(val) {
+    var s = document.createElement('span'); s.className = 'star'; s.dataset.v = val; s.textContent = '★';
+    s.addEventListener('click', function() { fbRating = val; updateStars(); document.getElementById('fbSend').disabled = false; });
+    s.addEventListener('mouseenter', function() { starsRow.querySelectorAll('.star').forEach(function(st,j) { st.classList.toggle('lit', j < val); }); });
+    s.addEventListener('mouseleave', updateStars);
+    starsRow.appendChild(s);
+  })(i);
+}
+function updateStars() { starsRow.querySelectorAll('.star').forEach(function(s,i) { s.classList.toggle('lit', i < fbRating); }); }
+document.getElementById('fbSend').addEventListener('click', function() {
+  document.getElementById('fbModal').querySelector('h2').style.display='none';
+  document.querySelector('.fb-sub').style.display='none';
+  document.getElementById('starsRow').style.display='none';
+  document.getElementById('fbName').style.display='none';
+  document.getElementById('fbText').style.display='none';
+  document.getElementById('fbActions').
