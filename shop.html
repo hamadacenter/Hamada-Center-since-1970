@@ -493,29 +493,42 @@ function closeDrawer(){document.getElementById("drawerOverlay").classList.remove
 
 function renderDrawer(){
   var active={};products.forEach(function(p){active[p.category]=true;});
-  var el=document.getElementById("drawerBody");if(!el)return;
+  var el=document.getElementById("drawerBody");
+  if(!el)return;
+
   var allActive=activeCategory==="الكل";
   var h="<div class=\"drawer-cat"+(allActive?" active":"")+"\" onclick=\"setCategory('الكل');closeDrawer();\"><span class=\"drawer-cat-icon\">🏠</span><span>"+(lang==="ar"?"الكل":"All")+"</span></div>";
+
   SHOP_GROUPS.forEach(function(g,gi){
     var groupLabel=lang==="ar"?g.ar:g.en;
     var hasActive=g.cats.indexOf(activeCategory)!==-1;
-    var isOpen=hasActive||(gi===0&&activeCategory==="الكل");
+    var isOpen=hasActive||gi===0;
+    // Group header
     h+="<div class=\"drawer-group-header"+(hasActive?" has-active":"")+(isOpen?" open":"")+"\" onclick=\"toggleDrawerGroup(this)\">" +
-       "<span>"+groupLabel+"</span><span class=\"drawer-group-arrow\">&#8250;</span></div>";
-    h+="<div class=\"drawer-group-subs"+(isOpen?" open":"")+"\">";
+       "<span>"+groupLabel+"</span>" +
+       "<span class=\"drawer-group-arrow\">&#8250;</span>" +
+       "</div>";
+    // Sub-items
+    h+="<div class=\"drawer-group-subs"+(isOpen?" open":"\">\"");
     g.cats.forEach(function(c){
       var hasProd=active[c];
       var icon=CAT_ICONS[c]||"🏷️";
       var isAct=c===activeCategory;
       var safeC=c.split("'").join("\\'");
       var dim=hasProd?"":" style=\"opacity:.38;\"";
-      var click=hasProd?"onclick=\"setCategory('"+safeC+"');closeDrawer();\"":"";
-      h+="<div class=\"drawer-cat"+(isAct?" active":"")+"\""+dim+" "+click+"><span class=\"drawer-cat-icon\">"+icon+"</span><span>"+getShortCatLabel(c)+"</span></div>";
+      var click=hasProd?"onclick=\"setCategory('"+safeC+"');closeDrawer();\"":" style=\"opacity:.38;cursor:default;\"";
+      // Display name: remove group prefix like "مكياج - " or "Makeup - "
+      var displayAR=c.replace(/^[^-]+ - /,"");
+      var displayEN=getCatLabel(c).replace(/^[^-]+ - /,"");
+      var display=lang==="ar"?displayAR:displayEN;
+      h+="<div class=\"drawer-cat"+(isAct?" active":"")+"\""+dim+" "+click+"><span class=\"drawer-cat-icon\">"+icon+"</span><span>"+display+"</span></div>";
     });
     h+="</div>";
   });
   el.innerHTML=h;
 }
+
+
 function toggleDrawerGroup(header){
   header.classList.toggle("open");
   var subs=header.nextElementSibling;
@@ -879,4 +892,18 @@ loadProducts();
 try{sb.channel("products-ch").on("postgres_changes",{event:"*",schema:"public",table:"products"},function(){loadProducts();}).subscribe();}catch(e){console.warn(e);}
 </script>
 </body>
-</html>
+</html
+function renderFilters(){
+  var ac={};products.forEach(function(p){ac[p.category]=true;});
+  var h="";
+  CATEGORIES_AR.forEach(function(c){
+    var hasProd=c==="الكل"||ac[c];
+    var isA=c===activeCategory;
+    var dim=hasProd?"":" style=\"opacity:.35;pointer-events:none;\"";
+    h+="<button class=\"filter-btn"+(isA?" active":"")+"\""+dim+" onclick=\"setCategory('"+c.split("'").join("\\'")+"')\">"+getCatLabel(c)+"</button>";
+  });
+  document.getElementById("filters").innerHTML=h;
+}
+
+
+>
