@@ -51,7 +51,7 @@
   .login-error{color:var(--danger);font-size:.85rem;margin-top:12px;display:none;font-weight:700;}
   .config-error{color:var(--danger);font-size:.8rem;margin-top:16px;padding:12px;background:var(--danger-bg);border-radius:10px;display:none;}
 
-  /* ADMIN LAYOUT - HIDDEN BY DEFAULT */
+  /* ADMIN LAYOUT */
   .admin-app{display:none;min-height:100vh;}
   .admin-sidebar{width:var(--sidebar-width);background:var(--bg-sidebar);border-left:1px solid var(--border);display:flex;flex-direction:column;position:fixed;right:0;top:0;bottom:0;z-index:100;}
   .sidebar-brand{padding:28px 24px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);}
@@ -227,12 +227,15 @@
 </style>
 <base target="_blank">
 </head>
-<body>
-
-<!-- LOGIN -->
-<div class="login-screen" id="loginScreen">
+<body><div class="login-screen" id="loginScreen">
   <div class="login-box">
-    <h1>لوحة تحكم Hamada Center</h1>
+    <div class="logo-area">
+      <div class="logo-icon">💎</div>
+      <div>
+        <h1>Hamada Center</h1>
+        <div class="sub-brand">Admin Panel</div>
+      </div>
+    </div>
     <p>هذه الصفحة خاصة بالإدارة فقط</p>
     <input type="password" id="passwordInput" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')tryLogin()">
     <button onclick="tryLogin()">دخول</button>
@@ -241,37 +244,196 @@
   </div>
 </div>
 
-<!-- ADMIN APP -->
 <div class="admin-app" id="adminApp">
-  <div class="admin-header">
-    <h1>لوحة التحكم</h1>
-    <div class="header-actions">
-      <span class="live-badge"><span class="live-dot"></span> متصل مباشر</span>
 
-      <button class="orders-icon-btn" onclick="openOrders()">
-        🧾 الفواتير
-        <span class="orders-badge" id="ordersBadge">0</span>
-      </button>
-
-      <button class="logout-btn" onclick="logout()">خروج</button>
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">💎</div>
+      <div class="brand-text">
+        <h2>Hamada Center</h2>
+        <span>Admin Panel</span>
+      </div>
     </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">نظرة عامة</div>
+        <button class="nav-item active" onclick="switchTab('dashboard')" id="nav-dashboard">
+          <span class="nav-icon">📊</span> لوحة التحكم
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">الإدارة</div>
+        <button class="nav-item" onclick="switchTab('add')" id="nav-add">
+          <span class="nav-icon">➕</span> إضافة منتج
+        </button>
+        <button class="nav-item" onclick="switchTab('manage')" id="nav-manage">
+          <span class="nav-icon">📦</span> المنتجات
+        </button>
+        <button class="nav-item" onclick="openOrders()" id="nav-orders">
+          <span class="nav-icon">🧾</span> الطلبات
+          <span class="badge" id="sidebarOrdersBadge" style="display:none;margin-right:auto;margin-left:0;">0</span>
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">النظام</div>
+        <button class="nav-item" onclick="logout()" id="nav-logout">
+          <span class="nav-icon">🚪</span> خروج
+        </button>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar">👤</div>
+        <div class="user-info">
+          <div class="name">مدير النظام</div>
+          <div class="role">Admin User</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="main-header">
+      <div>
+        <h1 id="pageTitle">لوحة التحكم</h1>
+        <div class="subtitle" id="pageSubtitle">مرحباً بعودتك. إليك ما يحدث في متجرك.</div>
+      </div>
+      <div class="header-actions">
+        <span class="live-badge"><span class="live-dot"></span> متصل مباشر</span>
+        <button class="header-btn primary" onclick="switchTab('add')">
+          <span>➕</span> إضافة منتج
+        </button>
+      </div>
+    </div>
+
+    <div class="dashboard-content">
+
+      <!-- DASHBOARD SECTION -->
+      <div class="section active" id="tab-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📦</div>
+            <div class="stat-label">إجمالي المنتجات</div>
+            <div class="stat-value" id="statTotalProducts">0</div>
+            <div class="stat-meta"><span class="trend-up">↑</span> منتج في المتجر</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-label">متاح للبيع</div>
+            <div class="stat-value" id="statActive">0</div>
+            <div class="stat-meta">منشور ومتاح</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-label">نفذ من المخزون</div>
+            <div class="stat-value" id="statOutOfStock">0</div>
+            <div class="stat-meta"><span class="trend-down">!</span> يحتاج إعادة تخزين</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏷️</div>
+            <div class="stat-label">التصنيفات</div>
+            <div class="stat-value">6</div>
+            <div class="stat-meta">منظمة</div>
+          </div>
+        </div>
+
+        <div class="page-header">
+          <div>
+            <h2>المنتجات حسب التصنيف</h2>
+            <div class="desc">نظرة سريعة على توزيع المنتجات</div>
+          </div>
+        </div>
+        <div id="category-breakdown" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+          <!-- Will be populated by JS -->
+        </div>
+      </div>
+
+      <!-- ADD PRODUCT SECTION -->
+      <div class="section" id="tab-add">
+        <div class="page-header">
+          <div>
+            <h2>إضافة منتج جديد</h2>
+            <div class="desc">أدخل تفاصيل المنتج لإضافته إلى المتجر</div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-grid">
+            <div class="form-col">
+              <label>اسم المنتج</label>
+              <input type="text" id="f-name" placeholder="مثال: عطر Amaran Qamarain">
+
+              <label>التصنيف</label>
+              <input type="hidden" id="f-cat" value="مكياج">
+              <div class="cat-picker-wrap" id="catPicker"></div>
+
+              <label>الوصف المختصر</label>
+              <textarea id="f-desc" placeholder="وصف قصير يظهر تحت اسم المنتج"></textarea>
+            </div>
+            <div class="form-col">
+              <label>حالة المنتج</label>
+              <div class="status-pills" id="statusPills">
+                <button type="button" class="status-pill" id="pill-normal" onclick="setStatus('normal')">عادي</button>
+                <button type="button" class="status-pill" id="pill-new" onclick="setStatus('new')">🆕 جديد</button>
+                <button type="button" class="status-pill" id="pill-soldout" onclick="setStatus('soldout')">⛔ نفذ من المخزون</button>
+              </div>
+              <div class="hint">حدد حالة المنتج — تظهر كشارة على صورة المنتج بالموقع</div>
+
+              <label>صور المنتج</label>
+              <div class="hint">يمكنك إضافة أكثر من صورة — الصورة الأولى هي الرئيسية</div>
+              <input type="file" id="f-img-upload" accept="image/*" multiple style="display:none" onchange="handleImagesUpload(event)">
+              <div class="images-grid" id="images-grid">
+                <button type="button" class="add-more-img-btn" onclick="document.getElementById('f-img-upload').click()">
+                  <span>+</span>إضافة صورة
+                </button>
+              </div>
+
+              <label>الأسعار / الأحجام</label>
+              <div id="variants-container"></div>
+              <button class="small-btn" onclick="addVariantRow()" style="margin-top:8px;">+ إضافة حجم/سعر</button>
+            </div>
+          </div>
+
+          <button class="save-btn" id="saveBtn" onclick="saveProduct()">حفظ المنتج</button>
+          <button class="cancel-edit-btn" id="cancelEditBtn" style="display:none;" onclick="clearForm()">إلغاء التعديل</button>
+        </div>
+      </div>
+
+      <!-- MANAGE PRODUCTS SECTION -->
+      <div class="section" id="tab-manage">
+        <div class="page-header">
+          <div>
+            <h2>إدارة المنتجات</h2>
+            <div class="desc">تعديل أو حذف المنتجات الموجودة</div>
+          </div>
+        </div>
+        <div id="product-list"></div>
+      </div>
+
+    </div>
+  </main>
+</div><div class="orders-overlay" id="ordersOverlay" onclick="closeOrders()"></div>
+<div class="orders-panel" id="ordersPanel">
+  <div class="orders-panel-head">
+    <h2>🧾 الفواتير والطلبات</h2>
+    <button class="close-orders" onclick="closeOrders()">✕</button>
   </div>
+  <div class="orders-toolbar">
+    <button class="filter-pill active" onclick="filterOrders('all',this)">الكل</button>
+    <button class="filter-pill" onclick="filterOrders('جديد',this)">🟢 جديد</button>
+    <button class="filter-pill" onclick="filterOrders('قيد-التنفيذ',this)">🟡 جاري</button>
+    <button class="filter-pill" onclick="filterOrders('مكتمل',this)">🔵 مكتمل</button>
+    <button class="filter-pill" onclick="filterOrders('ملغي',this)">🔴 ملغي</button>
+  </div>
+  <div class="orders-list" id="ordersList"></div>
+<div class="toast" id="toast"></div>
 
-  <div class="admin-body">
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab('add')">إضافة منتج</div>
-      <div class="tab" onclick="switchTab('manage')">إدارة المنتجات</div>
-    </div>
-
-    <div class="section active" id="tab-add">
-      <div class="form-card">
-        <label>اسم المنتج</label>
-        <input type="text" id="f-name" placeholder="مثال: عطر Amaran Qamarain">
-
-        <label>التصنيف</label>
-        <input type="hidden" id="f-cat" value="مكياج">
-        <div class="cat-picker-wrap" id="catPicker"></div>
-        <script>
+<script>
         (function(){
           function tryRender(){
             if(typeof renderCatPicker === "function"){
@@ -410,6 +572,7 @@ function showAdmin(){
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
       renderCatPicker(document.getElementById('f-cat').value || 'مكياج');
+      updateDashboardStats();
     });
   });
 }
@@ -460,6 +623,11 @@ function updateOrdersBadge(){
   const badge = document.getElementById('ordersBadge');
   badge.textContent = newCount;
   badge.classList.toggle('show', newCount > 0);
+  const sidebarBadge = document.getElementById('sidebarOrdersBadge');
+  if(sidebarBadge){
+    sidebarBadge.textContent = newCount;
+    sidebarBadge.style.display = newCount > 0 ? 'inline-flex' : 'none';
+  }
 }
 
 function openOrders(){
@@ -560,15 +728,56 @@ async function loadProducts(){
 }
 
 function switchTab(tab){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  // Update sidebar nav active states
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const navIds = {'dashboard':'nav-dashboard','add':'nav-add','manage':'nav-manage'};
+  if(navIds[tab]) document.getElementById(navIds[tab]).classList.add('active');
+
+  // Update sections
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tab')[tab==='add'?0:1].classList.add('active');
   document.getElementById('tab-'+tab).classList.add('active');
+
+  // Update page title
+  const titles = {
+    'dashboard':{title:'لوحة التحكم', subtitle:'مرحباً بعودتك. إليك ما يحدث في متجرك.'},
+    'add':{title:'إضافة منتج', subtitle:'أضف منتجاً جديداً إلى المتجر'},
+    'manage':{title:'إدارة المنتجات', subtitle:'تعديل أو حذف المنتجات الموجودة'}
+  };
+  if(titles[tab]){
+    document.getElementById('pageTitle').textContent = titles[tab].title;
+    document.getElementById('pageSubtitle').textContent = titles[tab].subtitle;
+  }
+
   if(tab==='manage') renderProductList();
   if(tab==='add'){ var cv=document.getElementById('f-cat').value||'مكياج'; requestAnimationFrame(function(){ renderCatPicker(cv); }); }
+  if(tab==='dashboard') updateDashboardStats();
 }
 
-/* ---------- STATUS PILLS ---------- */
+function updateDashboardStats(){
+  document.getElementById('statTotalProducts').textContent = products.length;
+  document.getElementById('statActive').textContent = products.filter(p=>!p.sold_out).length;
+  document.getElementById('statOutOfStock').textContent = products.filter(p=>p.sold_out).length;
+
+  // Category breakdown
+  const breakdown = document.getElementById('category-breakdown');
+  const counts = {};
+  products.forEach(p=>{ counts[p.category] = (counts[p.category]||0) + 1; });
+  const cats = ['عناية بالبشرة','عناية بالجسم','عناية بالشعر','أجهزة','إكسسوارات','مكياج'];
+  breakdown.innerHTML = cats.map(c=>{
+    const count = counts[c]||0;
+    return `<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;border-radius:10px;background:var(--bg-input);display:flex;align-items:center;justify-content:center;font-size:1.2rem;">${getCatIcon(c)}</div>
+      <div style="flex:1;"><div style="font-weight:800;font-size:.95rem;">${c}</div><div style="font-size:.8rem;color:var(--text-muted);">${count} منتج</div></div>
+      <div style="font-size:1.4rem;font-weight:900;color:var(--accent);">${count}</div>
+    </div>`;
+  }).join('');
+}
+
+function getCatIcon(cat){
+  const icons = {'عناية بالبشرة':'🧴','عناية بالجسم':'🧖','عناية بالشعر':'💇','أجهزة':'⚡','إكسسوارات':'💎','مكياج':'💄'};
+  return icons[cat]||'📦';
+}
+
 function setStatus(status){
   currentStatus = status;
   document.getElementById('pill-normal').classList.toggle('active-normal', status==='normal');
