@@ -51,8 +51,6 @@
   .login-error{color:var(--danger);font-size:.85rem;margin-top:12px;display:none;font-weight:700;}
   .config-error{color:var(--danger);font-size:.8rem;margin-top:16px;padding:12px;background:var(--danger-bg);border-radius:10px;display:none;}
 
-  .admin-app{display:none;}
-
   /* ADMIN LAYOUT */
   .admin-app{display:none;min-height:100vh;}
   .admin-sidebar{width:var(--sidebar-width);background:var(--bg-sidebar);border-left:1px solid var(--border);display:flex;flex-direction:column;position:fixed;right:0;top:0;bottom:0;z-index:100;}
@@ -99,9 +97,9 @@
   .stat-card .stat-meta .trend-down{color:var(--danger);}
   .stat-card .stat-icon{float:left;font-size:2rem;opacity:.15;margin-top:-4px;}
 
-  /* SECTIONS */
-  .section{display:none !important;}
-  .section.active{display:block !important;}
+  /* SECTIONS - FIXED: no !important, clean specificity */
+  .dashboard-content .section{display:none;}
+  .dashboard-content .section.active{display:block;}
 
   /* ADD PRODUCT FORM */
   .form-card{background:var(--bg-card);border-radius:16px;padding:28px;border:1px solid var(--border);}
@@ -167,7 +165,7 @@
   .badge-tag.tag-new{background:var(--info-bg);color:var(--info);}
   .badge-tag.tag-soldout{background:var(--danger-bg);color:var(--danger);}
 
-  /* ORDERS PANEL - FIXED */
+  /* ORDERS PANEL */
   .orders-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;display:none;}
   .orders-overlay.open{display:block;}
   .orders-panel{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);background:var(--bg-card);z-index:601;transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column;border-left:1px solid var(--border);box-shadow:-4px 0 24px rgba(0,0,0,.3);}
@@ -780,7 +778,10 @@ function updateDashboardStats(){
 
   const breakdown = document.getElementById('category-breakdown');
   const counts = {};
-  products.forEach(p=>{ counts[p.category] = (counts[p.category]||0) + 1; });
+  products.forEach(p=>{
+    const mappedCat = mapOldCategory(p.category);
+    counts[mappedCat] = (counts[mappedCat]||0) + 1;
+  });
   const cats = ['عناية بالبشرة','عناية بالجسم','عناية بالشعر','أجهزة','إكسسوارات','مكياج'];
   breakdown.innerHTML = cats.map(c=>{
     const count = counts[c]||0;
