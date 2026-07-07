@@ -165,10 +165,10 @@
   .badge-tag.tag-new{background:var(--info-bg);color:var(--info);}
   .badge-tag.tag-soldout{background:var(--danger-bg);color:var(--danger);}
 
-  /* ORDERS PANEL - FIXED FOR RTL */
-  .orders-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;display:none;backdrop-filter:blur(4px);pointer-events:none;}
-  .orders-overlay.open{display:block;pointer-events:auto;}
-  .orders-panel{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);background:var(--bg-card);z-index:601;transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column;border-left:1px solid var(--border);box-shadow:-4px 0 24px rgba(0,0,0,.3);min-height:100vh;}
+  /* ORDERS PANEL */
+  .orders-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;display:none;backdrop-filter:blur(4px);}
+  .orders-overlay.open{display:block;}
+  .orders-panel{position:fixed;top:0;left:0;bottom:0;width:min(520px,100vw);background:var(--bg-card);z-index:601;transform:translateX(-100%);transition:transform .3s ease;display:flex;flex-direction:column;border-right:1px solid var(--border);box-shadow:4px 0 24px rgba(0,0,0,.3);}
   .orders-panel.open{transform:translateX(0);}
   .orders-panel-head{background:var(--bg-card);color:var(--text);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid var(--border);}
   .orders-panel-head h2{font-size:1.1rem;font-weight:800;}
@@ -178,7 +178,7 @@
   .filter-pill{border:1px solid var(--border);background:var(--bg-input);color:var(--text-muted);padding:7px 14px;border-radius:999px;font-family:inherit;font-weight:700;font-size:.78rem;cursor:pointer;transition:.2s;}
   .filter-pill:hover{border-color:var(--border-hover);color:var(--text);}
   .filter-pill.active{background:var(--accent);color:var(--bg);border-color:var(--accent);}
-  .orders-list{flex:1;overflow-y:auto;padding:16px 20px;min-height:0;}
+  .orders-list{flex:1;overflow-y:auto;padding:16px 20px;}
   .order-card{background:var(--bg);border-radius:14px;padding:18px;margin-bottom:14px;border:1px solid var(--border);}
   .order-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
   .order-id{font-size:.75rem;color:var(--text-dim);font-weight:700;}
@@ -225,11 +225,9 @@
     .stats-grid{grid-template-columns:1fr 1fr;}
   }
 </style>
+<base target="_blank">
 </head>
-<body>
-
-<!-- LOGIN -->
-<div class="login-screen" id="loginScreen">
+<body><div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="logo-area">
       <div class="logo-icon">💎</div>
@@ -246,7 +244,6 @@
   </div>
 </div>
 
-<!-- ADMIN APP -->
 <div class="admin-app" id="adminApp">
 
   <!-- SIDEBAR -->
@@ -415,11 +412,76 @@
             <div class="desc">تعديل أو حذف المنتجات الموجودة</div>
           </div>
         </div>
+        <div class="form-card" style="margin-bottom:20px;padding:16px 20px;">
+          <input type="text" id="productSearch" placeholder="🔍 ابحث عن منتج بالاسم أو التصنيف..." oninput="filterProductList()" style="margin:0;">
+        </div>
         <div id="product-list"></div>
       </div>
 
     </div>
   </main>
+</div><div class="orders-overlay" id="ordersOverlay" onclick="closeOrders()"></div>
+<div class="orders-panel" id="ordersPanel">
+  <div class="orders-panel-head">
+    <h2>🧾 الفواتير والطلبات</h2>
+    <button class="close-orders" onclick="closeOrders()">✕</button>
+  </div>
+  <div class="orders-toolbar">
+    <button class="filter-pill active" onclick="filterOrders('all',this)">الكل</button>
+    <button class="filter-pill" onclick="filterOrders('جديد',this)">🟢 جديد</button>
+    <button class="filter-pill" onclick="filterOrders('قيد-التنفيذ',this)">🟡 جاري</button>
+    <button class="filter-pill" onclick="filterOrders('مكتمل',this)">🔵 مكتمل</button>
+    <button class="filter-pill" onclick="filterOrders('ملغي',this)">🔴 ملغي</button>
+  </div>
+  <div class="orders-list" id="ordersList"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+        (function(){
+          function tryRender(){
+            if(typeof renderCatPicker === "function"){
+              renderCatPicker("مكياج");
+            } else {
+              setTimeout(tryRender, 50);
+            }
+          }
+          tryRender();
+        })();
+        </script>
+
+        <label>الوصف المختصر</label>
+        <textarea id="f-desc" placeholder="وصف قصير يظهر تحت اسم المنتج"></textarea>
+
+        <label>حالة المنتج</label>
+        <div class="status-pills" id="statusPills">
+          <button type="button" class="status-pill" id="pill-normal" onclick="setStatus('normal')">عادي</button>
+          <button type="button" class="status-pill" id="pill-new" onclick="setStatus('new')">🆕 جديد</button>
+          <button type="button" class="status-pill" id="pill-soldout" onclick="setStatus('soldout')">⛔ نفذ من المخزون</button>
+        </div>
+        <div class="hint">حدد حالة المنتج — تظهر كشارة على صورة المنتج بالموقع</div>
+
+        <label>صور المنتج</label>
+        <div class="hint" style="margin-bottom:8px;">يمكنك إضافة أكثر من صورة — الصورة الأولى هي الرئيسية، وكل الصور تظهر كسلايدر للعميل</div>
+        <input type="file" id="f-img-upload" accept="image/*" multiple style="display:none" onchange="handleImagesUpload(event)">
+        <div class="images-grid" id="images-grid">
+          <button type="button" class="add-more-img-btn" onclick="document.getElementById('f-img-upload').click()">
+            <span>+</span>إضافة صورة
+          </button>
+        </div>
+
+        <label>الأسعار / الأحجام</label>
+        <div id="variants-container"></div>
+        <button class="small-btn" onclick="addVariantRow()" style="margin-top:8px;">+ إضافة حجم/سعر</button>
+
+        <button class="save-btn" id="saveBtn" onclick="saveProduct()">حفظ المنتج</button>
+        <button class="cancel-edit-btn" id="cancelEditBtn" style="display:none;" onclick="clearForm()">إلغاء التعديل</button>
+      </div>
+    </div>
+
+    <div class="section" id="tab-manage">
+      <div id="product-list"></div>
+    </div>
+  </div>
 </div>
 
 <!-- ORDERS PANEL -->
@@ -572,9 +634,26 @@ function updateOrdersBadge(){
 }
 
 function openOrders(){
+  // Check if orders password is already verified
+  if(sessionStorage.getItem('hc_orders_auth') !== 'true'){
+    showOrdersPasswordPrompt();
+    return;
+  }
   document.getElementById('ordersOverlay').classList.add('open');
   document.getElementById('ordersPanel').classList.add('open');
   renderOrders();
+}
+
+function showOrdersPasswordPrompt(){
+  const pw = prompt('أدخل كلمة مرور الفواتير:');
+  if(pw === 'daniel3269'){
+    sessionStorage.setItem('hc_orders_auth','true');
+    document.getElementById('ordersOverlay').classList.add('open');
+    document.getElementById('ordersPanel').classList.add('open');
+    renderOrders();
+  }else if(pw !== null){
+    showToast('كلمة المرور غير صحيحة', true);
+  }
 }
 function closeOrders(){
   document.getElementById('ordersOverlay').classList.remove('open');
@@ -665,6 +744,7 @@ async function loadProducts(){
     if(error){ showToast('خطأ في تحميل المنتجات: '+error.message, true); return; }
     products = data || [];
     renderProductList();
+    updateDashboardStats();
   }catch(err){ showToast('فشل الاتصال بقاعدة البيانات', true); }
 }
 
@@ -673,11 +753,11 @@ function switchTab(tab){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const navIds = {'dashboard':'nav-dashboard','add':'nav-add','manage':'nav-manage'};
   if(navIds[tab]) document.getElementById(navIds[tab]).classList.add('active');
-  
+
   // Update sections
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
-  
+
   // Update page title
   const titles = {
     'dashboard':{title:'لوحة التحكم', subtitle:'مرحباً بعودتك. إليك ما يحدث في متجرك.'},
@@ -688,7 +768,7 @@ function switchTab(tab){
     document.getElementById('pageTitle').textContent = titles[tab].title;
     document.getElementById('pageSubtitle').textContent = titles[tab].subtitle;
   }
-  
+
   if(tab==='manage') renderProductList();
   if(tab==='add'){ var cv=document.getElementById('f-cat').value||'مكياج'; requestAnimationFrame(function(){ renderCatPicker(cv); }); }
   if(tab==='dashboard') updateDashboardStats();
@@ -698,7 +778,7 @@ function updateDashboardStats(){
   document.getElementById('statTotalProducts').textContent = products.length;
   document.getElementById('statActive').textContent = products.filter(p=>!p.sold_out).length;
   document.getElementById('statOutOfStock').textContent = products.filter(p=>p.sold_out).length;
-  
+
   // Category breakdown
   const breakdown = document.getElementById('category-breakdown');
   const counts = {};
@@ -719,7 +799,6 @@ function getCatIcon(cat){
   return icons[cat]||'📦';
 }
 
-/* ---------- STATUS PILLS ---------- */
 function setStatus(status){
   currentStatus = status;
   document.getElementById('pill-normal').classList.toggle('active-normal', status==='normal');
@@ -836,8 +915,23 @@ async function saveProduct(){
 
 function renderProductList(){
   const el = document.getElementById('product-list');
-  if(products.length===0){ el.innerHTML = '<div class="empty-state">لا توجد منتجات حتى الآن</div>'; return; }
-  el.innerHTML = products.map(p=>{
+  const searchInput = document.getElementById('productSearch');
+  const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+  let filtered = products;
+  if(searchTerm){
+    filtered = products.filter(p=>{
+      const nameMatch = (p.name||'').toLowerCase().includes(searchTerm);
+      const catMatch = (p.category||'').toLowerCase().includes(searchTerm);
+      return nameMatch || catMatch;
+    });
+  }
+
+  if(filtered.length===0){ 
+    el.innerHTML = '<div class="empty-state">' + (searchTerm ? 'لا توجد نتائج مطابقة للبحث' : 'لا توجد منتجات حتى الآن') + '</div>'; 
+    return; 
+  }
+  el.innerHTML = filtered.map(p=>{
     const variantsText = (p.variants||[]).map(v=>v.price+'ج').join(' / ');
     const imgCount = (p.images||[]).length;
     const imgBadge = imgCount > 1 ? `<span style="font-size:.72rem;color:#a8a098;"> · ${imgCount} صور</span>` : '';
@@ -845,6 +939,10 @@ function renderProductList(){
                  (p.sold_out ? '<span class="badge-tag tag-soldout">⛔ نفذ</span>' : '');
     return `<div class="product-item"><img src="${p.image||''}" alt="" onerror="this.style.visibility='hidden'"><div class="info"><b>${escapeHtml(p.name)}</b>${tags}${escapeHtml(p.category)} — ${variantsText}${imgBadge}</div><div class="actions"><button class="small-btn" onclick="editProduct('${p.id}')">تعديل</button><button class="danger-btn" onclick="deleteProduct('${p.id}')">حذف</button></div></div>`;
   }).join('');
+}
+
+function filterProductList(){
+  renderProductList();
 }
 
 function escapeHtml(str){ const div=document.createElement('div');div.textContent=str||'';return div.innerHTML; }
