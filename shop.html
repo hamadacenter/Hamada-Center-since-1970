@@ -912,9 +912,7 @@ var PLACEHOLDER="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vi
 
 loadProducts();
 try{sb.channel("products-ch").on("postgres_changes",{event:"*",schema:"public",table:"products"},function(){loadProducts();}).subscribe();}catch(e){console.warn(e);}
-</script>
-</body>
-</html
+
 function renderFilters(){
   var ac={};products.forEach(function(p){ac[p.category]=true;});
   var h="";
@@ -927,5 +925,6 @@ function renderFilters(){
   document.getElementById("filters").innerHTML=h;
 }
 
-
->
+</script>
+</body>
+</html>
