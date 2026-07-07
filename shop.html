@@ -310,13 +310,13 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 
 <header>
   <div class="header-left">
-    <a href="index.html" class="icon-btn">&#8592;</a>
+    <a href="index.html" class="icon-btn">←</a>
     <button class="menu-btn" id="menuBtn" onclick="openDrawer()"><span></span><span></span><span></span></button>
     <a href="index.html" class="logo"><img src="logo.png" alt="Hamada Center" class="logo-img" onerror="this.style.display='none'">Hamada <em>Center</em></a>
   </div>
   <div class="header-right">
     <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
-    <button class="cart-btn" onclick="openCart()">&#128722; <span id="cartBtnLabel">السلة</span><span class="cart-count" id="cartCount">0</span></button>
+    <button class="cart-btn" onclick="openCart()">🛒 <span id="cartBtnLabel">السلة</span><span class="cart-count" id="cartCount">0</span></button>
   </div>
 </header>
 
@@ -324,7 +324,7 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="drawer" id="drawer">
-  <div class="drawer-head"><h2 id="drawerTitle">&#128193; التصنيفات</h2><button class="close-drawer" onclick="closeDrawer()">&#10005;</button></div>
+  <div class="drawer-head"><h2 id="drawerTitle">📁 التصنيفات</h2><button class="close-drawer" onclick="closeDrawer()">✕</button></div>
   <div class="drawer-body" id="drawerBody"></div>
 </div>
 
@@ -335,11 +335,11 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 
 <div class="search-filter-bar reveal">
   <div class="search-wrap">
-    <span class="search-icon">&#128269;</span>
+    <span class="search-icon">🔍</span>
     <input class="search-input" type="text" id="searchInput" placeholder="ابحث عن منتج..." oninput="applySearchFilter()">
   </div>
   <button class="price-filter-btn" id="priceFilterBtn" onclick="togglePricePanel()">
-    &#9881; <span id="priceFilterLabel">تصفية السعر</span>
+    ⚙️ <span id="priceFilterLabel">تصفية السعر</span>
   </button>
 </div>
 <div class="price-filter-panel" id="priceFilterPanel">
@@ -364,11 +364,11 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-head"><h2 id="cartTitle">&#128722; السلة</h2><button class="close-cart" onclick="closeCart()">&#10005;</button></div>
+  <div class="cart-head"><h2 id="cartTitle">🛒 السلة</h2><button class="close-cart" onclick="closeCart()">✕</button></div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-footer">
     <div class="cart-total"><span id="totalLabel">الإجمالي</span><span id="cartTotal">0 ج.م</span></div>
-    <button class="checkout-btn" onclick="openOrderModal()">&#9989; <span id="checkoutLabel">إتمام الطلب</span></button>
+    <button class="checkout-btn" onclick="openOrderModal()">✅ <span id="checkoutLabel">إتمام الطلب</span></button>
   </div>
 </div>
 
@@ -377,22 +377,22 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
     <h2 id="modalTitle">تفاصيل التوصيل</h2>
     <p class="subtitle" id="modalSub">أدخلي بياناتك لإتمام الطلب</p>
     <div class="order-summary" id="orderSummary"></div>
-    <div class="field-group"><label id="labelAddress">&#128205; العنوان بالتفصيل</label><input type="text" id="fieldAddress" placeholder="مثال: شارع النيل، شقة 5"><div class="err-msg" id="errAddress">برجاء إدخال العنوان</div></div>
-    <div class="field-group"><label id="labelCity">&#127961; المدينة / المحافظة</label><input type="text" id="fieldCity" placeholder="مثال: طنطا"><div class="err-msg" id="errCity">برجاء إدخال المدينة</div></div>
-    <div class="field-group"><label id="labelPhone">&#128222; رقم الهاتف</label><input type="tel" id="fieldPhone" placeholder="مثال: 01012345678"><div class="err-msg" id="errPhone">برجاء إدخال رقم صحيح</div></div>
+    <div class="field-group"><label id="labelAddress">📍 العنوان بالتفصيل</label><input type="text" id="fieldAddress" placeholder="مثال: شارع النيل، شقة 5"><div class="err-msg" id="errAddress">برجاء إدخال العنوان</div></div>
+    <div class="field-group"><label id="labelCity">🏙️ المدينة / المحافظة</label><input type="text" id="fieldCity" placeholder="مثال: طنطا"><div class="err-msg" id="errCity">برجاء إدخال المدينة</div></div>
+    <div class="field-group"><label id="labelPhone">📞 رقم الهاتف</label><input type="tel" id="fieldPhone" placeholder="مثال: 01012345678"><div class="err-msg" id="errPhone">برجاء إدخال رقم صحيح</div></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeOrderModal()" id="btnCancel">إلغاء</button>
-      <button class="btn-submit" onclick="submitOrder()" id="btnSubmit">&#128242; إرسال الطلب</button>
+      <button class="btn-submit" onclick="submitOrder()" id="btnSubmit">📲 إرسال الطلب</button>
     </div>
   </div>
 </div>
 
 <div class="lb-overlay" id="lbOverlay">
-  <button class="lb-close" onclick="closeLightbox()">&#10005;</button>
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
   <div class="lb-wrap">
     <img class="lb-img" id="lbImg" src="" alt="">
-    <button class="lb-arrow lprev" onclick="lbMove(-1)">&#8250;</button>
-    <button class="lb-arrow lnext" onclick="lbMove(1)">&#8249;</button>
+    <button class="lb-arrow lprev" onclick="lbMove(-1)">›</button>
+    <button class="lb-arrow lnext" onclick="lbMove(1)">‹</button>
   </div>
   <div class="lb-dots-row" id="lbDots"></div>
   <div class="lb-counter" id="lbCounter"></div>
@@ -401,7 +401,7 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 <button class="fav-icon-btn" onclick="openFav()">&#10084;&#65039;<span class="fav-badge" id="favBadge">0</span></button>
 <div class="fav-overlay" id="favOverlay" onclick="closeFav()"></div>
 <div class="fav-sidebar" id="favSidebar">
-  <div class="fav-head"><h2 id="favTitle">&#10084;&#65039; المفضلة</h2><button class="close-fav" onclick="closeFav()">&#10005;</button></div>
+  <div class="fav-head"><h2 id="favTitle">&#10084;&#65039; المفضلة</h2><button class="close-fav" onclick="closeFav()">✕</button></div>
   <div class="fav-toolbar">
     <button class="fav-select-all" onclick="toggleSelectAll()" id="selectAllBtn">تحديد الكل</button>
     <button class="fav-add-all" onclick="addSelectedToCart()">إضافة المحددة للسلة</button>
@@ -410,15 +410,15 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
   <div class="fav-footer"><button class="fav-add-selected" id="favAddSelected" onclick="addSelectedToCart()">إضافة المحددة للسلة</button></div>
 </div>
 
-<button class="feedback-fab" onclick="openFeedback()">&#128172;<span class="fab-tip" id="fabTip">رأيك يهمنا</span></button>
+<button class="feedback-fab" onclick="openFeedback()">💬<span class="fab-tip" id="fabTip">رأيك يهمنا</span></button>
 <div class="fb-overlay" id="fbOverlay">
   <div class="fb-modal" id="fbModal">
-    <h2>&#128172; رأيك يهمنا</h2>
+    <h2>💬 رأيك يهمنا</h2>
     <p class="fb-sub">ساعدنا نتحسن — شاركنا تجربتك</p>
-    <div class="stars" id="starsRow"><span class="star" onclick="setStar(1)">&#9733;</span><span class="star" onclick="setStar(2)">&#9733;</span><span class="star" onclick="setStar(3)">&#9733;</span><span class="star" onclick="setStar(4)">&#9733;</span><span class="star" onclick="setStar(5)">&#9733;</span></div>
+    <div class="stars" id="starsRow"><span class="star" onclick="setStar(1)">★</span><span class="star" onclick="setStar(2)">★</span><span class="star" onclick="setStar(3)">★</span><span class="star" onclick="setStar(4)">★</span><span class="star" onclick="setStar(5)">★</span></div>
     <input class="fb-input" type="text" id="fbName" placeholder="اسمك (اختياري)">
     <textarea class="fb-textarea" id="fbMessage" placeholder="اكتب رأيك أو اقتراحك هنا..."></textarea>
-    <div class="fb-actions"><button class="fb-cancel-btn" onclick="closeFeedback()">إلغاء</button><button class="fb-send-btn" id="fbSendBtn" onclick="sendFeedback()">&#128232; إرسال</button></div>
+    <div class="fb-actions"><button class="fb-cancel-btn" onclick="closeFeedback()">إلغاء</button><button class="fb-send-btn" id="fbSendBtn" onclick="sendFeedback()">📨 إرسال</button></div>
   </div>
 </div>
 
@@ -452,8 +452,8 @@ document.addEventListener("DOMContentLoaded",initReveal);
 
 var lang="ar";
 var T={
-  ar:{langBtn:"EN",drawerTitle:"&#128193; التصنيفات",cartBtn:"السلة",cartTitle:"&#128722; السلة",totalLabel:"الإجمالي",checkoutLabel:"إتمام الطلب",currency:"ج.م",cartEmpty:"السلة فارغة",addToCart:"أضف للسلة",added:"تمت الإضافة ✓",removeItem:"حذف",modalTitle:"تفاصيل التوصيل",modalSub:"أدخلي بياناتك لإتمام الطلب",labelAddress:"&#128205; العنوان بالتفصيل",labelCity:"&#127961; المدينة / المحافظة",labelPhone:"&#128222; رقم الهاتف",phAddress:"مثال: شارع النيل، شقة 5",phCity:"مثال: طنطا",phPhone:"مثال: 01012345678",errAddress:"برجاء إدخال العنوان",errCity:"برجاء إدخال المدينة",errPhone:"برجاء إدخال رقم صحيح",btnCancel:"إلغاء",btnSubmit:"&#128242; إرسال الطلب",noProducts:"لا توجد منتجات هنا حالياً",noProductsSub:"تابعونا لمعرفة أحدث العروض",discount:"خصم",badgeNew:"جديد",badgeSold:"نفذ",was:"بدل",soldOutBtn:"نفذ من المخزون",successTitle:"تم إرسال طلبك! &#127881;",successMsg:"شكراً لثقتك بنا &#128150; نتمنى لك طلباً سعيداً وخدمة مميزة!",btnClose:"إغلاق",connError:"تعذر تحميل المنتجات. حاولي تحديث الصفحة.",fabTip:"رأيك يهمنا",footerCopy:"Hamada Center © 2026 — جميع الحقوق محفوظة",cats:"التصنيفات",products:"منتج",addFav:"المفضلة",favEmpty:"لا توجد منتجات في المفضلة",favTitle:"❤️ المفضلة",selectAll:"تحديد الكل",removeFav:"حذف",priceFilter:"تصفية السعر",priceRange:"نطاق السعر (ج.م)",apply:"تطبيق",reset:"إعادة تعيين"},
-  en:{langBtn:"عربي",drawerTitle:"&#128193; Collections",cartBtn:"Cart",cartTitle:"&#128722; Cart",totalLabel:"Total",checkoutLabel:"Place Order",currency:"EGP",cartEmpty:"Your cart is empty",addToCart:"Add to Cart",added:"Added ✓",removeItem:"Remove",modalTitle:"Delivery Details",modalSub:"Enter your details to complete the order",labelAddress:"&#128205; Detailed Address",labelCity:"&#127961; City / Governorate",labelPhone:"&#128222; Phone Number",phAddress:"e.g. 5 El-Nile Street, Apt 5",phCity:"e.g. Tanta",phPhone:"e.g. 01012345678",errAddress:"Please enter your address",errCity:"Please enter your city",errPhone:"Please enter a valid phone number",btnCancel:"Cancel",btnSubmit:"&#128242; Send Order",noProducts:"No products here yet",noProductsSub:"Follow our pages for the latest deals",discount:"OFF",badgeNew:"New",badgeSold:"Sold Out",was:"was",soldOutBtn:"Sold Out",successTitle:"Order Sent! &#127881;",successMsg:"Thank you for your trust &#128150; We wish you a happy order and excellent service!",btnClose:"Close",connError:"Could not load products. Try refreshing.",fabTip:"Share your feedback",footerCopy:"Hamada Center © 2026 — All rights reserved",cats:"Collections",products:"products",addFav:"Wishlist",favEmpty:"No products in wishlist",favTitle:"❤️ Wishlist",selectAll:"Select All",removeFav:"Remove",priceFilter:"Filter by Price",priceRange:"Price Range (EGP)",apply:"Apply",reset:"Reset"}
+  ar:{langBtn:"EN",drawerTitle:"📁 التصنيفات",cartBtn:"السلة",cartTitle:"🛒 السلة",totalLabel:"الإجمالي",checkoutLabel:"إتمام الطلب",currency:"ج.م",cartEmpty:"السلة فارغة",addToCart:"أضف للسلة",added:"تمت الإضافة ✓",removeItem:"حذف",modalTitle:"تفاصيل التوصيل",modalSub:"أدخلي بياناتك لإتمام الطلب",labelAddress:"📍 العنوان بالتفصيل",labelCity:"🏙️ المدينة / المحافظة",labelPhone:"📞 رقم الهاتف",phAddress:"مثال: شارع النيل، شقة 5",phCity:"مثال: طنطا",phPhone:"مثال: 01012345678",errAddress:"برجاء إدخال العنوان",errCity:"برجاء إدخال المدينة",errPhone:"برجاء إدخال رقم صحيح",btnCancel:"إلغاء",btnSubmit:"📲 إرسال الطلب",noProducts:"لا توجد منتجات هنا حالياً",noProductsSub:"تابعونا لمعرفة أحدث العروض",discount:"خصم",badgeNew:"جديد",badgeSold:"نفذ",was:"بدل",soldOutBtn:"نفذ من المخزون",successTitle:"تم إرسال طلبك! 🎉",successMsg:"شكراً لثقتك بنا 💗 نتمنى لك طلباً سعيداً وخدمة مميزة!",btnClose:"إغلاق",connError:"تعذر تحميل المنتجات. حاولي تحديث الصفحة.",fabTip:"رأيك يهمنا",footerCopy:"Hamada Center © 2026 — جميع الحقوق محفوظة",cats:"التصنيفات",products:"منتج",addFav:"المفضلة",favEmpty:"لا توجد منتجات في المفضلة",favTitle:"❤️ المفضلة",selectAll:"تحديد الكل",removeFav:"حذف",priceFilter:"تصفية السعر",priceRange:"نطاق السعر (ج.م)",apply:"تطبيق",reset:"إعادة تعيين"},
+  en:{langBtn:"عربي",drawerTitle:"📁 Collections",cartBtn:"Cart",cartTitle:"🛒 Cart",totalLabel:"Total",checkoutLabel:"Place Order",currency:"EGP",cartEmpty:"Your cart is empty",addToCart:"Add to Cart",added:"Added ✓",removeItem:"Remove",modalTitle:"Delivery Details",modalSub:"Enter your details to complete the order",labelAddress:"📍 Detailed Address",labelCity:"🏙️ City / Governorate",labelPhone:"📞 Phone Number",phAddress:"e.g. 5 El-Nile Street, Apt 5",phCity:"e.g. Tanta",phPhone:"e.g. 01012345678",errAddress:"Please enter your address",errCity:"Please enter your city",errPhone:"Please enter a valid phone number",btnCancel:"Cancel",btnSubmit:"📲 Send Order",noProducts:"No products here yet",noProductsSub:"Follow our pages for the latest deals",discount:"OFF",badgeNew:"New",badgeSold:"Sold Out",was:"was",soldOutBtn:"Sold Out",successTitle:"Order Sent! 🎉",successMsg:"Thank you for your trust 💗 We wish you a happy order and excellent service!",btnClose:"Close",connError:"Could not load products. Try refreshing.",fabTip:"Share your feedback",footerCopy:"Hamada Center © 2026 — All rights reserved",cats:"Collections",products:"products",addFav:"Wishlist",favEmpty:"No products in wishlist",favTitle:"❤️ Wishlist",selectAll:"Select All",removeFav:"Remove",priceFilter:"Filter by Price",priceRange:"Price Range (EGP)",apply:"Apply",reset:"Reset"}
 };
 function t(k){return T[lang][k]||k;}
 
@@ -461,7 +461,7 @@ function applyLang(){
   var html=document.getElementById("htmlRoot");
   html.lang=lang;html.dir=lang==="ar"?"rtl":"ltr";
   var ids={langBtn:"langBtn",drawerTitle:"drawerTitle",cartBtnLabel:"cartBtn",cartTitle:"cartTitle",totalLabel:"totalLabel",checkoutLabel:"checkoutLabel",connError:"connError",fabTip:"fabTip",footerCopy:"footerCopy",modalTitle:"modalTitle",modalSub:"modalSub",labelAddress:"labelAddress",labelCity:"labelCity",labelPhone:"labelPhone",errAddress:"errAddress",errCity:"errCity",errPhone:"errPhone",btnCancel:"btnCancel",btnSubmit:"btnSubmit",favTitle:"favTitle",selectAllBtn:"selectAll",priceFilterLabel:"priceFilter",priceRangeLabel:"priceRange",priceApplyBtn:"apply",priceResetBtn:"reset"};
-  Object.keys(ids).forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=t(ids[id]);});
+  Object.keys(ids).forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=t(ids[id]);});
   var ph={fieldAddress:"phAddress",fieldCity:"phCity",fieldPhone:"phPhone"};
   Object.keys(ph).forEach(function(id){var el=document.getElementById(id);if(el)el.placeholder=t(ph[id]);});
   var si=document.getElementById("searchInput");if(si)si.placeholder=lang==="ar"?"ابحث عن منتج...":"Search products...";
@@ -508,7 +508,7 @@ function renderDrawer(){
     // Group header
     h+="<div class=\"drawer-group-header"+(hasActive?" has-active":"")+(isOpen?" open":"")+"\" onclick=\"toggleDrawerGroup(this)\">" +
        "<span>"+groupLabel+"</span>" +
-       "<span class=\"drawer-group-arrow\">&#8250;</span>" +
+       "<span class=\"drawer-group-arrow\">›</span>" +
        "</div>";
     // Sub-items
     h+="<div class=\"drawer-group-subs"+(isOpen?" open":"\">\"");
