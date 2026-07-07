@@ -51,6 +51,8 @@
   .login-error{color:var(--danger);font-size:.85rem;margin-top:12px;display:none;font-weight:700;}
   .config-error{color:var(--danger);font-size:.8rem;margin-top:16px;padding:12px;background:var(--danger-bg);border-radius:10px;display:none;}
 
+  .admin-app{display:none;}
+
   /* ADMIN LAYOUT */
   .admin-app{display:none;min-height:100vh;}
   .admin-sidebar{width:var(--sidebar-width);background:var(--bg-sidebar);border-left:1px solid var(--border);display:flex;flex-direction:column;position:fixed;right:0;top:0;bottom:0;z-index:100;}
@@ -98,8 +100,8 @@
   .stat-card .stat-icon{float:left;font-size:2rem;opacity:.15;margin-top:-4px;}
 
   /* SECTIONS */
-  .section{display:none;}
-  .section.active{display:block;}
+  .section{display:none !important;}
+  .section.active{display:block !important;}
 
   /* ADD PRODUCT FORM */
   .form-card{background:var(--bg-card);border-radius:16px;padding:28px;border:1px solid var(--border);}
@@ -291,7 +293,7 @@
       <div class="user-card">
         <div class="user-avatar">👤</div>
         <div class="user-info">
-          <div class="name">مدير النظام</div>
+          <div class="name">Daniel Fares</div>
           <div class="role">Admin User</div>
         </div>
       </div>
