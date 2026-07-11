@@ -52,7 +52,7 @@
   .config-error{color:var(--danger);font-size:.8rem;margin-top:16px;padding:12px;background:var(--danger-bg);border-radius:10px;display:none;}
 
   /* ADMIN LAYOUT */
-  .admin-app{display:none;min-height:100vh;display:flex;}
+  .admin-app{display:none;min-height:100vh;}
   .admin-sidebar{width:var(--sidebar-width);background:var(--bg-sidebar);border-left:1px solid var(--border);display:flex;flex-direction:column;position:fixed;right:0;top:0;bottom:0;z-index:100;}
   .sidebar-brand{padding:28px 24px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);}
   .sidebar-brand .brand-icon{width:40px;height:40px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.3rem;}
@@ -97,9 +97,9 @@
   .stat-card .stat-meta .trend-down{color:var(--danger);}
   .stat-card .stat-icon{float:left;font-size:2rem;opacity:.15;margin-top:-4px;}
 
-  /* SECTIONS */
-  .section{display:none;}
-  .section.active{display:block;}
+  /* SECTIONS - FIXED with ID selectors for high specificity */
+  #tab-dashboard,#tab-add,#tab-manage{display:none !important;}
+  #tab-dashboard.active,#tab-add.active,#tab-manage.active{display:block !important;}
 
   /* ADD PRODUCT FORM */
   .form-card{background:var(--bg-card);border-radius:16px;padding:28px;border:1px solid var(--border);}
@@ -166,9 +166,9 @@
   .badge-tag.tag-soldout{background:var(--danger-bg);color:var(--danger);}
 
   /* ORDERS PANEL */
-  .orders-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;display:none;backdrop-filter:blur(4px);}
+  .orders-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;display:none;}
   .orders-overlay.open{display:block;}
-  .orders-panel{position:fixed;top:0;left:0;bottom:0;width:min(520px,100vw);background:var(--bg-card);z-index:601;transform:translateX(-100%);transition:transform .3s ease;display:flex;flex-direction:column;border-right:1px solid var(--border);box-shadow:4px 0 24px rgba(0,0,0,.3);}
+  .orders-panel{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);height:100vh;background:var(--bg-card);z-index:601;transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column;border-left:1px solid var(--border);box-shadow:-4px 0 24px rgba(0,0,0,.3);overflow:hidden;}
   .orders-panel.open{transform:translateX(0);}
   .orders-panel-head{background:var(--bg-card);color:var(--text);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid var(--border);}
   .orders-panel-head h2{font-size:1.1rem;font-weight:800;}
@@ -212,9 +212,6 @@
   .live-dot{width:8px;height:8px;border-radius:50%;background:var(--success);animation:pulse 2s infinite;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 
-  /* TABS (hidden in new design, using nav instead) */
-  .tabs{display:none;}
-
   /* PAGE HEADER */
   .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
   .page-header h2{font-size:1.3rem;font-weight:900;color:var(--text);}
@@ -227,10 +224,7 @@
     .main-content{margin-right:0;}
     .stats-grid{grid-template-columns:1fr 1fr;}
   }
-</style>
-<base target="_blank">
-</head>
-<body>
+</style><body>
 
 <!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
@@ -297,7 +291,7 @@
       <div class="user-card">
         <div class="user-avatar">👤</div>
         <div class="user-info">
-          <div class="name">مدير النظام</div>
+          <div class="name">Daniel Fares</div>
           <div class="role">Admin User</div>
         </div>
       </div>
@@ -357,7 +351,6 @@
           </div>
         </div>
         <div id="category-breakdown" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
-          <!-- Will be populated by JS -->
         </div>
       </div>
 
@@ -378,30 +371,6 @@
               <label>التصنيف</label>
               <input type="hidden" id="f-cat" value="مكياج">
               <div class="cat-picker-wrap" id="catPicker"></div>
-        <script>
-        (function renderCatPickerInline(){
-          var el = document.getElementById("catPicker");
-          if(!el) return;
-          var ADMIN_CATS = [
-            {v:"عناية بالبشرة", i:"🧴", label:"عناية بالبشرة"},
-            {v:"عناية بالجسم", i:"🧖", label:"عناية بالجسم"},
-            {v:"عناية بالشعر", i:"💇", label:"عناية بالشعر"},
-            {v:"أجهزة", i:"⚡", label:"أجهزة"},
-            {v:"إكسسوارات", i:"💎", label:"إكسسوارات"},
-            {v:"مكياج", i:"💄", label:"مكياج"}
-          ];
-          var sel = document.getElementById("f-cat").value || "مكياج";
-          var h = "";
-          for(var k = 0; k < ADMIN_CATS.length; k++){
-            var cat = ADMIN_CATS[k];
-            var isAct = cat.v === sel;
-            var safeVal = cat.v.replace(/'/g, "\'");
-            h += '<button type="button" class="cat-pill' + (isAct ? " active" : "") + '" onclick="pickCat('' + safeVal + '')">' +
-                 '<span class="cat-pill-icon">' + cat.i + '</span>' + cat.label + '</button>';
-          }
-          el.innerHTML = h;
-        })();
-        </script>
 
               <label>الوصف المختصر</label>
               <textarea id="f-desc" placeholder="وصف قصير يظهر تحت اسم المنتج"></textarea>
@@ -442,6 +411,9 @@
             <h2>إدارة المنتجات</h2>
             <div class="desc">تعديل أو حذف المنتجات الموجودة</div>
           </div>
+        </div>
+        <div class="form-card" style="margin-bottom:20px;padding:16px 20px;">
+          <input type="text" id="productSearch" placeholder="🔍 ابحث عن منتج بالاسم أو التصنيف..." oninput="filterProductList()" style="margin:0;">
         </div>
         <div id="product-list"></div>
       </div>
@@ -490,8 +462,8 @@ function renderCatPicker(selected){
   for(var k = 0; k < ADMIN_CATS.length; k++){
     var cat = ADMIN_CATS[k];
     var isAct = cat.v === sel;
-    var safeVal = cat.v.replace(/'/g, "\'");
-    h += '<button type="button" class="cat-pill' + (isAct ? " active" : "") + '" onclick="pickCat('' + safeVal + '')">' +
+    var safeVal = cat.v.replace(/'/g, "\\'");
+    h += '<button type="button" class="cat-pill' + (isAct ? " active" : "") + '" onclick="pickCat(\'' + safeVal + '\')">' +
          '<span class="cat-pill-icon">' + cat.i + '</span>' + cat.label + '</button>';
   }
   el.innerHTML = h;
@@ -536,11 +508,12 @@ function logout(){
 }
 function showAdmin(){
   document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('adminApp').style.display = 'flex';
+  document.getElementById('adminApp').style.display = 'block';
   init();
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
       renderCatPicker(document.getElementById('f-cat').value || 'مكياج');
+      updateDashboardStats();
     });
   });
 }
@@ -573,39 +546,22 @@ async function init(){
   await loadOrders();
   addVariantRow();
   setStatus('normal');
-  updateDashboardStats();
+  enforceSectionVisibility();
 }
 
-/* ========== DASHBOARD STATS ========== */
-function updateDashboardStats(){
-  const total = products.length;
-  const active = products.filter(p => !p.sold_out).length;
-  const outOfStock = products.filter(p => p.sold_out).length;
-  document.getElementById('statTotalProducts').textContent = total;
-  document.getElementById('statActive').textContent = active;
-  document.getElementById('statOutOfStock').textContent = outOfStock;
-
-  // Category breakdown
-  const breakdown = document.getElementById('category-breakdown');
-  if(!breakdown) return;
-  const catCounts = {};
-  ADMIN_CATS.forEach(c => catCounts[c.v] = 0);
-  products.forEach(p => { if(catCounts[p.category] !== undefined) catCounts[p.category]++; });
-
-  let h = '';
-  ADMIN_CATS.forEach(c => {
-    const count = catCounts[c.v] || 0;
-    const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-    h += '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">' +
-         '<div style="font-size:1.8rem;">' + c.i + '</div>' +
-         '<div style="flex:1;">' +
-         '<div style="font-weight:800;font-size:.95rem;">' + c.label + '</div>' +
-         '<div style="font-size:.8rem;color:var(--text-muted);margin-top:2px;">' + count + ' منتج</div>' +
-         '</div>' +
-         '<div style="font-size:1.2rem;font-weight:900;color:var(--accent);">' + pct + '%</div>' +
-         '</div>';
+function enforceSectionVisibility(){
+  // Force-hide all sections except the active one
+  const sections = ['tab-dashboard','tab-add','tab-manage'];
+  sections.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){
+      if(el.classList.contains('active')){
+        el.style.display = 'block';
+      }else{
+        el.style.display = 'none';
+      }
+    }
   });
-  breakdown.innerHTML = h;
 }
 
 /* ========== ORDERS ========== */
@@ -622,12 +578,29 @@ async function loadOrders(){
 function updateOrdersBadge(){
   const newCount = orders.filter(o=>o.status==='جديد').length;
   const badge = document.getElementById('ordersBadge');
-  if(badge){ badge.textContent = newCount; badge.classList.toggle('show', newCount > 0); }
+  if(badge){
+    badge.textContent = newCount;
+    badge.classList.toggle('show', newCount > 0);
+  }
   const sidebarBadge = document.getElementById('sidebarOrdersBadge');
-  if(sidebarBadge){ sidebarBadge.textContent = newCount; sidebarBadge.style.display = newCount > 0 ? 'inline-flex' : 'none'; }
+  if(sidebarBadge){
+    sidebarBadge.textContent = newCount;
+    sidebarBadge.style.display = newCount > 0 ? 'inline-flex' : 'none';
+  }
 }
 
 function openOrders(){
+  if(sessionStorage.getItem('hc_orders_auth') !== 'true'){
+    const pw = prompt('أدخل كلمة مرور الفواتير:');
+    if(pw === 'daniel3269'){
+      sessionStorage.setItem('hc_orders_auth','true');
+    }else if(pw !== null){
+      showToast('كلمة المرور غير صحيحة', true);
+      return;
+    }else{
+      return;
+    }
+  }
   document.getElementById('ordersOverlay').classList.add('open');
   document.getElementById('ordersPanel').classList.add('open');
   renderOrders();
@@ -676,7 +649,7 @@ function renderOrders(){
       <div class="order-items">${itemsHtml}</div>
       <div class="order-total-row"><span>الإجمالي</span><span>${o.total} ج.م</span></div>
       <div class="order-customer">
-        📍 ${escapeHtml(o.address||'')}, ${escapeHtml(o.city||'')}<br>
+        📍 ${escapeHtml(o.address||'')}، ${escapeHtml(o.city||'')}<br>
         📞 ${escapeHtml(o.customer_phone||'')}
       </div>
       <div class="order-actions">
@@ -726,21 +699,18 @@ async function loadProducts(){
 }
 
 function switchTab(tab){
-  // Update nav items
-  document.querySelectorAll('.nav-item').forEach(t=>t.classList.remove('active'));
-  const navMap = {'dashboard':'nav-dashboard','add':'nav-add','manage':'nav-manage'};
-  if(navMap[tab]) document.getElementById(navMap[tab]).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const navIds = {'dashboard':'nav-dashboard','add':'nav-add','manage':'nav-manage'};
+  if(navIds[tab]) document.getElementById(navIds[tab]).classList.add('active');
 
-  // Update sections
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  const section = document.getElementById('tab-'+tab);
-  if(section) section.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  enforceSectionVisibility();
 
-  // Update page title
   const titles = {
-    'dashboard': {title: 'لوحة التحكم', subtitle: 'مرحباً بعودتك. إليك ما يحدث في متجرك.'},
-    'add': {title: 'إضافة منتج', subtitle: 'أدخل تفاصيل المنتج لإضافته إلى المتجر'},
-    'manage': {title: 'إدارة المنتجات', subtitle: 'تعديل أو حذف المنتجات الموجودة'}
+    'dashboard':{title:'لوحة التحكم', subtitle:'مرحباً بعودتك. إليك ما يحدث في متجرك.'},
+    'add':{title:'إضافة منتج', subtitle:'أضف منتجاً جديداً إلى المتجر'},
+    'manage':{title:'إدارة المنتجات', subtitle:'تعديل أو حذف المنتجات الموجودة'}
   };
   if(titles[tab]){
     document.getElementById('pageTitle').textContent = titles[tab].title;
@@ -748,8 +718,35 @@ function switchTab(tab){
   }
 
   if(tab==='manage') renderProductList();
-  if(tab==='add'){ var cv=document.getElementById('f-cat').value||'مكياج'; setTimeout(function(){ renderCatPicker(cv); },100); }
+  if(tab==='add'){ var cv=document.getElementById('f-cat').value||'مكياج'; requestAnimationFrame(function(){ renderCatPicker(cv); }); }
   if(tab==='dashboard') updateDashboardStats();
+}
+
+function updateDashboardStats(){
+  document.getElementById('statTotalProducts').textContent = products.length;
+  document.getElementById('statActive').textContent = products.filter(p=>!p.sold_out).length;
+  document.getElementById('statOutOfStock').textContent = products.filter(p=>p.sold_out).length;
+
+  const breakdown = document.getElementById('category-breakdown');
+  const counts = {};
+  products.forEach(p=>{
+    const mappedCat = mapOldCategory(p.category);
+    counts[mappedCat] = (counts[mappedCat]||0) + 1;
+  });
+  const cats = ['عناية بالبشرة','عناية بالجسم','عناية بالشعر','أجهزة','إكسسوارات','مكياج'];
+  breakdown.innerHTML = cats.map(c=>{
+    const count = counts[c]||0;
+    return `<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;border-radius:10px;background:var(--bg-input);display:flex;align-items:center;justify-content:center;font-size:1.2rem;">${getCatIcon(c)}</div>
+      <div style="flex:1;"><div style="font-weight:800;font-size:.95rem;">${c}</div><div style="font-size:.8rem;color:var(--text-muted);">${count} منتج</div></div>
+      <div style="font-size:1.4rem;font-weight:900;color:var(--accent);">${count}</div>
+    </div>`;
+  }).join('');
+}
+
+function getCatIcon(cat){
+  const icons = {'عناية بالبشرة':'🧴','عناية بالجسم':'🧖','عناية بالشعر':'💇','أجهزة':'⚡','إكسسوارات':'💎','مكياج':'💄'};
+  return icons[cat]||'📦';
 }
 
 /* ---------- STATUS PILLS ---------- */
@@ -772,13 +769,13 @@ function handleImagesUpload(event){
       const img = new Image();
       img.onload = function(){
         const canvas = document.createElement('canvas');
-        const maxDim = 600;
+        const maxDim = 800;
         let w = img.width, h = img.height;
         if(w > h && w > maxDim){ h = h * maxDim / w; w = maxDim; }
         else if(h > maxDim){ w = w * maxDim / h; h = maxDim; }
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const compressed = canvas.toDataURL('image/jpeg', 0.6);
+        const compressed = canvas.toDataURL('image/jpeg', 0.8);
         uploadedImages.push(compressed);
         renderImagesGrid();
       };
@@ -869,15 +866,34 @@ async function saveProduct(){
 
 function renderProductList(){
   const el = document.getElementById('product-list');
-  if(products.length===0){ el.innerHTML = '<div class="empty-state">لا توجد منتجات حتى الآن</div>'; return; }
-  el.innerHTML = products.map(p=>{
+  const searchInput = document.getElementById('productSearch');
+  const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+  let filtered = products;
+  if(searchTerm){
+    filtered = products.filter(p=>{
+      const nameMatch = (p.name||'').toLowerCase().includes(searchTerm);
+      const catMatch = (p.category||'').toLowerCase().includes(searchTerm);
+      return nameMatch || catMatch;
+    });
+  }
+
+  if(filtered.length===0){ 
+    el.innerHTML = '<div class="empty-state">' + (searchTerm ? 'لا توجد نتائج مطابقة للبحث' : 'لا توجد منتجات حتى الآن') + '</div>'; 
+    return; 
+  }
+  el.innerHTML = filtered.map(p=>{
     const variantsText = (p.variants||[]).map(v=>v.price+'ج').join(' / ');
     const imgCount = (p.images||[]).length;
-    const imgBadge = imgCount > 1 ? `<span style="font-size:.72rem;color:var(--text-dim);"> · ${imgCount} صور</span>` : '';
+    const imgBadge = imgCount > 1 ? `<span style="font-size:.72rem;color:#a8a098;"> · ${imgCount} صور</span>` : '';
     const tags = (p.is_new ? '<span class="badge-tag tag-new">🆕 جديد</span>' : '') +
                  (p.sold_out ? '<span class="badge-tag tag-soldout">⛔ نفذ</span>' : '');
-    return `<div class="product-item"><img src="${p.image||''}" alt="" onerror="this.style.visibility='hidden'"><div class="info"><b>${escapeHtml(p.name)}</b><div class="meta">${tags}${escapeHtml(p.category)} — ${variantsText}${imgBadge}</div></div><div class="actions"><button class="small-btn" onclick="editProduct('${p.id}')">تعديل</button><button class="danger-btn" onclick="deleteProduct('${p.id}')">حذف</button></div></div>`;
+    return `<div class="product-item"><img src="${p.image||''}" alt="" onerror="this.style.visibility='hidden'"><div class="info"><b>${escapeHtml(p.name)}</b>${tags}${escapeHtml(p.category)} — ${variantsText}${imgBadge}</div><div class="actions"><button class="small-btn" onclick="editProduct('${p.id}')">تعديل</button><button class="danger-btn" onclick="deleteProduct('${p.id}')">حذف</button></div></div>`;
   }).join('');
+}
+
+function filterProductList(){
+  renderProductList();
 }
 
 function escapeHtml(str){ const div=document.createElement('div');div.textContent=str||'';return div.innerHTML; }
@@ -885,29 +901,36 @@ function escapeHtml(str){ const div=document.createElement('div');div.textConten
 /* ===== خريطة تحويل التصنيفات القديمة إلى الـ 6 الجديدة ===== */
 function mapOldCategory(oldCat){
   if(!oldCat) return 'مكياج';
+  /* عناية بالبشرة */
   if(oldCat === 'عناية بالبشرة') return 'عناية بالبشرة';
   if(oldCat.indexOf('سيروم') !== -1) return 'عناية بالبشرة';
   if(oldCat.indexOf('مرطب وجه') !== -1) return 'عناية بالبشرة';
   if(oldCat.indexOf('غسول وجه') !== -1) return 'عناية بالبشرة';
   if(oldCat.indexOf('واقي شمس') !== -1) return 'عناية بالبشرة';
+  /* عناية بالجسم */
   if(oldCat === 'عناية بالجسم') return 'عناية بالجسم';
   if(oldCat.indexOf('غسول جسم') !== -1) return 'عناية بالجسم';
   if(oldCat.indexOf('كريم جسم') !== -1) return 'عناية بالجسم';
   if(oldCat.indexOf('عطور') !== -1) return 'عناية بالجسم';
+  /* عناية بالشعر */
   if(oldCat === 'عناية بالشعر') return 'عناية بالشعر';
   if(oldCat.indexOf('شامبو') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('بلسم') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('ماسك شعر') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('زيت شعر') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('كريم شعر') !== -1) return 'عناية بالشعر';
+  /* أجهزة */
   if(oldCat === 'أجهزة') return 'أجهزة';
   if(oldCat.indexOf('مكواة') !== -1) return 'أجهزة';
   if(oldCat.indexOf('سشوار') !== -1) return 'أجهزة';
   if(oldCat.indexOf('أجهزة تجميل') !== -1) return 'أجهزة';
+  /* إكسسوارات */
   if(oldCat === 'إكسسوارات') return 'إكسسوارات';
   if(oldCat.indexOf('إكسسوارات') !== -1) return 'إكسسوارات';
+  /* مكياج — أي شيء يحتوي كلمة مكياج أو من أسماء المكياج */
   if(oldCat.indexOf('مكياج') !== -1) return 'مكياج';
   if(oldCat === 'روج' || oldCat === 'فاونديشن' || oldCat === 'باليت' || oldCat === 'كونتور' || oldCat === 'هايلايتر' || oldCat === 'بودرة' || oldCat === 'مسكرا' || oldCat === 'كحل' || oldCat === 'ايلاينر' || oldCat === 'إيشادو') return 'مكياج';
+  /* غير معروف — افتراضي */
   return 'مكياج';
 }
 
@@ -916,6 +939,7 @@ function editProduct(id){
   if(!p) return;
   editingId = id;
   document.getElementById('f-name').value = p.name;
+  /* تحويل التصنيف القديم إلى الجديد */
   const mappedCat = mapOldCategory(p.category);
   document.getElementById('f-cat').value = mappedCat;
   renderCatPicker(mappedCat);
