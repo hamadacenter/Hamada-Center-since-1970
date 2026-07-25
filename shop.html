@@ -833,7 +833,7 @@ var CAT_REMAP={
 };
 
 function loadProducts(){
-  sb.from("products").select("*").order("created_at",{ascending:false}).then(function(res){
+  sb.from("products").select("id,name,category,description,image,images,variants,is_new,sold_out,created_at").order("created_at",{ascending:false}).then(function(res){
     if(res.error){document.getElementById("connError").style.display="block";document.getElementById("products").innerHTML="<div class=\"empty\"><h3>"+t("noProducts")+"</h3><p>"+t("noProductsSub")+"</p></div>";return;}
     document.getElementById("connError").style.display="none";
     products=(res.data||[]).map(function(p){
@@ -934,7 +934,14 @@ function updPrice(pid,sel){
 var PLACEHOLDER="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Crect width='600' height='600' fill='%23222'/%3E%3C/svg%3E";
 
 loadProducts();
-try{sb.channel("products-ch").on("postgres_changes",{event:"*",schema:"public",table:"products"},function(){loadProducts();}).subscribe();}catch(e){console.warn(e);}
+try{
+  var _reloadTimer=null;
+  var _debouncedReload=function(){
+    if(_reloadTimer)clearTimeout(_reloadTimer);
+    _reloadTimer=setTimeout(function(){loadProducts();},4000);
+  };
+  sb.channel("products-ch").on("postgres_changes",{event:"*",schema:"public",table:"products"},_debouncedReload).subscribe();
+}catch(e){console.warn(e);}
 
 function renderFilters(){
   var ac={};products.forEach(function(p){ac[p.category]=true;});
