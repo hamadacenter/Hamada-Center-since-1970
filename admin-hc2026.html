@@ -50,6 +50,8 @@
   .login-box button:disabled{opacity:.5;cursor:not-allowed;}
   .login-error{color:var(--danger);font-size:.85rem;margin-top:12px;display:none;font-weight:700;}
   .config-error{color:var(--danger);font-size:.8rem;margin-top:16px;padding:12px;background:var(--danger-bg);border-radius:10px;display:none;}
+  .config-warn{color:var(--warning);font-size:.8rem;margin-top:16px;padding:12px;background:var(--warning-bg);border-radius:10px;display:none;}
+  .config-retry-btn{margin-top:10px;background:var(--warning);color:#111;border:none;border-radius:8px;padding:8px 14px;font-weight:800;font-size:.8rem;cursor:pointer;display:none;}
 
   /* ADMIN LAYOUT */
   .admin-app{display:none;min-height:100vh;}
@@ -236,11 +238,13 @@
         <div class="sub-brand">Admin Panel</div>
       </div>
     </div>
-    <p>هذه الصفحة خاصة بالإدارة فقط</p>
+    <p id="loginStatusText">هذه الصفحة خاصة بالإدارة فقط</p>
     <input type="password" id="passwordInput" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')tryLogin()">
-    <button onclick="tryLogin()">دخول</button>
+    <button id="loginBtn" onclick="tryLogin()">دخول</button>
     <div class="login-error" id="loginError">كلمة المرور غير صحيحة</div>
     <div class="config-error" id="configError"></div>
+    <div class="config-warn" id="configWarn"></div>
+    <button class="config-retry-btn" id="configRetryBtn" onclick="retryConfigCheck()">🔄 إعادة المحاولة</button>
   </div>
 </div>
 
@@ -475,38 +479,144 @@ function pickCat(val){
 }
 </script>
 <script>
-/* ---------- CONFIG GUARD ---------- */
-(function checkConfig(){
-  const missing = [];
-  if(typeof SUPABASE_URL === 'undefined' || !SUPABASE_URL || SUPABASE_URL.includes('ضعي_هنا')) missing.push('SUPABASE_URL');
-  if(typeof SUPABASE_ANON_KEY === 'undefined' || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes('ضعي_هنا')) missing.push('SUPABASE_ANON_KEY');
-  if(typeof ADMIN_PASSWORD === 'undefined' || !ADMIN_PASSWORD) missing.push('ADMIN_PASSWORD');
-  if(missing.length > 0){
-    const el = document.getElementById('configError');
-    el.style.display = 'block';
-    el.textContent = 'ملف config.js غير مكتمل. تأكد من رفعه مع باقي الملفات.';
-    document.querySelector('.login-box button').disabled = true;
-    document.querySelector('.login-box button').style.opacity = '0.5';
+/* =====================================================================
+   ROBUST STARTUP SEQUENCE
+   Problem this fixes: on some refreshes, config.js (or the Supabase
+   library) had not finished loading/parsing by the time the old code
+   tried to use SUPABASE_URL / SUPABASE_ANON_KEY / window.supabase.
+   That silently left "sb" undefined, and every DB call then failed
+   with a generic "فشل الاتصال بقاعدة البيانات" message that hid the
+   real cause. This version waits for everything to actually be ready,
+   retries a few times, and shows an honest error + a retry button
+   instead of a misleading one.
+   ===================================================================== */
+
+let sb = null;
+let configCheckAttempts = 0;
+const MAX_CONFIG_ATTEMPTS = 10; // ~5 seconds of retrying at 500ms apart
+
+function configIsReady(){
+  const urlOk = typeof SUPABASE_URL !== 'undefined' && SUPABASE_URL && !SUPABASE_URL.includes('ضعي_هنا');
+  const keyOk = typeof SUPABASE_ANON_KEY !== 'undefined' && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes('ضعي_هنا');
+  const pwOk  = typeof ADMIN_PASSWORD !== 'undefined' && ADMIN_PASSWORD;
+  const libOk = typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function';
+  return urlOk && keyOk && pwOk && libOk;
+}
+
+function showConfigError(msg){
+  const el = document.getElementById('configError');
+  const warn = document.getElementById('configWarn');
+  const retryBtn = document.getElementById('configRetryBtn');
+  warn.style.display = 'none';
+  el.style.display = 'block';
+  el.textContent = msg;
+  retryBtn.style.display = 'inline-block';
+  document.getElementById('loginBtn').disabled = true;
+  document.getElementById('loginBtn').style.opacity = '0.5';
+}
+
+function showConfigWarning(msg){
+  const el = document.getElementById('configError');
+  const warn = document.getElementById('configWarn');
+  el.style.display = 'none';
+  warn.style.display = 'block';
+  warn.textContent = msg;
+}
+
+function clearConfigMessages(){
+  document.getElementById('configError').style.display = 'none';
+  document.getElementById('configWarn').style.display = 'none';
+  document.getElementById('configRetryBtn').style.display = 'none';
+  document.getElementById('loginBtn').disabled = false;
+  document.getElementById('loginBtn').style.opacity = '1';
+}
+
+/* Tries to detect readiness, retrying a few times before giving up.
+   This is what fixes the "works on fresh open, fails on refresh" bug —
+   it gives config.js / the Supabase script a real chance to finish
+   loading instead of checking exactly once, immediately. */
+function waitForConfigAndInit(){
+  configCheckAttempts++;
+
+  if(configIsReady()){
+    clearConfigMessages();
+    try{
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }catch(e){
+      console.error('Supabase client creation failed:', e);
+      showConfigError('فشل إنشاء اتصال Supabase. حاول تحديث الصفحة.');
+      return;
+    }
+    // If the user already had a valid session (from before a refresh), resume it.
+    if(sessionStorage.getItem('hc_admin_auth')==='true'){
+      showAdmin();
+    }
+    return;
   }
-})();
+
+  if(configCheckAttempts >= MAX_CONFIG_ATTEMPTS){
+    // Give up and show a clear, honest error — not a vague DB error.
+    const missing = [];
+    if(typeof SUPABASE_URL === 'undefined' || !SUPABASE_URL || SUPABASE_URL.includes('ضعي_هنا')) missing.push('SUPABASE_URL');
+    if(typeof SUPABASE_ANON_KEY === 'undefined' || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes('ضعي_هنا')) missing.push('SUPABASE_ANON_KEY');
+    if(typeof ADMIN_PASSWORD === 'undefined' || !ADMIN_PASSWORD) missing.push('ADMIN_PASSWORD');
+    if(typeof window.supabase === 'undefined') missing.push('Supabase library (CDN)');
+    showConfigError('تعذر تحميل الإعدادات (' + missing.join(', ') + '). تأكد من اتصالك بالإنترنت واضغط إعادة المحاولة.');
+    return;
+  }
+
+  // Still waiting — show a soft, non-alarming message and try again shortly.
+  if(configCheckAttempts === 3){
+    showConfigWarning('جاري تحميل الإعدادات...');
+  }
+  setTimeout(waitForConfigAndInit, 500);
+}
+
+function retryConfigCheck(){
+  configCheckAttempts = 0;
+  clearConfigMessages();
+  waitForConfigAndInit();
+}
+
+// Kick off the readiness check as soon as this script runs.
+waitForConfigAndInit();
 
 /* ---------- AUTH ---------- */
 function tryLogin(){
+  if(!sb){
+    showToastOnLogin('الإعدادات لم تُحمّل بعد، حاول مرة أخرى خلال لحظات', true);
+    return;
+  }
   const input = document.getElementById('passwordInput').value;
   if(typeof ADMIN_PASSWORD !== 'undefined' && input === ADMIN_PASSWORD){
     sessionStorage.setItem('hc_admin_auth','true');
+    document.getElementById('loginError').style.display = 'none';
     showAdmin();
   }else{
     document.getElementById('loginError').style.display = 'block';
   }
 }
+
+function showToastOnLogin(msg){
+  const el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
 function logout(){
   sessionStorage.removeItem('hc_admin_auth');
   document.getElementById('adminApp').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('passwordInput').value = '';
 }
+
 function showAdmin(){
+  if(!sb){
+    // Safety net: never show a broken dashboard with no live connection.
+    console.warn('showAdmin called before sb was ready — deferring.');
+    setTimeout(showAdmin, 300);
+    return;
+  }
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('adminApp').style.display = 'block';
   init();
@@ -517,9 +627,6 @@ function showAdmin(){
     });
   });
 }
-if(sessionStorage.getItem('hc_admin_auth')==='true' && typeof SUPABASE_URL !== 'undefined'){
-  showAdmin();
-}
 
 window.addEventListener('load', function(){
   var picker = document.getElementById('catPicker');
@@ -527,11 +634,6 @@ window.addEventListener('load', function(){
     renderCatPicker(document.getElementById('f-cat').value || 'مكياج');
   }
 });
-
-/* ---------- SUPABASE ---------- */
-let sb;
-try{ sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
-catch(e){ console.error('Supabase init failed:', e); }
 
 let products = [];
 let orders = [];
@@ -550,7 +652,6 @@ async function init(){
 }
 
 function enforceSectionVisibility(){
-  // Force-hide all sections except the active one
   const sections = ['tab-dashboard','tab-add','tab-manage'];
   sections.forEach(id=>{
     const el = document.getElementById(id);
@@ -566,13 +667,14 @@ function enforceSectionVisibility(){
 
 /* ========== ORDERS ========== */
 async function loadOrders(){
+  if(!sb){ showToast('لا يوجد اتصال بقاعدة البيانات بعد', true); return; }
   try{
     const { data, error } = await sb.from('orders').select('*').order('created_at',{ascending:false});
-    if(error){ console.warn('Orders load error:', error.message); return; }
+    if(error){ console.warn('Orders load error:', error.message); showToast('تعذر تحميل الطلبات: '+error.message, true); return; }
     orders = data || [];
     updateOrdersBadge();
     renderOrders();
-  }catch(e){ console.warn('Orders fetch failed:', e); }
+  }catch(e){ console.warn('Orders fetch failed:', e); showToast('فشل تحميل الطلبات، تحقق من الاتصال', true); }
 }
 
 function updateOrdersBadge(){
@@ -664,6 +766,7 @@ function renderOrders(){
 }
 
 async function setOrderStatus(id, status){
+  if(!sb) return;
   try{
     const { error } = await sb.from('orders').update({status}).eq('id', id);
     if(error){ showToast('خطأ: '+error.message, true); return; }
@@ -676,6 +779,7 @@ async function setOrderStatus(id, status){
 }
 
 async function deleteOrder(id){
+  if(!sb) return;
   if(!confirm('هل تريد حذف هذه الفاتورة؟')) return;
   try{
     const { error } = await sb.from('orders').delete().eq('id', id);
@@ -689,13 +793,14 @@ async function deleteOrder(id){
 
 /* ========== PRODUCTS ========== */
 async function loadProducts(){
+  if(!sb){ showToast('لا يوجد اتصال بقاعدة البيانات بعد، انتظر لحظة وحدّث', true); return; }
   try{
     const { data, error } = await sb.from('products').select('*').order('created_at',{ascending:false});
     if(error){ showToast('خطأ في تحميل المنتجات: '+error.message, true); return; }
     products = data || [];
     renderProductList();
     updateDashboardStats();
-  }catch(err){ showToast('فشل الاتصال بقاعدة البيانات', true); }
+  }catch(err){ showToast('فشل الاتصال بقاعدة البيانات: '+(err && err.message ? err.message : 'غير معروف'), true); }
 }
 
 function switchTab(tab){
@@ -758,8 +863,6 @@ function setStatus(status){
 }
 
 /* ---------- GITHUB IMAGE HOSTING CONFIG ---------- */
-// The token is NEVER stored in this file (GitHub auto-kills tokens found in public code).
-// Instead it's asked for once and saved only in this browser's local storage.
 const GITHUB_OWNER = "hamadacenter";
 const GITHUB_REPO = "Hamada-Center-since-1970";
 const GITHUB_BRANCH = "main";
@@ -777,13 +880,12 @@ function getGithubToken(){
   return token;
 }
 
-// Call this from a button in the admin UI if the token ever stops working (revoked/expired)
 function resetGithubToken(){
   localStorage.removeItem('gh_upload_token');
   showToast('تم مسح رمز GitHub، سيُطلب منك إدخاله عند رفع أول صورة');
 }
 
-/* ---------- MULTI-IMAGE (now uploads to GitHub instead of storing base64 in DB) ---------- */
+/* ---------- MULTI-IMAGE (uploads to GitHub instead of storing base64 in DB) ---------- */
 async function handleImagesUpload(event){
   const files = Array.from(event.target.files);
   if(!files.length) return;
@@ -803,7 +905,6 @@ async function handleImagesUpload(event){
   }
 }
 
-/* Compresses/resizes an image file down to a small JPEG Blob (same sizing as before) */
 function compressImageToBlob(file){
   return new Promise((resolve, reject)=>{
     const reader = new FileReader();
@@ -829,7 +930,6 @@ function compressImageToBlob(file){
   });
 }
 
-/* Uploads a compressed image Blob to the GitHub repo and returns its permanent public URL */
 async function uploadImageToGitHub(blob){
   const token = getGithubToken();
   if(!token){
@@ -864,7 +964,6 @@ async function uploadImageToGitHub(blob){
   if(!res.ok){
     const err = await res.json().catch(()=>({}));
     if(res.status === 401){
-      // Token is dead/expired/revoked — clear it so next upload attempt asks fresh
       localStorage.removeItem('gh_upload_token');
       throw new Error('رمز GitHub غير صالح أو منتهي. حاول رفع الصورة مرة أخرى لإدخال رمز جديد');
     }
@@ -918,6 +1017,7 @@ function clearForm(){
 }
 
 async function saveProduct(){
+  if(!sb){ showToast('لا يوجد اتصال بقاعدة البيانات بعد', true); return; }
   const name = document.getElementById('f-name').value.trim();
   const category = document.getElementById('f-cat').value;
   const desc = document.getElementById('f-desc').value.trim();
@@ -990,36 +1090,29 @@ function escapeHtml(str){ const div=document.createElement('div');div.textConten
 /* ===== خريطة تحويل التصنيفات القديمة إلى الـ 6 الجديدة ===== */
 function mapOldCategory(oldCat){
   if(!oldCat) return 'مكياج';
-  /* عناية بالبشرة */
   if(oldCat === 'عناية بالبشرة') return 'عناية بالبشرة';
   if(oldCat.indexOf('سيروم') !== -1) return 'عناية بالبشرة';
   if(oldCat.indexOf('مرطب وجه') !== -1) return 'عناية بالبشرة';
   if(oldCat.indexOf('غسول وجه') !== -1) return 'عناية بالبشرة';
   if(oldCat.indexOf('واقي شمس') !== -1) return 'عناية بالبشرة';
-  /* عناية بالجسم */
   if(oldCat === 'عناية بالجسم') return 'عناية بالجسم';
   if(oldCat.indexOf('غسول جسم') !== -1) return 'عناية بالجسم';
   if(oldCat.indexOf('كريم جسم') !== -1) return 'عناية بالجسم';
   if(oldCat.indexOf('عطور') !== -1) return 'عناية بالجسم';
-  /* عناية بالشعر */
   if(oldCat === 'عناية بالشعر') return 'عناية بالشعر';
   if(oldCat.indexOf('شامبو') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('بلسم') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('ماسك شعر') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('زيت شعر') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('كريم شعر') !== -1) return 'عناية بالشعر';
-  /* أجهزة */
   if(oldCat === 'أجهزة') return 'أجهزة';
   if(oldCat.indexOf('مكواة') !== -1) return 'أجهزة';
   if(oldCat.indexOf('سشوار') !== -1) return 'أجهزة';
   if(oldCat.indexOf('أجهزة تجميل') !== -1) return 'أجهزة';
-  /* إكسسوارات */
   if(oldCat === 'إكسسوارات') return 'إكسسوارات';
   if(oldCat.indexOf('إكسسوارات') !== -1) return 'إكسسوارات';
-  /* مكياج — أي شيء يحتوي كلمة مكياج أو من أسماء المكياج */
   if(oldCat.indexOf('مكياج') !== -1) return 'مكياج';
   if(oldCat === 'روج' || oldCat === 'فاونديشن' || oldCat === 'باليت' || oldCat === 'كونتور' || oldCat === 'هايلايتر' || oldCat === 'بودرة' || oldCat === 'مسكرا' || oldCat === 'كحل' || oldCat === 'ايلاينر' || oldCat === 'إيشادو') return 'مكياج';
-  /* غير معروف — افتراضي */
   return 'مكياج';
 }
 
@@ -1028,7 +1121,6 @@ function editProduct(id){
   if(!p) return;
   editingId = id;
   document.getElementById('f-name').value = p.name;
-  /* تحويل التصنيف القديم إلى الجديد */
   const mappedCat = mapOldCategory(p.category);
   document.getElementById('f-cat').value = mappedCat;
   renderCatPicker(mappedCat);
@@ -1046,6 +1138,7 @@ function editProduct(id){
 }
 
 async function deleteProduct(id){
+  if(!sb) return;
   if(!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
   try{
     const { error } = await sb.from('products').delete().eq('id', id);
