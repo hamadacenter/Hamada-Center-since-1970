@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" id="htmlRoot">
+<html lang="en" dir="ltr" id="htmlRoot">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,7 +77,7 @@ html[dir="rtl"] .search-input{padding:10px 44px 10px 18px;}
 html[dir="rtl"] .search-icon{left:auto;right:14px;}
 .price-filter-btn{background:var(--card-bg);border:1px solid var(--line-strong);color:var(--grey-light);padding:10px 18px;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:7px;transition:.2s;white-space:nowrap;}
 .price-filter-btn:hover,.price-filter-btn.active{border-color:var(--pink);color:var(--pink);}
-.price-filter-panel{background:var(--card-bg);border:1px solid var(--line-strong);border-radius:18px;padding:18px 20px;margin-top:12px;max-width:1320px;margin-left:auto;margin-right:auto;}
+.price-filter-panel{display:none;background:var(--card-bg);border:1px solid var(--line-strong);border-radius:18px;padding:18px 20px;margin-top:12px;max-width:1320px;margin-left:auto;margin-right:auto;}
 .price-panel-inner{max-width:500px;}
 .price-range-label{font-weight:800;font-size:.9rem;margin-bottom:14px;color:var(--white);text-align:right;}
 .price-range-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
@@ -293,11 +293,10 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 @media(max-width:600px){
   .cart-sidebar,.fav-sidebar{width:100vw;}
   .modal{padding:20px;}
-  .feedback-fab{bottom:20px;left:16px;}
-  html[dir="ltr"] .feedback-fab,.fav-icon-btn{left:auto;right:16px;}
-  html[dir="ltr"] .fav-icon-btn{left:auto;right:16px;}
+  .feedback-fab{bottom:20px;left:16px;width:46px;height:46px;font-size:1.2rem;}
   .fav-icon-btn{bottom:80px;left:16px;width:44px;height:44px;font-size:1.1rem;}
-  .feedback-fab{width:46px;height:46px;font-size:1.2rem;}
+  html[dir="ltr"] .feedback-fab{left:auto;right:16px;}
+  html[dir="ltr"] .fav-icon-btn{left:auto;right:16px;}
   .grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;padding:14px 4% 100px;}
   .lb-wrap{max-width:94vw;}
   footer{flex-direction:column;text-align:center;}
@@ -353,7 +352,6 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 
 <div class="shop-bar reveal">
   <div class="shop-title" id="sectionHeading">جميع <em>المنتجات</em></div>
-  <span class="product-count" id="productCount"></span>
 </div>
 
 <div class="search-filter-bar reveal">
@@ -480,7 +478,7 @@ function initReveal(){
 }
 document.addEventListener("DOMContentLoaded",initReveal);
 
-var lang="ar";
+var lang="en";
 var T={
   ar:{langBtn:"EN",drawerTitle:"📁 التصنيفات",cartBtn:"السلة",cartTitle:"🛒 السلة",totalLabel:"الإجمالي",checkoutLabel:"إتمام الطلب",currency:"ج.م",cartEmpty:"السلة فارغة",addToCart:"أضف للسلة",added:"تمت الإضافة ✓",removeItem:"حذف",modalTitle:"تفاصيل التوصيل",modalSub:"أدخلي بياناتك لإتمام الطلب",labelAddress:"📍 العنوان بالتفصيل",labelCity:"🏙️ المدينة / المحافظة",labelPhone:"📞 رقم الهاتف",phAddress:"مثال: شارع النيل، شقة 5",phCity:"مثال: طنطا",phPhone:"مثال: 01012345678",errAddress:"برجاء إدخال العنوان",errCity:"برجاء إدخال المدينة",errPhone:"برجاء إدخال رقم صحيح",btnCancel:"إلغاء",btnSubmit:"📲 إرسال الطلب",noProducts:"لا توجد منتجات هنا حالياً",noProductsSub:"تابعونا لمعرفة أحدث العروض",discount:"خصم",badgeNew:"جديد",badgeSold:"نفذ",was:"بدل",soldOutBtn:"نفذ من المخزون",successTitle:"تم إرسال طلبك! 🎉",successMsg:"شكراً لثقتك بنا 💗 نتمنى لك طلباً سعيداً وخدمة مميزة!",btnClose:"إغلاق",connError:"تعذر تحميل المنتجات. حاولي تحديث الصفحة.",fabTip:"رأيك يهمنا",footerCopy:"Hamada Center © 2026 — جميع الحقوق محفوظة",cats:"التصنيفات",products:"منتج",addFav:"المفضلة",favEmpty:"لا توجد منتجات في المفضلة",favTitle:"❤️ المفضلة",selectAll:"تحديد الكل",removeFav:"حذف",priceFilter:"تصفية السعر",priceRange:"نطاق السعر (ج.م)",apply:"تطبيق",reset:"إعادة تعيين"},
   en:{langBtn:"عربي",drawerTitle:"📁 Collections",cartBtn:"Cart",cartTitle:"🛒 Cart",totalLabel:"Total",checkoutLabel:"Place Order",currency:"EGP",cartEmpty:"Your cart is empty",addToCart:"Add to Cart",added:"Added ✓",removeItem:"Remove",modalTitle:"Delivery Details",modalSub:"Enter your details to complete the order",labelAddress:"📍 Detailed Address",labelCity:"🏙️ City / Governorate",labelPhone:"📞 Phone Number",phAddress:"e.g. 5 El-Nile Street, Apt 5",phCity:"e.g. Tanta",phPhone:"e.g. 01012345678",errAddress:"Please enter your address",errCity:"Please enter your city",errPhone:"Please enter a valid phone number",btnCancel:"Cancel",btnSubmit:"📲 Send Order",noProducts:"No products here yet",noProductsSub:"Follow our pages for the latest deals",discount:"OFF",badgeNew:"New",badgeSold:"Sold Out",was:"was",soldOutBtn:"Sold Out",successTitle:"Order Sent! 🎉",successMsg:"Thank you for your trust 💗 We wish you a happy order and excellent service!",btnClose:"Close",connError:"Could not load products. Try refreshing.",fabTip:"Share your feedback",footerCopy:"Hamada Center © 2026 — All rights reserved",cats:"Collections",products:"products",addFav:"Wishlist",favEmpty:"No products in wishlist",favTitle:"❤️ Wishlist",selectAll:"Select All",removeFav:"Remove",priceFilter:"Filter by Price",priceRange:"Price Range (EGP)",apply:"Apply",reset:"Reset"}
@@ -957,6 +955,7 @@ function updPrice(pid,sel){
 
 var PLACEHOLDER="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Crect width='600' height='600' fill='%23222'/%3E%3C/svg%3E";
 
+applyLang();
 loadProducts();
 try{
   var _reloadTimer=null;
