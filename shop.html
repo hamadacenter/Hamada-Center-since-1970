@@ -1063,6 +1063,7 @@ function renderFilters(){
 
 </script>
 
+
 <script>
 /* ===== Drawer Category Groups & Bilingual Support ===== */
 function toggleGroup(header){
@@ -1084,18 +1085,34 @@ function selectCat(el, cat){
   if(window.innerWidth < 768) closeDrawer();
   if(typeof applySearchFilter === 'function') applySearchFilter();
 }
+function syncDrawerLang(){
+  var btn = document.getElementById('langBtn');
+  var isEn = btn && btn.textContent.trim() === 'AR'; // "AR" on button = current language is English
+  document.querySelectorAll('.drawer-group-header[data-en], .drawer-cat[data-en]').forEach(function(el){
+    var label = el.querySelector('.group-title, .cat-label');
+    if(!label) return;
+    if(!label.dataset.ar) label.dataset.ar = label.textContent.trim();
+    label.textContent = isEn ? el.dataset.en : label.dataset.ar;
+  });
+}
+// Run immediately and on DOM ready
+syncDrawerLang();
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', syncDrawerLang);
+}
+// Hook into lang button click so English works even if toggleLang is defined later or differently
 (function(){
-  var origToggle = window.toggleLang;
-  window.toggleLang = function(){
-    if(typeof origToggle === 'function'){ try{ origToggle(); }catch(e){} }
-    var btn = document.getElementById('langBtn');
-    var isEn = btn && btn.textContent.trim() === 'AR';
-    document.querySelectorAll('.drawer-group-header[data-en], .drawer-cat[data-en]').forEach(function(el){
-      var label = el.querySelector('.group-title, .cat-label');
-      if(!label) return;
-      if(!label.dataset.ar) label.dataset.ar = label.textContent.trim();
-      label.textContent = isEn ? el.dataset.en : label.dataset.ar;
+  var btn = document.getElementById('langBtn');
+  if(btn){
+    btn.addEventListener('click', function(){
+      setTimeout(syncDrawerLang, 50);
     });
+  }
+  // Also wrap global toggleLang if it exists
+  var orig = window.toggleLang;
+  window.toggleLang = function(){
+    if(typeof orig === 'function'){ try{ orig(); }catch(e){} }
+    syncDrawerLang();
   };
 })();
 </script>
