@@ -329,6 +329,7 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 
 </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 
@@ -349,7 +350,76 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="drawer" id="drawer">
   <div class="drawer-head"><h2 id="drawerTitle">📁 التصنيفات</h2><button class="close-drawer" onclick="closeDrawer()">✕</button></div>
-  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-body" id="drawerBody">
+  <!-- Body Care -->
+  <div class="drawer-group">
+    <div class="drawer-group-header" onclick="toggleGroup(this)" data-en="Body Care">
+      <span class="group-title">عناية بالجسم</span>
+      <span class="drawer-group-arrow">›</span>
+    </div>
+    <div class="drawer-group-subs">
+      <div class="drawer-cat" onclick="selectCat(this,'شامبو')" data-en="Shampoo"><span class="drawer-cat-icon">🧴</span><span class="cat-label">شامبو</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'بلسم')" data-en="Conditioner"><span class="drawer-cat-icon">🧴</span><span class="cat-label">بلسم</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'حمام كريم')" data-en="Bath Cream"><span class="drawer-cat-icon">🛁</span><span class="cat-label">حمام كريم</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'سيروم')" data-en="Serum"><span class="drawer-cat-icon">💧</span><span class="cat-label">سيروم</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'مسك شعر')" data-en="Hair Musk"><span class="drawer-cat-icon">🌸</span><span class="cat-label">مسك شعر</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'مجموعة شعر')" data-en="Hair Set"><span class="drawer-cat-icon">🎁</span><span class="cat-label">مجموعة شعر</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'أخرى')" data-en="Other"><span class="drawer-cat-icon">•</span><span class="cat-label">أخرى</span></div>
+    </div>
+  </div>
+  <!-- Skin Care -->
+  <div class="drawer-group">
+    <div class="drawer-group-header" onclick="toggleGroup(this)" data-en="Skin Care">
+      <span class="group-title">عناية بالبشرة</span>
+      <span class="drawer-group-arrow">›</span>
+    </div>
+    <div class="drawer-group-subs">
+      <div class="drawer-cat" onclick="selectCat(this,'غسول')" data-en="Cleanser"><span class="drawer-cat-icon">🫧</span><span class="cat-label">غسول</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'كريم')" data-en="Cream"><span class="drawer-cat-icon">🧴</span><span class="cat-label">كريم</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'سيروم')" data-en="Serum"><span class="drawer-cat-icon">💧</span><span class="cat-label">سيروم</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'واقي شمس')" data-en="Sunscreen"><span class="drawer-cat-icon">☀️</span><span class="cat-label">واقي شمس</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'شفرات')" data-en="Razors"><span class="drawer-cat-icon">🪒</span><span class="cat-label">شفرات</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'أخرى')" data-en="Other"><span class="drawer-cat-icon">•</span><span class="cat-label">أخرى</span></div>
+    </div>
+  </div>
+  <!-- Devices -->
+  <div class="drawer-group">
+    <div class="drawer-group-header" onclick="toggleGroup(this)" data-en="Devices">
+      <span class="group-title">أجهزة</span>
+      <span class="drawer-group-arrow">›</span>
+    </div>
+    <div class="drawer-group-subs">
+      <div class="drawer-cat" onclick="selectCat(this,'مكوة')" data-en="Hair Iron"><span class="drawer-cat-icon">🔌</span><span class="cat-label">مكوة</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'استشوار')" data-en="Hair Dryer"><span class="drawer-cat-icon">💨</span><span class="cat-label">استشوار</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'إزالة الشعر')" data-en="Hair Removal"><span class="drawer-cat-icon">✨</span><span class="cat-label">إزالة الشعر</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'أخرى')" data-en="Other"><span class="drawer-cat-icon">•</span><span class="cat-label">أخرى</span></div>
+    </div>
+  </div>
+  <!-- Makeup -->
+  <div class="drawer-group">
+    <div class="drawer-group-header" onclick="toggleGroup(this)" data-en="Makeup">
+      <span class="group-title">مكياج</span>
+      <span class="drawer-group-arrow">›</span>
+    </div>
+    <div class="drawer-group-subs">
+      <div class="drawer-cat" onclick="selectCat(this,'كحل')" data-en="Kohl"><span class="drawer-cat-icon">👁️</span><span class="cat-label">كحل</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'باليت')" data-en="Palette"><span class="drawer-cat-icon">🎨</span><span class="cat-label">باليت</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'أي لاينر')" data-en="Eyeliner"><span class="drawer-cat-icon">✏️</span><span class="cat-label">أي لاينر</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'روج')" data-en="Lipstick"><span class="drawer-cat-icon">💄</span><span class="cat-label">روج</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'لب جلوس')" data-en="Lip Gloss"><span class="drawer-cat-icon">💋</span><span class="cat-label">لب جلوس</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'بودرة')" data-en="Powder"><span class="drawer-cat-icon">✨</span><span class="cat-label">بودرة</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'مسكرة')" data-en="Mascara"><span class="drawer-cat-icon">👁️</span><span class="cat-label">مسكرة</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'فاونديشن')" data-en="Foundation"><span class="drawer-cat-icon">🧴</span><span class="cat-label">فاونديشن</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'قلم حواجب')" data-en="Eyebrow Pencil"><span class="drawer-cat-icon">✏️</span><span class="cat-label">قلم حواجب</span></div>
+      <div class="drawer-cat" onclick="selectCat(this,'أخرى')" data-en="Other"><span class="drawer-cat-icon">•</span><span class="cat-label">أخرى</span></div>
+    </div>
+  </div>
+  <!-- Perfumes -->
+  <div class="drawer-cat" onclick="selectCat(this,'عطور')" data-en="Perfumes">
+    <span class="drawer-cat-icon">🌸</span>
+    <span class="cat-label">عطور</span>
+  </div>
+</div>
 </div>
 
 <div class="shop-bar reveal">
@@ -991,6 +1061,43 @@ function renderFilters(){
   document.getElementById("filters").innerHTML=h;
 }
 
+</script>
+
+<script>
+/* ===== Drawer Category Groups & Bilingual Support ===== */
+function toggleGroup(header){
+  header.classList.toggle('open');
+  var subs = header.nextElementSibling;
+  if(subs && subs.classList.contains('drawer-group-subs')){
+    subs.classList.toggle('open');
+  }
+}
+function selectCat(el, cat){
+  document.querySelectorAll('.drawer-cat').forEach(function(c){ c.classList.remove('active'); });
+  if(el) el.classList.add('active');
+  document.querySelectorAll('.drawer-group-header').forEach(function(g){ g.classList.remove('has-active'); });
+  var group = el ? el.closest('.drawer-group') : null;
+  if(group){
+    var hdr = group.querySelector('.drawer-group-header');
+    if(hdr) hdr.classList.add('has-active');
+  }
+  if(window.innerWidth < 768) closeDrawer();
+  if(typeof applySearchFilter === 'function') applySearchFilter();
+}
+(function(){
+  var origToggle = window.toggleLang;
+  window.toggleLang = function(){
+    if(typeof origToggle === 'function'){ try{ origToggle(); }catch(e){} }
+    var btn = document.getElementById('langBtn');
+    var isEn = btn && btn.textContent.trim() === 'AR';
+    document.querySelectorAll('.drawer-group-header[data-en], .drawer-cat[data-en]').forEach(function(el){
+      var label = el.querySelector('.group-title, .cat-label');
+      if(!label) return;
+      if(!label.dataset.ar) label.dataset.ar = label.textContent.trim();
+      label.textContent = isEn ? el.dataset.en : label.dataset.ar;
+    });
+  };
+})();
 </script>
 </body>
 </html>
