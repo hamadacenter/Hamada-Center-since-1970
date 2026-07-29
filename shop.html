@@ -581,23 +581,51 @@ function applyLang(){
 function toggleLang(){lang=lang==="ar"?"en":"ar";applyLang();}
 
 /* CATEGORIES */
-var CATEGORIES_AR=["الكل","عناية بالبشرة","عناية بالجسم","عناية بالشعر","أجهزة","إكسسوارات","مكياج"];
-var CATEGORIES_EN=["All","Skin Care","Body Care","Hair Care","Devices","Accessories","Makeup"];
+var CATEGORIES_AR=["الكل","عناية بالبشرة","عناية بالجسم","عناية بالشعر","أجهزة","إكسسوارات","مكياج","عطور"];
+var CATEGORIES_EN=["All","Skin Care","Body Care","Hair Care","Devices","Accessories","Makeup","Perfumes"];
+var SUBCATS_TRANSLATE={
+  "عناية بالبشرة - غسول":"Skin Care - Cleanser",
+  "عناية بالبشرة - كريم":"Skin Care - Cream",
+  "عناية بالبشرة - سيروم":"Skin Care - Serum",
+  "عناية بالبشرة - واقي شمس":"Skin Care - Sunscreen",
+  "عناية بالبشرة - شفرات":"Skin Care - Razors",
+  "عناية بالبشرة - أخرى":"Skin Care - Other",
+  "عناية بالشعر - شامبو":"Hair Care - Shampoo",
+  "عناية بالشعر - بلسم":"Hair Care - Conditioner",
+  "عناية بالشعر - حمام كريم":"Hair Care - Cream Bath",
+  "عناية بالشعر - سيروم":"Hair Care - Serum",
+  "عناية بالشعر - ماسك شعر":"Hair Care - Hair Mask",
+  "عناية بالشعر - مجموعة شعر":"Hair Care - Hair Care Set",
+  "عناية بالشعر - أخرى":"Hair Care - Other",
+  "أجهزة - مكواة":"Devices - Flat Iron",
+  "أجهزة - سشوار":"Devices - Hair Dryer",
+  "أجهزة - إزالة الشعر":"Devices - Hair Removal",
+  "أجهزة - أخرى":"Devices - Other",
+  "مكياج - كحل":"Makeup - Kohl",
+  "مكياج - باليت":"Makeup - Palette",
+  "مكياج - آي لاينر":"Makeup - Eyeliner",
+  "مكياج - روج":"Makeup - Lipstick",
+  "مكياج - ليب جلوس":"Makeup - Lip Gloss",
+  "مكياج - بودرة":"Makeup - Powder",
+  "مكياج - مسكرة":"Makeup - Mascara",
+  "مكياج - فاونديشن":"Makeup - Foundation",
+  "مكياج - قلم حواجب":"Makeup - Eyebrow Pencil",
+  "مكياج - أخرى":"Makeup - Other"
+};
 var SHOP_GROUPS=[
-  {ar:"🧴 عناية بالبشرة",en:"🧴 Skin Care",cats:["عناية بالبشرة"]},
+  {ar:"🧴 عناية بالبشرة",en:"🧴 Skin Care",cats:["عناية بالبشرة","عناية بالبشرة - غسول","عناية بالبشرة - كريم","عناية بالبشرة - سيروم","عناية بالبشرة - واقي شمس","عناية بالبشرة - شفرات","عناية بالبشرة - أخرى"]},
   {ar:"🧼 عناية بالجسم",en:"🧼 Body Care",cats:["عناية بالجسم"]},
-  {ar:"💇 عناية بالشعر",en:"💇 Hair Care",cats:["عناية بالشعر"]},
-  {ar:"⚡ أجهزة",en:"⚡ Devices",cats:["أجهزة"]},
+  {ar:"💇 عناية بالشعر",en:"💇 Hair Care",cats:["عناية بالشعر","عناية بالشعر - شامبو","عناية بالشعر - بلسم","عناية بالشعر - حمام كريم","عناية بالشعر - سيروم","عناية بالشعر - ماسك شعر","عناية بالشعر - مجموعة شعر","عناية بالشعر - أخرى"]},
+  {ar:"⚡ أجهزة",en:"⚡ Devices",cats:["أجهزة","أجهزة - مكواة","أجهزة - سشوار","أجهزة - إزالة الشعر","أجهزة - أخرى"]},
   {ar:"💎 إكسسوارات",en:"💎 Accessories",cats:["إكسسوارات"]},
-  {ar:"💄 مكياج",en:"💄 Makeup",cats:["مكياج"]}
+  {ar:"💄 مكياج",en:"💄 Makeup",cats:["مكياج","مكياج - كحل","مكياج - باليت","مكياج - آي لاينر","مكياج - روج","مكياج - ليب جلوس","مكياج - بودرة","مكياج - مسكرة","مكياج - فاونديشن","مكياج - قلم حواجب","مكياج - أخرى"]},
+  {ar:"🌸 عطور",en:"🌸 Perfumes",cats:["عطور"]}
 ];
-var CAT_ICONS={"الكل":"🏠","عناية بالبشرة":"🌿","عناية بالجسم":"🧴","عناية بالشعر":"💆","أجهزة":"🔌","إكسسوارات":"💎","مكياج":"💄"};
+var CAT_ICONS={"الكل":"🏠","عناية بالبشرة":"🌿","عناية بالجسم":"🧴","عناية بالشعر":"💆","أجهزة":"🔌","إكسسوارات":"💎","مكياج":"💄","عطور":"🌸"};
 var CAT_EMOJIS=CAT_ICONS;
 
-function getCatLabel(c){if(lang==="ar")return c;var i=CATEGORIES_AR.indexOf(c);return i>=0?CATEGORIES_EN[i]:c;}
+function getCatLabel(c){if(lang==="ar")return c;if(SUBCATS_TRANSLATE[c])return SUBCATS_TRANSLATE[c];var i=CATEGORIES_AR.indexOf(c);return i>=0?CATEGORIES_EN[i]:c;}
 function getShortCatLabel(c){var full=getCatLabel(c);var dash=full.indexOf(" - ");if(dash!==-1)return full.substring(dash+3);return full;}
-function esc(s){var d=document.createElement("div");d.textContent=s||"";return d.innerHTML;}
-
 /* DRAWER */
 function openDrawer(){document.getElementById("drawerOverlay").classList.add("open");document.getElementById("drawer").classList.add("open");document.getElementById("menuBtn").classList.add("open");}
 function closeDrawer(){document.getElementById("drawerOverlay").classList.remove("open");document.getElementById("drawer").classList.remove("open");document.getElementById("menuBtn").classList.remove("open");}
