@@ -461,11 +461,16 @@ var ADMIN_CATS = [
   {v:"عطور",         i:"🌸", label:"عطور"}
 ];
 
+/* 6 من أصل 7 فئات لها أنواع فرعية — إكسسوارات فقط بدون تصنيف فرعي.
+   ملاحظة: قوائم "عناية بالجسم" و"عطور" أدناه افتراضية مبنية على منتجات
+   شائعة في هذا المجال — عدّلها لتطابق تصنيفات صفحة المتجر بالضبط لو مختلفة. */
 var ADMIN_SUBCATS = {
   "عناية بالبشرة": ["غسول","كريم","سيروم","واقي شمس","شفرات","أخرى"],
+  "عناية بالجسم": ["غسول جسم","كريم/لوشن جسم","سكراب","زيت جسم","مزيل عرق","أخرى"],
   "عناية بالشعر": ["شامبو","بلسم","حمام كريم","سيروم","ماسك شعر","مجموعة شعر","أخرى"],
   "أجهزة": ["مكواة","سشوار","إزالة الشعر","أخرى"],
-  "مكياج": ["كحل","باليت","آي لاينر","روج","ليب جلوس","بودرة","مسكرة","فاونديشن","قلم حواجب","أخرى"]
+  "مكياج": ["كحل","باليت","آي لاينر","روج","ليب جلوس","بودرة","مسكرة","فاونديشن","قلم حواجب","أخرى"],
+  "عطور": ["عطر رجالي","عطر حريمي","عطر مشترك","سبراي/ديو","أخرى"]
 };
 
 function renderCatPicker(selected, selectedSub){
@@ -514,7 +519,6 @@ function pickCat(val){
 function pickSubcat(val){
   document.getElementById('f-subcat').value = val;
   renderSubcatPicker(document.getElementById('f-cat').value, val);
-}renderCatPicker(val);
 }
 </script>
 <script>
@@ -862,7 +866,7 @@ function switchTab(tab){
   }
 
   if(tab==='manage') renderProductList();
- if(tab==='add'){ var cv=document.getElementById('f-cat').value||'مكياج'; var sv=document.getElementById('f-subcat').value||''; requestAnimationFrame(function(){ renderCatPicker(cv, sv); }); }
+  if(tab==='add'){ var cv=document.getElementById('f-cat').value||'مكياج'; var sv=document.getElementById('f-subcat').value||''; requestAnimationFrame(function(){ renderCatPicker(cv, sv); }); }
   if(tab==='dashboard') updateDashboardStats();
 }
 
@@ -1140,7 +1144,7 @@ function mapOldCategory(oldCat){
   if(oldCat === 'عناية بالجسم') return 'عناية بالجسم';
   if(oldCat.indexOf('غسول جسم') !== -1) return 'عناية بالجسم';
   if(oldCat.indexOf('كريم جسم') !== -1) return 'عناية بالجسم';
- if(oldCat.indexOf('عطور') !== -1) return 'عطور';
+  if(oldCat.indexOf('عطور') !== -1) return 'عطور';
   if(oldCat === 'عناية بالشعر') return 'عناية بالشعر';
   if(oldCat.indexOf('شامبو') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('بلسم') !== -1) return 'عناية بالشعر';
@@ -1177,7 +1181,7 @@ function editProduct(id){
   if(!p) return;
   editingId = id;
   document.getElementById('f-name').value = p.name;
- const parsedCat = splitCategory(p.category);
+  const parsedCat = splitCategory(p.category);
   document.getElementById('f-cat').value = parsedCat.main;
   renderCatPicker(parsedCat.main, parsedCat.sub);
   document.getElementById('f-desc').value = p.description || '';
