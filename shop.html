@@ -624,7 +624,8 @@ var SHOP_GROUPS=[
 var CAT_ICONS={"الكل":"🏠","عناية بالبشرة":"🌿","عناية بالجسم":"🧴","عناية بالشعر":"💆","أجهزة":"🔌","إكسسوارات":"💎","مكياج":"💄","عطور":"🌸"};
 var CAT_EMOJIS=CAT_ICONS;
 
-function getCatLabel(c){if(lang==="ar")return c;if(SUBCATS_TRANSLATE[c])return SUBCATS_TRANSLATE[c];var i=CATEGORIES_AR.indexOf(c);return i>=0?CATEGORIES_EN[i]:c;}
+function getShortCatLabel(c){var full=getCatLabel(c);var dash=full.indexOf(" - ");if(dash!==-1)return full.substring(dash+3);return full;}
+function esc(s){var d=document.createElement("div");d.textContent=s||"";return d.innerHTML;}
 function getShortCatLabel(c){var full=getCatLabel(c);var dash=full.indexOf(" - ");if(dash!==-1)return full.substring(dash+3);return full;}
 /* DRAWER */
 function openDrawer(){document.getElementById("drawerOverlay").classList.add("open");document.getElementById("drawer").classList.add("open");document.getElementById("menuBtn").classList.add("open");}
