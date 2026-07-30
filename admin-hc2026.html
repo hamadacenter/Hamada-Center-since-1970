@@ -450,17 +450,25 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
-/* ===== CATEGORY DATA — 6 فئات فقط ===== */
+/* ===== CATEGORY DATA — 7 فئات فقط ===== */
 var ADMIN_CATS = [
   {v:"عناية بالبشرة", i:"🧴", label:"عناية بالبشرة"},
   {v:"عناية بالجسم", i:"🧖", label:"عناية بالجسم"},
   {v:"عناية بالشعر", i:"💇", label:"عناية بالشعر"},
   {v:"أجهزة",        i:"⚡", label:"أجهزة"},
   {v:"إكسسوارات",    i:"💎", label:"إكسسوارات"},
-  {v:"مكياج",        i:"💄", label:"مكياج"}
+  {v:"مكياج",        i:"💄", label:"مكياج"},
+  {v:"عطور",         i:"🌸", label:"عطور"}
 ];
 
-function renderCatPicker(selected){
+var ADMIN_SUBCATS = {
+  "عناية بالبشرة": ["غسول","كريم","سيروم","واقي شمس","شفرات","أخرى"],
+  "عناية بالشعر": ["شامبو","بلسم","حمام كريم","سيروم","ماسك شعر","مجموعة شعر","أخرى"],
+  "أجهزة": ["مكواة","سشوار","إزالة الشعر","أخرى"],
+  "مكياج": ["كحل","باليت","آي لاينر","روج","ليب جلوس","بودرة","مسكرة","فاونديشن","قلم حواجب","أخرى"]
+};
+
+function renderCatPicker(selected, selectedSub){
   var el = document.getElementById("catPicker");
   if(!el) return;
   var sel = selected || document.getElementById("f-cat").value || "مكياج";
@@ -473,11 +481,40 @@ function renderCatPicker(selected){
          '<span class="cat-pill-icon">' + cat.i + '</span>' + cat.label + '</button>';
   }
   el.innerHTML = h;
+  renderSubcatPicker(sel, selectedSub);
+}
+
+function renderSubcatPicker(mainCat, selectedSub){
+  var wrap = document.getElementById("subcatPicker");
+  if(!wrap) return;
+  var subs = ADMIN_SUBCATS[mainCat];
+  if(!subs){
+    wrap.innerHTML = '';
+    wrap.style.display = 'none';
+    document.getElementById('f-subcat').value = '';
+    return;
+  }
+  wrap.style.display = 'flex';
+  var sel = selectedSub || subs[0];
+  var h = '';
+  subs.forEach(function(s){
+    var isAct = s === sel;
+    var safe = s.replace(/'/g, "\\'");
+    h += '<button type="button" class="cat-pill' + (isAct ? " active" : "") + '" onclick="pickSubcat(\'' + safe + '\')">' + s + '</button>';
+  });
+  wrap.innerHTML = h;
+  document.getElementById('f-subcat').value = sel;
 }
 
 function pickCat(val){
   document.getElementById("f-cat").value = val;
-  renderCatPicker(val);
+  renderCatPicker(val, null);
+}
+
+function pickSubcat(val){
+  document.getElementById('f-subcat').value = val;
+  renderSubcatPicker(document.getElementById('f-cat').value, val);
+}renderCatPicker(val);
 }
 </script>
 <script>
