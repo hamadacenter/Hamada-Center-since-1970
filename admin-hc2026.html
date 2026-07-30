@@ -343,7 +343,7 @@
           <div class="stat-card">
             <div class="stat-icon">🏷️</div>
             <div class="stat-label">التصنيفات</div>
-            <div class="stat-value">6</div>
+            <div class="stat-value">7</div>
             <div class="stat-meta">منظمة</div>
           </div>
         </div>
@@ -375,6 +375,8 @@
               <label>التصنيف</label>
               <input type="hidden" id="f-cat" value="مكياج">
               <div class="cat-picker-wrap" id="catPicker"></div>
+              <input type="hidden" id="f-subcat" value="">
+              <div class="cat-picker-wrap" id="subcatPicker" style="margin-top:8px;"></div>
 
               <label>الوصف المختصر</label>
               <textarea id="f-desc" placeholder="وصف قصير يظهر تحت اسم المنتج"></textarea>
@@ -823,7 +825,7 @@ function switchTab(tab){
   }
 
   if(tab==='manage') renderProductList();
-  if(tab==='add'){ var cv=document.getElementById('f-cat').value||'مكياج'; requestAnimationFrame(function(){ renderCatPicker(cv); }); }
+ if(tab==='add'){ var cv=document.getElementById('f-cat').value||'مكياج'; var sv=document.getElementById('f-subcat').value||''; requestAnimationFrame(function(){ renderCatPicker(cv, sv); }); }
   if(tab==='dashboard') updateDashboardStats();
 }
 
@@ -835,10 +837,10 @@ function updateDashboardStats(){
   const breakdown = document.getElementById('category-breakdown');
   const counts = {};
   products.forEach(p=>{
-    const mappedCat = mapOldCategory(p.category);
+    const mappedCat = getMainCategory(p.category);
     counts[mappedCat] = (counts[mappedCat]||0) + 1;
   });
-  const cats = ['عناية بالبشرة','عناية بالجسم','عناية بالشعر','أجهزة','إكسسوارات','مكياج'];
+  const cats = ['عناية بالبشرة','عناية بالجسم','عناية بالشعر','أجهزة','إكسسوارات','مكياج','عطور'];
   breakdown.innerHTML = cats.map(c=>{
     const count = counts[c]||0;
     return `<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">
@@ -850,7 +852,7 @@ function updateDashboardStats(){
 }
 
 function getCatIcon(cat){
-  const icons = {'عناية بالبشرة':'🧴','عناية بالجسم':'🧖','عناية بالشعر':'💇','أجهزة':'⚡','إكسسوارات':'💎','مكياج':'💄'};
+  const icons = {'عناية بالبشرة':'🧴','عناية بالجسم':'🧖','عناية بالشعر':'💇','أجهزة':'⚡','إكسسوارات':'💎','مكياج':'💄','عطور':'🌸'};
   return icons[cat]||'📦';
 }
 
@@ -1006,7 +1008,8 @@ function clearForm(){
   document.getElementById('f-name').value = '';
   document.getElementById('f-desc').value = '';
   document.getElementById('f-cat').value = 'مكياج';
-  renderCatPicker('مكياج');
+  document.getElementById('f-subcat').value = '';
+  renderCatPicker('مكياج', null);
   document.getElementById('f-img-upload').value = '';
   renderImagesGrid();
   document.getElementById('variants-container').innerHTML = '';
@@ -1019,7 +1022,9 @@ function clearForm(){
 async function saveProduct(){
   if(!sb){ showToast('لا يوجد اتصال بقاعدة البيانات بعد', true); return; }
   const name = document.getElementById('f-name').value.trim();
-  const category = document.getElementById('f-cat').value;
+  const mainCatVal = document.getElementById('f-cat').value;
+  const subCatVal = document.getElementById('f-subcat').value;
+  const category = subCatVal ? (mainCatVal + ' - ' + subCatVal) : mainCatVal;
   const desc = document.getElementById('f-desc').value.trim();
   if(!name){ showToast('من فضلك اكتب اسم المنتج', true); return; }
   const variantRows = document.querySelectorAll('#variants-container .variant-row');
@@ -1087,7 +1092,7 @@ function filterProductList(){
 
 function escapeHtml(str){ const div=document.createElement('div');div.textContent=str||'';return div.innerHTML; }
 
-/* ===== خريطة تحويل التصنيفات القديمة إلى الـ 6 الجديدة ===== */
+/* ===== خريطة تحويل التصنيفات القديمة إلى الـ 7 الجديدة ===== */
 function mapOldCategory(oldCat){
   if(!oldCat) return 'مكياج';
   if(oldCat === 'عناية بالبشرة') return 'عناية بالبشرة';
@@ -1098,7 +1103,7 @@ function mapOldCategory(oldCat){
   if(oldCat === 'عناية بالجسم') return 'عناية بالجسم';
   if(oldCat.indexOf('غسول جسم') !== -1) return 'عناية بالجسم';
   if(oldCat.indexOf('كريم جسم') !== -1) return 'عناية بالجسم';
-  if(oldCat.indexOf('عطور') !== -1) return 'عناية بالجسم';
+ if(oldCat.indexOf('عطور') !== -1) return 'عطور';
   if(oldCat === 'عناية بالشعر') return 'عناية بالشعر';
   if(oldCat.indexOf('شامبو') !== -1) return 'عناية بالشعر';
   if(oldCat.indexOf('بلسم') !== -1) return 'عناية بالشعر';
@@ -1116,14 +1121,28 @@ function mapOldCategory(oldCat){
   return 'مكياج';
 }
 
+function getMainCategory(fullCat){
+  if(!fullCat) return 'مكياج';
+  var parts = fullCat.split(' - ');
+  if(parts.length === 2 && ADMIN_SUBCATS[parts[0]]) return parts[0];
+  return mapOldCategory(fullCat);
+}
+
+function splitCategory(fullCat){
+  if(!fullCat) return {main:'مكياج', sub:''};
+  var parts = fullCat.split(' - ');
+  if(parts.length === 2 && ADMIN_SUBCATS[parts[0]]) return {main:parts[0], sub:parts[1]};
+  return {main: getMainCategory(fullCat), sub:''};
+}
+
 function editProduct(id){
   const p = products.find(x=>x.id===id);
   if(!p) return;
   editingId = id;
   document.getElementById('f-name').value = p.name;
-  const mappedCat = mapOldCategory(p.category);
-  document.getElementById('f-cat').value = mappedCat;
-  renderCatPicker(mappedCat);
+ const parsedCat = splitCategory(p.category);
+  document.getElementById('f-cat').value = parsedCat.main;
+  renderCatPicker(parsedCat.main, parsedCat.sub);
   document.getElementById('f-desc').value = p.description || '';
   uploadedImages = Array.isArray(p.images) && p.images.length > 0 ? [...p.images] : (p.image ? [p.image] : []);
   renderImagesGrid();
