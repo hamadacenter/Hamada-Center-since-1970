@@ -1086,17 +1086,25 @@ async function saveProduct(){
     is_new: currentStatus === 'new',
     sold_out: currentStatus === 'soldout'
   };
-  let error;
-  try{
-    if(editingId){ ({ error } = await sb.from('products').update(payload).eq('id', editingId)); }
-    else{ ({ error } = await sb.from('products').insert(payload)); }
-  }catch(err){ error = err; }
-  saveBtn.disabled = false;
-  saveBtn.textContent = editingId ? 'حفظ التعديلات' : 'حفظ المنتج';
-  if(error){ showToast('حدث خطأ: '+(error.message||'تأكد من الاتصال بالإنترنت'), true); return; }
-  await loadProducts(); clearForm();
-  showToast('تم الحفظ بنجاح ✅ — يظهر على الموقع الآن فوراً');
-  switchTab('manage');
+  let error, resultData;
+try{
+  if(editingId){
+    const res = await sb.from('products').update(payload).eq('id', editingId).select();
+    error = res.error; resultData = res.data;
+    if(!error && (!resultData || resultData.length === 0)){
+      error = { message: 'لم يتم حفظ أي تعديل — صلاحيات RLS في Supabase تمنع التحديث. تحقق من سياسة UPDATE لجدول products.' };
+    }
+  } else {
+    const res = await sb.from('products').insert(payload).select();
+    error = res.error; resultData = res.data;
+  }
+}catch(err){ error = err; }
+saveBtn.disabled = false;
+saveBtn.textContent = editingId ? 'حفظ التعديلات' : 'حفظ المنتج';
+if(error){ showToast('حدث خطأ: '+(error.message||'تأكد من الاتصال بالإنترنت'), true); return; }
+await loadProducts(); clearForm();
+showToast('تم الحفظ بنجاح ✅ — يظهر على الموقع الآن فوراً');
+switchTab('manage');
 }
 
 function renderProductList(){
