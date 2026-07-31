@@ -99,8 +99,10 @@ html[dir="rtl"] .search-icon{left:auto;right:14px;}
 .filter-btn{border:1px solid var(--line-strong);background:transparent;color:var(--grey-light);padding:8px 18px;border-radius:999px;font-family:inherit;font-weight:700;font-size:.82rem;cursor:pointer;transition:.2s;white-space:nowrap;flex-shrink:0;}
 .filter-btn:hover{border-color:var(--pink);color:var(--pink);}
 .filter-btn.active{background:var(--pink);color:var(--black);border-color:var(--pink);}
-.cat-banners-wrap{padding:14px 5% 0;max-width:1320px;margin:0 auto;}
-.cat-banners{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;}
+.cat-banners-wrap{padding:14px 5% 0;max-width:1320px;margin:0 auto;display:flex;align-items:flex-start;gap:10px;}
+.mini-drawer-btn{flex-shrink:0;background:var(--card-bg);border:1.5px solid var(--line-strong);color:var(--grey-light);width:56px;height:56px;border-radius:16px;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .22s;}
+.mini-drawer-btn:hover{border-color:var(--pink);color:var(--pink);background:var(--pink-soft);}
+.cat-banners{flex:1;min-width:0;display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;}
 .cat-banners::-webkit-scrollbar{display:none;}
 .cat-banner{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;padding:10px 14px;border-radius:16px;border:1.5px solid var(--line-strong);background:var(--card-bg);transition:all .22s;min-width:74px;}
 .cat-banner:hover,.cat-banner.active{border-color:var(--pink);background:var(--pink-soft);}
@@ -306,6 +308,7 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 }
 @media(max-width:420px){
   header{padding:10px 3%;gap:6px;}
+  .mini-drawer-btn{width:44px;height:44px;font-size:1rem;border-radius:12px;}
   .logo{font-size:1.02rem;gap:4px;max-width:40vw;}
   .logo-img{width:28px;height:28px;}
   .icon-btn,.menu-btn{width:30px;height:30px;font-size:.8rem;}
@@ -456,6 +459,7 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 </div>
 
 <div class="cat-banners-wrap reveal">
+  <button class="mini-drawer-btn" onclick="openDrawer()" aria-label="Categories / التصنيفات" title="التصنيفات / Categories">☰</button>
   <div class="cat-banners" id="catBanners"></div>
 </div>
 <div class="filters-wrap reveal" style="display:none"><div class="filters" id="filters"></div></div>
@@ -609,8 +613,12 @@ var SUBCATS_TRANSLATE={
   "مكياج - بودرة":"Makeup - Powder",
   "مكياج - مسكرة":"Makeup - Mascara",
   "مكياج - فاونديشن":"Makeup - Foundation",
-  "مكياج - قلم حواجب":"Makeup - Eyebrow Pencil",
-  "مكياج - أخرى":"Makeup - Other"
+ "مكياج - قلم حواجب":"Makeup - Eyebrow Pencil",
+  "مكياج - أخرى":"Makeup - Other",
+  "عطور - عطر حريمي":"Perfumes - Women's Perfume",
+  "عطور - عطر رجالي":"Perfumes - Men's Perfume",
+  "عطور - عطر مشترك":"Perfumes - Unisex Perfume",
+  "عطور - أخرى":"Perfumes - Other"
 };
 var SHOP_GROUPS=[
   {ar:"🧴 عناية بالبشرة",en:"🧴 Skin Care",cats:["عناية بالبشرة","عناية بالبشرة - غسول","عناية بالبشرة - كريم","عناية بالبشرة - سيروم","عناية بالبشرة - واقي شمس","عناية بالبشرة - شفرات","عناية بالبشرة - أخرى"]},
@@ -619,7 +627,7 @@ var SHOP_GROUPS=[
   {ar:"⚡ أجهزة",en:"⚡ Devices",cats:["أجهزة","أجهزة - مكواة","أجهزة - سشوار","أجهزة - إزالة الشعر","أجهزة - أخرى"]},
   {ar:"💎 إكسسوارات",en:"💎 Accessories",cats:["إكسسوارات"]},
   {ar:"💄 مكياج",en:"💄 Makeup",cats:["مكياج","مكياج - كحل","مكياج - باليت","مكياج - آي لاينر","مكياج - روج","مكياج - ليب جلوس","مكياج - بودرة","مكياج - مسكرة","مكياج - فاونديشن","مكياج - قلم حواجب","مكياج - أخرى"]},
-  {ar:"🌸 عطور",en:"🌸 Perfumes",cats:["عطور - عطر حريمي","عطور- عطر رجالي","عطور - عطر مشترك","عطور - أخرى"]},
+  {ar:"🌸 عطور",en:"🌸 Perfumes",cats:["عطور","عطور - عطر حريمي","عطور - عطر رجالي","عطور - عطر مشترك","عطور - أخرى"]},
 ];
 var CAT_ICONS={"الكل":"🏠","عناية بالبشرة":"🌿","عناية بالجسم":"🧴","عناية بالشعر":"💆","أجهزة":"🔌","إكسسوارات":"💎","مكياج":"💄","عطور":"🌸"};
 var CAT_EMOJIS=CAT_ICONS;
