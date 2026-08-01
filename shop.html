@@ -652,7 +652,6 @@ function openDrawer(){document.getElementById("drawerOverlay").classList.add("op
 function closeDrawer(){document.getElementById("drawerOverlay").classList.remove("open");document.getElementById("drawer").classList.remove("open");document.getElementById("menuBtn").classList.remove("open");}
 
 function renderDrawer(){
-  var active={};products.forEach(function(p){active[p.category]=true;});
   var el=document.getElementById("drawerBody");
   if(!el)return;
 
@@ -671,7 +670,7 @@ var isOpen=hasActive;   // only open the group that contains the active category
     // Sub-items
     h+="<div class=\"drawer-group-subs"+(isOpen?" open":"\">\"");
     g.cats.forEach(function(c){
-      var hasProd=active[c];
+    var hasProd=categoryHasProducts(c);
       var icon=CAT_ICONS[c]||"🏷️";
       var isAct=c===activeCategory;
       var safeC=c.split("'").join("\\'");
@@ -733,17 +732,19 @@ function resetPriceFilter(){
 /* CAT BANNERS */
 function renderCatBanners(){
   var el=document.getElementById("catBanners");if(!el)return;
-  var active={};products.forEach(function(p){active[p.category]=true;});
   var catImg={};
   products.forEach(function(p){
-    if(!catImg[p.category]&&p.images&&p.images.length>0)catImg[p.category]=p.images[0];
-    else if(!catImg[p.category]&&p.img)catImg[p.category]=p.img;
+    var mainCat=p.category.split(" - ")[0];
+    var img=(p.images&&p.images.length>0)?p.images[0]:p.img;
+    if(!img)return;
+    if(!catImg[p.category])catImg[p.category]=img;
+    if(!catImg[mainCat])catImg[mainCat]=img;
   });
   var h="";
   var allActive=activeCategory==="الكل";
   h+="<div class=\"cat-banner"+(allActive?" active":"")+"\" onclick=\"setCategory('الكل')\"><div class=\"cat-banner-img\">🏠</div><span class=\"cat-banner-label\">"+(lang==="ar"?"الكل":"All")+"</span></div>";
   CATEGORIES_AR.slice(1).forEach(function(c){
-    var hasProd=active[c];
+   var hasProd=categoryHasProducts(c);
     var isAct=c===activeCategory;
     var emoji=CAT_EMOJIS[c]||"🏷️";
     var imgSrc=catImg[c];
