@@ -459,7 +459,7 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 </div>
 
 <div class="cat-banners-wrap reveal">
-  <button class="mini-drawer-btn" onclick="openDrawer()" aria-label="Categories / التصنيفات" title="التصنيفات / Categories">☰</button>
+
   <div class="cat-banners" id="catBanners"></div>
 </div>
 <div class="filters-wrap reveal" style="display:none"><div class="filters" id="filters"></div></div>
@@ -642,7 +642,11 @@ function getCatLabel(c){
 }
 function getShortCatLabel(c){var full=getCatLabel(c);var dash=full.indexOf(" - ");if(dash!==-1)return full.substring(dash+3);return full;}
 function esc(s){var d=document.createElement("div");d.textContent=s||"";return d.innerHTML;}
-
+function categoryHasProducts(cat){
+  return products.some(function(p){
+    return p.category===cat || p.category.indexOf(cat+" - ")===0;
+  });
+}
 /* DRAWER */
 function openDrawer(){document.getElementById("drawerOverlay").classList.add("open");document.getElementById("drawer").classList.add("open");document.getElementById("menuBtn").classList.add("open");}
 function closeDrawer(){document.getElementById("drawerOverlay").classList.remove("open");document.getElementById("drawer").classList.remove("open");document.getElementById("menuBtn").classList.remove("open");}
@@ -657,8 +661,8 @@ function renderDrawer(){
 
   SHOP_GROUPS.forEach(function(g,gi){
     var groupLabel=lang==="ar"?g.ar:g.en;
-    var hasActive=g.cats.indexOf(activeCategory)!==-1;
-    var isOpen=hasActive||gi===0;
+  var hasActive=g.cats.indexOf(activeCategory)!==-1;
+var isOpen=hasActive;   // only open the group that contains the active category
     // Group header
     h+="<div class=\"drawer-group-header"+(hasActive?" has-active":"")+(isOpen?" open":"")+"\" onclick=\"toggleDrawerGroup(this)\">" +
        "<span>"+groupLabel+"</span>" +
@@ -1027,7 +1031,9 @@ function updateSlider(pid){
 
 function renderProducts(){
   var grid=document.getElementById("products");
-  var list=activeCategory==="الكل"?products:products.filter(function(p){return p.category===activeCategory;});
+ var list=activeCategory==="الكل"?products:products.filter(function(p){
+  return p.category===activeCategory || p.category.indexOf(activeCategory+" - ")===0;
+});
   if(searchQuery){list=list.filter(function(p){var hay=(p.name+" "+p.desc+" "+p.category).toLowerCase();return hay.indexOf(searchQuery)!==-1;});}
   if(priceActive){list=list.filter(function(p){var minP=Math.min.apply(null,p.variants.map(function(v){return v.price;}));return minP>=priceMin&&minP<=priceMax;});}
   var cnt=document.getElementById("productCount");
