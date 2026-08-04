@@ -149,12 +149,14 @@ html[dir="ltr"] .badge-row{right:auto;left:10px;}
 .fav-btn.faved{background:var(--pink-soft);border-color:var(--pink);color:var(--pink);}
 .empty{text-align:center;padding:80px 20px;color:var(--grey);grid-column:1/-1;}
 .empty h3{color:var(--white);margin-bottom:8px;font-family:"Playfair Display",serif;font-size:1.5rem;}
-.lb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:700;display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px;}
+.lb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:700;display:none;align-items:center;justify-content:center;flex-direction:column;padding:10px;}
 .lb-overlay.open{display:flex;}
 .lb-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.09);border:1px solid var(--line-strong);color:var(--white);border-radius:50%;width:42px;height:42px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;z-index:2;}
 .lb-close:hover{background:var(--pink);border-color:var(--pink);color:var(--black);}
-.lb-wrap{position:relative;max-width:min(600px,90vw);width:100%;display:flex;align-items:center;justify-content:center;}
-.lb-img{max-width:100%;max-height:72vh;border-radius:14px;object-fit:contain;user-select:none;display:block;}
+.lb-share{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.09);border:1px solid var(--line-strong);color:var(--white);border-radius:50%;width:42px;height:42px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;z-index:2;}
+.lb-share:hover{background:var(--pink);border-color:var(--pink);color:var(--black);}
+.lb-wrap{position:relative;max-width:min(1200px,97vw);width:100%;display:flex;align-items:center;justify-content:center;}
+.lb-img{max-width:100%;max-height:88vh;border-radius:14px;object-fit:contain;user-select:none;display:block;}
 .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:1px solid var(--line-strong);color:var(--white);border-radius:50%;width:44px;height:44px;font-size:1.3rem;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;z-index:3;}
 .lb-arrow:hover{background:var(--pink);border-color:var(--pink);color:var(--black);}
 .lb-arrow.lprev{right:10px;} .lb-arrow.lnext{left:10px;}
@@ -302,7 +304,8 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
   html[dir="ltr"] .feedback-fab{left:auto;right:16px;}
   html[dir="ltr"] .fav-icon-btn{left:auto;right:16px;}
   .grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;padding:14px 4% 100px;}
-  .lb-wrap{max-width:94vw;}
+ .lb-wrap{max-width:98vw;}
+  .lb-img{max-height:80vh;}
   footer{flex-direction:column;text-align:center;}
   .footer-links{justify-content:center;}
 }
@@ -493,6 +496,7 @@ footer{background:var(--black);border-top:1px solid var(--line);padding:32px 5%;
 
 <div class="lb-overlay" id="lbOverlay">
   <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-share" onclick="shareCurrentImage()" id="lbShareBtn" title="Share">📤</button>
   <div class="lb-wrap">
     <img class="lb-img" id="lbImg" src="" alt="">
     <button class="lb-arrow lprev" onclick="lbMove(-1)">›</button>
@@ -782,7 +786,31 @@ function renderLb(){
 document.getElementById("lbOverlay").addEventListener("touchstart",function(e){lbTx=e.touches[0].clientX;});
 document.getElementById("lbOverlay").addEventListener("touchend",function(e){var dx=e.changedTouches[0].clientX-lbTx;if(Math.abs(dx)>40)lbMove(dx>0?1:-1);});
 document.getElementById("lbOverlay").addEventListener("click",function(e){if(e.target===this)closeLightbox();});
-
+/* SHARE IMAGE - fetches from your jsDelivr CDN, not Supabase, so no egress cost is added */
+function shareCurrentImage(){
+  var src=lbImgs[lbIdx];
+  if(!src)return;
+  var shareTitle="Hamada Center";
+  var shareText=t("shareTitle");
+  fetch(src).then(function(resp){return resp.blob();}).then(function(blob){
+    var ext=(blob.type&&blob.type.indexOf("/")!==-1)?blob.type.split("/")[1]:"jpg";
+    var file;
+    try{file=new File([blob],"hamada-center-product."+ext,{type:blob.type||"image/jpeg"});}catch(e){file=null;}
+    if(file&&navigator.canShare&&navigator.canShare({files:[file]})){
+      navigator.share({files:[file],title:shareTitle,text:shareText}).catch(function(){});
+    }else if(navigator.share){
+      navigator.share({title:shareTitle,text:shareText,url:src}).catch(function(){});
+    }else{
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement("a");
+      a.href=url;a.download="hamada-center-product."+ext;
+      document.body.appendChild(a);a.click();document.body.removeChild(a);
+      setTimeout(function(){URL.revokeObjectURL(url);},4000);
+    }
+  }).catch(function(){
+    window.open(src,"_blank");
+  });
+}
 /* CART */
 var cart=[];
 function addToCart(pid,vi){
