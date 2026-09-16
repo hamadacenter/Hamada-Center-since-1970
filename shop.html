@@ -1114,7 +1114,7 @@ function renderProducts(){
     var favCls=isFaved(p.id)?"fav-btn faved":"fav-btn";
     var favTxt=isFaved(p.id)?"❤️ "+t("addFav"):"🤍 "+t("addFav");
     h+="<div class=\"card reveal"+(p.soldOut?" sold-out-card":"")+"\">" +
-     "<div class=\"card-img\" onclick='openLightbox("+imgJSON+",0)'>" +
+      "<div class=\"card-img\" onclick=\"openLightbox("+imgJSON+",0)\">" +
         "<div class=\"img-track\" id=\"trk-"+p.id+"\">"+slides+"</div>" +
         (imgs.length>1?"<div class=\"card-dots\">"+cdots+"</div>":"")+arrows+badges+
       "</div>" +
