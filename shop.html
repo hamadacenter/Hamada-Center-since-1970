@@ -599,8 +599,8 @@ function applyLang(){
 function toggleLang(){lang=lang==="ar"?"en":"ar";applyLang();}
 
 /* CATEGORIES */
-var CATEGORIES_AR=["الكل","عناية بالبشرة","عناية بالجسم","عناية بالشعر","أجهزة","إكسسوارات","مكياج","عطور"];
-var CATEGORIES_EN=["All","Skin Care","Body Care","Hair Care","Devices","Accessories","Makeup","Perfumes"];
+var CATEGORIES_AR=["الكل","ترندات","عناية بالبشرة","عناية بالجسم","عناية بالشعر","أجهزة","إكسسوارات","مكياج","عطور"];
+var CATEGORIES_EN=["All","Trends","Skin Care","Body Care","Hair Care","Devices","Accessories","Makeup","Perfumes"];
 var SUBCATS_TRANSLATE={
   "عناية بالبشرة - غسول":"Skin Care - Cleanser",
   "عناية بالبشرة - كريم":"Skin Care - Cream",
@@ -641,6 +641,7 @@ var SUBCATS_TRANSLATE={
   "عطور - أخرى":"Perfumes - Other"
 };
 var SHOP_GROUPS=[
+  {ar:"🔥 ترندات",en:"🔥 Trends",cats:["ترندات"]},
   {ar:"🧴 عناية بالبشرة",en:"🧴 Skin Care",cats:["عناية بالبشرة","عناية بالبشرة - غسول","عناية بالبشرة - كريم","عناية بالبشرة - سيروم","عناية بالبشرة - واقي شمس","عناية بالبشرة - شفرات","عناية بالبشرة - أخرى"]},
   {ar:"🧼 عناية بالجسم",en:"🧼 Body Care",cats:["عناية بالجسم","عناية بالجسم - غسول جسم","عناية بالجسم - كريم/لوشن جسم","عناية بالجسم - سكراب","عناية بالجسم - زيت جسم","عناية بالجسم - مزيل عرق","عناية بالجسم - أخرى"]},
   {ar:"💇 عناية بالشعر",en:"💇 Hair Care",cats:["عناية بالشعر","عناية بالشعر - شامبو","عناية بالشعر - بلسم","عناية بالشعر - حمام كريم","عناية بالشعر - سيروم","عناية بالشعر - ماسك شعر","عناية بالشعر - مجموعة شعر","عناية بالشعر - أخرى"]},
